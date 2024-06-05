@@ -1,0 +1,234 @@
+@extends('layouts.administrator.app')
+
+@push('page-css')
+@endpush
+
+@section('content')
+    <div>
+        <div class="row invoice-preview">
+            <!-- Invoice -->
+            <div class="col-xl-9 col-md-8 col-12 mb-md-0 mb-4">
+                <div class="card invoice-preview-card">
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column m-sm-3 m-0">
+                            <div class="mb-xl-0 mb-4">
+                                <div class="d-flex svg-illustration mb-4 gap-2 align-items-center">
+                                    <div class="app-brand-logo demo">
+                                        <svg width="32" height="22" viewBox="0 0 32 22" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                                                fill="#7367F0" />
+                                            <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                                                fill="#161616" />
+                                            <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                                                fill="#161616" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                                                fill="#7367F0" />
+                                        </svg>
+                                    </div>
+                                    <span class="app-brand-text fw-bold fs-4"> {{ config('app.name') }} </span>
+                                </div>
+                                <p class="mb-2">Perum Bumi Cengkong Lestari</p>
+                                <p class="mb-2">Blok B5 No. 12, Cengkong, Purwasari, Karawang, Jawa Barat</p>
+                                <p class="mb-0">+62 895-3471-13987</p>
+                            </div>
+                            <div>
+                                <h4 class="fw-medium mb-2">{{ $deposit->invoice }}</h4>
+                                <div class="mb-2 pt-1">
+                                    <span>Tanggal:</span>
+                                    <span class="fw-medium">{{ $deposit->created_at->format('d M Y') }}</span>
+                                </div>
+                                <div class="mb-2 pt-1">
+                                    <span class="fw-medium fs-4 text-uppercase"><span
+                                            class="badge bg-{{ ($deposit->status === 'pending' ? 'warning' : $deposit->status === 'paid') ? 'success' : 'danger' }}">{{ $deposit->status }}</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                        <div class="row p-sm-3 p-0">
+                            <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
+                                <h6 class="mb-3">Ditagih Ke:</h6>
+                                <p class="mb-1">{{ $deposit->user->name }}</p>
+                                <p class="mb-1">{{ $deposit->user->phone }}</p>
+                                <p class="mb-1">{{ $deposit->user->email }}</p>
+                            </div>
+                            <div class="col-xl-6 col-md-12 col-sm-7 col-12">
+                                <h6 class="mb-4">Pembayaran:</h6>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="pe-4">Invoice:</td>
+                                            <td class="fw-medium">{{ $deposit->invoice }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-4">Bank:</td>
+                                            <td>{{ $deposit->method }}</td>
+                                        </tr>
+                                        @if ($deposit->pay_code)
+                                            <tr>
+                                                <td class="pe-4">Code:</td>
+                                                <td><span id="pay-code">{{ $deposit->pay_code }}</span> <span
+                                                        style="color: green; font-weight: 200; cursor: pointer;"
+                                                        id="copy-code">(Copy)</span>
+                                                </td>
+                                            </tr>
+                                        @elseif($deposit->pay_url)
+                                            <tr>
+                                                <td class="pe-4">URL:</td>
+                                                <td><span>{{ $deposit->pay_url }}</span> <a href="{{ $deposit->pay_url }}"
+                                                        target="_blank"
+                                                        style="color: green; font-weight: 200; cursor: pointer;">(Open)</a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive border-top">
+                        <table class="table m-0">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Keterangan</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-nowrap">Deposit Saldo Rp
+                                        {{ number_format($deposit->nominal, 0, '.', '.') }}</td>
+                                    <td class="text-nowrap">Pembayaran {{ $deposit->method }}</td>
+                                    <td>Rp {{ number_format($deposit->nominal, 0, '.', '.') }}</td>
+                                    <td>1</td>
+                                    <td>Rp {{ number_format($deposit->nominal, 0, '.', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="align-top px-4 py-4">
+                                        <span class="ms-3">Terima Kasih Atas Kepercayaan anda</span>
+                                    </td>
+                                    <td class="text-end pe-3 py-4">
+                                        <p class="mb-2 pt-3">Subtotal:</p>
+                                        <p class="mb-2">Discount:</p>
+                                        <p class="mb-2">Fee:</p>
+                                        <p class="mb-0 pb-3">Total:</p>
+                                    </td>
+                                    <td class="ps-2 py-4">
+                                        <p class="fw-medium mb-2 pt-3">Rp
+                                            {{ number_format($deposit->nominal, 0, '.', '.') }}
+                                        </p>
+                                        <p class="fw-medium mb-2">0</p>
+                                        <p class="fw-medium mb-2">Rp {{ number_format($deposit->fee, 0, '.', '.') }}</p>
+                                        <p class="fw-medium mb-0 pb-3">Rp {{ number_format($deposit->total, 0, '.', '.') }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-body mx-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="fw-medium">Note:</span>
+                                <span>Permintaan deposit harus dibayar pada hari yang sama dengan penerimaan faktur. Jika
+                                    setoran tidak dibayarkan pada hari yang sama,
+                                    permintaan akan dibatalkan secara otomatis oleh sistem.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Invoice -->
+
+            <!-- Invoice Actions -->
+            <div class="col-xl-3 col-md-4 col-12 invoice-actions">
+                <div class="card">
+                    <div class="card-body">
+                        @if ($deposit->pay_url)
+                            <a href="{{ $deposit->pay_url }}" target="_blank" class="btn btn-success d-grid w-100 mb-2">
+                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                        class="ti ti-link ti-xs me-2"></i>Pay URL</span>
+                            </a>
+                        @elseif ($deposit->pay_code)
+                            <button class="btn btn-success d-grid w-100 mb-2" id="copy-code-btn">
+                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                        class="ti ti-copy ti-xs me-2"></i>Copy Code</span>
+                            </button>
+                        @endif
+                        <button class="btn btn-primary d-grid w-100 mb-2">
+                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                    class="ti ti-send ti-xs me-2"></i>Kirim Invoice</span>
+                        </button>
+                        <button class="btn btn-primary d-grid w-100 mb-2">
+                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                    class="ti ti-printer ti-xs me-2"></i>Print</span>
+                        </button>
+                        <button class="btn btn-primary d-grid w-100 mb-2">
+                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                    class="ti ti-download ti-xs me-2"></i>Download</span>
+                        </button>
+                        <a href="{{ route('deposit.index') }}" class="btn btn-primary d-grid w-100 mb-2">
+                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                    class="ti ti-chevrons-left ti-xs me-2"></i>Kembali</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Invoice Actions -->
+        </div>
+    </div>
+@endsection
+
+@push('page-js')
+    <script>
+        $(document).ready(function() {
+            $('#copy-code-btn').on('click', function() {
+                // Dapatkan elemen yang berisi kode yang akan disalin
+                var codeElement = $('#pay-code').text();
+
+                // Buat elemen textarea sementara untuk menyalin teks
+                var $tempInput = $('<textarea>');
+                $tempInput.val(codeElement).appendTo('body').select();
+
+                // Salin teks ke clipboard
+                document.execCommand('copy');
+
+                // Hapus elemen textarea sementara
+                $tempInput.remove();
+
+                // Opsional: Tampilkan pesan konfirmasi atau ubah tampilan tombol
+                alert('Code Berhasil Dicopy!');
+            });
+
+            $('#copy-code').on('click', function() {
+                // Dapatkan elemen yang berisi kode yang akan disalin
+                var codeElement = $('#pay-code').text();
+
+                // Buat elemen textarea sementara untuk menyalin teks
+                var $tempInput = $('<textarea>');
+                $tempInput.val(codeElement).appendTo('body').select();
+
+                // Salin teks ke clipboard
+                document.execCommand('copy');
+
+                // Hapus elemen textarea sementara
+                $tempInput.remove();
+
+                // Opsional: Tampilkan pesan konfirmasi atau ubah tampilan tombol
+                alert('Code Berhasil Dicopy!');
+            });
+        });
+    </script>
+@endpush

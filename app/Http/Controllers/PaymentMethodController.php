@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TripayHelper;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
@@ -50,10 +51,8 @@ class PaymentMethodController extends Controller
      */
     public function getPaymentProvider($provider)
     {
-        $token = 'DEV-1TnkVMJheFh0QQl5IpGzo9EZ3RSnYPymCIm614FJ';
         if ($provider === 'tripay') {
-            $response = Http::withToken($token)->get('https://tripay.co.id/api-sandbox/merchant/payment-channel');
-            $result = json_decode($response->body(), true);
+            $result = TripayHelper::getChannels();
 
             if (isset($result['data']) && is_array($result['data'])) {
                 foreach ($result['data'] as $channel) {

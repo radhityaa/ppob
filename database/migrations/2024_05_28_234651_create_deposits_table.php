@@ -16,7 +16,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constraints('users')->onDelete('cascade');
             $table->string('invoice')->unique();
             $table->string('method')->nullable();
-            $table->string('nominal');
+            $table->string('pay_code')->nullable();
+            $table->string('pay_url')->nullable();
+            $table->string('checkout_url')->nullable();
+            $table->double('nominal');
+            $table->double('total');
+            $table->double('fee');
+            $table->double('amount_received');
             $table->enum('status', ['paid', 'pending', 'unpaid'])->default('pending');
             $table->timestamps();
         });

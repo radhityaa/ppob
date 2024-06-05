@@ -8,12 +8,20 @@
     <div class="col-lg-6">
         <div class="card mb-4">
             <h5 class="card-header">Deposit Saldo</h5>
-            <form class="card-body" method="POST" action="{{ route('deposit.store') }}">
+            <form class="card-body" method="" id="form">
+                @csrf
+
                 <h6>1. Nominal</h6>
                 <div class="row g-3">
                     <div class="col-md-12">
                         <label class="form-label" for="nominal">Nominal</label>
-                        <input type="text" id="nominal" name="nominal" class="form-control" required />
+                        <input type="text" id="nominal" name="nominal"
+                            class="form-control @error('nominal') is-invalid @enderror" required />
+                        @error('nominal')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <hr class="my-4 mx-n4" />
@@ -70,28 +78,29 @@
                 <div class="row mt-3">
                     <div class="col">
                         <label for="method" class="form-label">Method</label>
-                        <select id="method" name="method" class="select2 form-select method-select">
+                        <select id="method" name="method" class="select2 form-select method-select" required>
                             <option value="" disabled>Pilih Pembayaran Dulu</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row mt-3 detail" style="display: none;">
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-2">
                         <label class="form-label" for="fee">Fee</label>
                         <input type="text" id="fee" name="fee" class="form-control" disabled />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-2">
                         <label class="form-label" for="total">Total</label>
                         <input type="text" id="total" name="total" class="form-control" disabled />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-2">
                         <label class="form-label" for="receive">Saldo Diterima</label>
                         <input type="text" id="receive" name="receive" class="form-control" disabled />
                     </div>
                 </div>
                 <div class="pt-4">
                     <button type="submit" class="btn btn-primary me-sm-3 me-1">Deposit</button>
+                    <x-button-loading />
                     <a href="{{ route('deposit.index') }}" class="btn btn-label-secondary">Cancel</a>
                 </div>
             </form>
@@ -132,6 +141,12 @@
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
         function numberFormatIdr(value) {
             var reverse = value.toString().split('').reverse().join('');
             var ribuan = reverse.match(/\d{1,3}/g);
@@ -239,6 +254,67 @@
 
                 $(this).val(formatted);
                 $('#nominal').val(formatted);
+            })
+
+            $('#form').on('submit', function(e) {
+                e.preventDefault()
+                $('.btn-loading').removeClass('d-none')
+                $('.btn-primary').addClass('d-none')
+
+                var nominal = parseInt($('#nominal').val().replace(/Rp|\./g, ''))
+                var method = $('#method').val()
+
+                $.ajax({
+                    url: "{{ route('deposit.store') }}",
+                    method: "POST",
+                    data: {
+                        nominal: nominal,
+                        method: method
+                    },
+                    dataType: "json",
+                    success: function(res) {
+                        $('.btn-loading').addClass('d-none')
+                        $('.btn-primary').removeClass('d-none')
+                        var url = "{{ route('deposit.show', ':invoice') }}"
+                        url = url.replace(':invoice', res.invoice)
+
+                        if (res.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: res.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                window.location.href = url
+                            })
+                        } else {
+                            $('.btn-loading').addClass('d-none')
+                            $('.btn-primary').removeClass('d-none')
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: res.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    },
+                    error: function(res) {
+                        console.log(res)
+                        $('.btn-loading').addClass('d-none')
+                        $('.btn-primary').removeClass('d-none')
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: res.responseJSON.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
             })
         })
     </script>

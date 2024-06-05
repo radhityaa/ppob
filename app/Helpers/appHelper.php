@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Deposit;
 use App\Models\Navigation;
 use App\Models\RechargeTitle;
 use App\Models\Role;
+use Illuminate\Support\Carbon;
 
 if (!function_exists('getMenus')) {
     function getMenus()
@@ -72,5 +74,20 @@ if (!function_exists('formatRupiahToNumber')) {
     {
         $number = preg_replace('/[^\d]/', '', $value);
         return $number;
+    }
+}
+
+if (!function_exists('invoice')) {
+    function invoice($userId, $prefix)
+    {
+        $lastInvoice = Deposit::orderBy('created_at', 'desc')->first();
+        $invoiceNumber = $lastInvoice ? $lastInvoice->id + 1 : 1;
+
+        $date = now();
+        $year = $date->format('y');
+        $month = $date->format('m');
+        $day = $date->format('d');
+
+        return sprintf($prefix . '-%06d-%s%s%s-%d', $invoiceNumber, $year, $month, $day, $userId);
     }
 }

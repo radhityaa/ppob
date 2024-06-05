@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TripayHelper;
+use App\Models\Deposit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class DepositController extends Controller
 {
@@ -21,6 +25,12 @@ class DepositController extends Controller
      */
     public function create()
     {
+        $deposit = Deposit::where(['user_id' => Auth::user()->id, 'status' => 'unpaid'])->first();
+
+        if ($deposit) {
+            return view('deposit.show', compact('deposit'));
+        }
+
         $title = 'Deposit Saldo';
 
         return view('deposit.craete', compact('title'));
@@ -31,15 +41,49 @@ class DepositController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nominal' => 'required|numeric'
+        ]);
+
+        $orderItems = [
+            [
+                'name'        => 'Deposit Saldo',
+                'price'       => $request->nominal,
+                'quantity'    => 1,
+            ]
+        ];
+
+        $response = TripayHelper::createDepositLocal($request->nominal, $request->method, $orderItems);
+
+        Deposit::create([
+            'user_id' => Auth::user()->id,
+            'invoice' => $response->data->merchant_ref,
+            'method' => $response->data->payment_name,
+            'nominal' => $request->nominal,
+            'fee' => $response->data->total_fee,
+            'total' => $response->data->amount,
+            'amount_received' => $response->data->amount_received,
+            'pay_code' => $response->data->pay_code,
+            'pay_url' => $response->data->pay_url,
+            'checkout_url' => $response->data->checkout_url,
+            'status' => $response->data->status
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Topup Saldo Berhasil',
+            'invoice' =>  $response->data->merchant_ref
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Deposit $deposit)
     {
-        //
+        $title = 'Invoice : ' . $deposit->invoice;
+
+        return view('deposit.show', compact('deposit', 'title'));
     }
 
     /**

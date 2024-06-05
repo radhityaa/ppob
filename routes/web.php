@@ -34,14 +34,14 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
 
     // Payment Method
     Route::get('payment-method', [PaymentMethodController::class, 'index'])->name('payment-method.index');
-    Route::post('payment-method', [PaymentMethodController::class, 'store'])->name('payment-method.store');
+    Route::post('payment-method', [PaymentMethodController::class, 'store'])->name('payment-method.store')->middleware('can: admin');
     Route::get('payment-method/{slug}/edit', [PaymentMethodController::class, 'show'])->name('payment-method.show');
-    Route::put('payment-method/{slug}', [PaymentMethodController::class, 'update'])->name('payment-method.update');
-    Route::delete('payment-method/{slug}', [PaymentMethodController::class, 'destroy'])->name('payment-method.destroy');
+    Route::put('payment-method/{slug}', [PaymentMethodController::class, 'update'])->name('payment-method.update')->middleware('can: admin');
+    Route::delete('payment-method/{slug}', [PaymentMethodController::class, 'destroy'])->name('payment-method.destroy')->middleware('can: admin');
 
     // Get Payment Method Provider
     Route::get('payment-method-provider/{provider}', [PaymentMethodController::class, 'getPaymentProvider'])->name('payment-method.getPaymentProvider');
-    Route::delete('payment-method-provider/{provider}', [PaymentMethodController::class, 'deletePaymentProvider'])->name('payment-method.deletePaymentProvider');
+    Route::delete('payment-method-provider/{provider}', [PaymentMethodController::class, 'deletePaymentProvider'])->name('payment-method.deletePaymentProvider')->middleware('can: admin');
 
     // Get Payment Method
     Route::get('payment-method-list/{type}', [PaymentMethodController::class, 'list'])->name('payment-method.list');

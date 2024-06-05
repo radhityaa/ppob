@@ -11,9 +11,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-md-flex justify-content-between align-items-center">
                 <h4 class="fw-bold">{{ $title ?? '' }}</h4>
-                <div class="flex">
+                <div class="row">
                     <button type="button" class="btn btn-success mb-3" id="getProvider">
                         Update By Provider
                     </button>

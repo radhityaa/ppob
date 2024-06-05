@@ -5,125 +5,123 @@
 @endpush
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card mb-4">
-                <h5 class="card-header">Deposit Saldo</h5>
-                <form class="card-body" method="POST" action="{{ route('deposit.store') }}">
-                    <h6>1. Nominal</h6>
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <label class="form-label" for="nominal">Nominal</label>
-                            <input type="text" id="nominal" name="nominal" class="form-control" required />
-                        </div>
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Deposit Saldo</h5>
+            <form class="card-body" method="POST" action="{{ route('deposit.store') }}">
+                <h6>1. Nominal</h6>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label" for="nominal">Nominal</label>
+                        <input type="text" id="nominal" name="nominal" class="form-control" required />
                     </div>
-                    <hr class="my-4 mx-n4" />
-                    <h6>2. Pembayaran</h6>
-                    <div class="row mt-3">
-                        <div class="row">
-                            <div class="col-lg-6 mb-2">
-                                <div class="form-check custom-option custom-option-basic">
-                                    <label class="form-check-label custom-option-content" for="manual">
-                                        <input name="customRadioTemp" class="form-check-input" type="radio" value=""
-                                            id="manual" name="manual" />
-                                        <span class="custom-option-header">
-                                            <span class="h6 mb-0">Manual</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-2">
-                                <div class="form-check custom-option custom-option-basic">
-                                    <label class="form-check-label custom-option-content" for="virtual-account">
-                                        <input name="customRadioTemp" class="form-check-input" type="radio" value=""
-                                            id="virtual-account" name="virtual-account" />
-                                        <span class="custom-option-header">
-                                            <span class="h6 mb-0">Virtual Account</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-2">
-                                <div class="form-check custom-option custom-option-basic">
-                                    <label class="form-check-label custom-option-content" for="retail">
-                                        <input name="customRadioTemp" class="form-check-input" type="radio" value=""
-                                            id="retail" name="retail" />
-                                        <span class="custom-option-header">
-                                            <span class="h6 mb-0">Retail</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 mb-2">
-                                <div class="form-check custom-option custom-option-basic">
-                                    <label class="form-check-label custom-option-content" for="e-wallet">
-                                        <input name="customRadioTemp" class="form-check-input" type="radio" value=""
-                                            id="e-wallet" name="e-wallet" />
-                                        <span class="custom-option-header">
-                                            <span class="h6 mb-0">E-Wallet</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col">
-                            <label for="method" class="form-label">Method</label>
-                            <select id="method" name="method" class="select2 form-select method-select">
-                                <option value="" disabled>Pilih Pembayaran Dulu</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3 detail" style="display: none;">
-                        <div class="col-md-4">
-                            <label class="form-label" for="fee">Fee</label>
-                            <input type="text" id="fee" name="fee" class="form-control" disabled />
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="total">Total</label>
-                            <input type="text" id="total" name="total" class="form-control" disabled />
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="receive">Saldo Diterima</label>
-                            <input type="text" id="receive" name="receive" class="form-control" disabled />
-                        </div>
-                    </div>
-                    <div class="pt-4">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Deposit</button>
-                        <a href="{{ route('deposit.index') }}" class="btn btn-label-secondary">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Informasi</h5>
                 </div>
-                <div class="card-body">
-                    <div>
-                        <p class="fw-bold">Langkah-langkah deposit:</p>
-                        <ul>
-                            <li>Masukkan jumlah deposit.</li>
-                            <li>Pilih jenis pembayaran yang Anda inginkan, tersedia 4 opsi.</li>
-                            <li>Pilih metode pembayaran yang Anda inginkan.</li>
-                            <li>Klik <strong>deposit</strong> untuk permintaan deposit</li>
-                        </ul>
+                <hr class="my-4 mx-n4" />
+                <h6>2. Pembayaran</h6>
+                <div class="row mt-3">
+                    <div class="row">
+                        <div class="col-lg-6 mb-2">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="manual">
+                                    <input name="customRadioTemp" class="form-check-input" type="radio" value=""
+                                        id="manual" name="manual" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">Manual</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="virtual-account">
+                                    <input name="customRadioTemp" class="form-check-input" type="radio" value=""
+                                        id="virtual-account" name="virtual-account" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">Virtual Account</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="retail">
+                                    <input name="customRadioTemp" class="form-check-input" type="radio" value=""
+                                        id="retail" name="retail" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">Retail</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-2">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="e-wallet">
+                                    <input name="customRadioTemp" class="form-check-input" type="radio" value=""
+                                        id="e-wallet" name="e-wallet" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">E-Wallet</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <div>
-                        <p class="fw-bold">Jam Operasional Deposit:</p>
-                        <ul>
-                            <li>Virtual Account Otomatis Open 24 Jam.</li>
-                            <li>QRIS Otomatis Open 00:00 - 23:00 WIB.</li>
-                            <li>BCA Otomatis Open 06:00 - 21:00 WIB.</li>
-                            <li>BRI, BNI Manual Open 09:00 - 22:00 WIB</li>
-                        </ul>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="method" class="form-label">Method</label>
+                        <select id="method" name="method" class="select2 form-select method-select">
+                            <option value="" disabled>Pilih Pembayaran Dulu</option>
+                        </select>
                     </div>
+                </div>
+
+                <div class="row mt-3 detail" style="display: none;">
+                    <div class="col-md-4">
+                        <label class="form-label" for="fee">Fee</label>
+                        <input type="text" id="fee" name="fee" class="form-control" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="total">Total</label>
+                        <input type="text" id="total" name="total" class="form-control" disabled />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="receive">Saldo Diterima</label>
+                        <input type="text" id="receive" name="receive" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="btn btn-primary me-sm-3 me-1">Deposit</button>
+                    <a href="{{ route('deposit.index') }}" class="btn btn-label-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Informasi</h5>
+            </div>
+            <div class="card-body">
+                <div>
+                    <p class="fw-bold">Langkah-langkah deposit:</p>
+                    <ul>
+                        <li>Masukkan jumlah deposit.</li>
+                        <li>Pilih jenis pembayaran yang Anda inginkan, tersedia 4 opsi.</li>
+                        <li>Pilih metode pembayaran yang Anda inginkan.</li>
+                        <li>Klik <strong>deposit</strong> untuk permintaan deposit</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="fw-bold">Jam Operasional Deposit:</p>
+                    <ul>
+                        <li>Virtual Account Otomatis Open 24 Jam.</li>
+                        <li>QRIS Otomatis Open 00:00 - 23:00 WIB.</li>
+                        <li>BCA Otomatis Open 06:00 - 21:00 WIB.</li>
+                        <li>BRI, BNI Manual Open 09:00 - 22:00 WIB</li>
+                    </ul>
                 </div>
             </div>
         </div>

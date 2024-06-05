@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function __construct(UserService $userService)
     {
-        $this->middleware('can:read users');
+        $this->middleware('can:admin');
         $this->userService = $userService;
     }
 

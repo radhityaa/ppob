@@ -13,7 +13,7 @@ class RechargeItemController extends Controller
 
     public function __construct(RechargeItemService $rechargeItemService)
     {
-        $this->middleware('can:read recharge/item|create recharge/item|update recharge/item|delete recharge/item');
+        $this->middleware('can:admin');
         $this->rechargeItemService = $rechargeItemService;
     }
     /**

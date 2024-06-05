@@ -12,7 +12,7 @@ class RechargeTitleController extends Controller
 
     public function __construct(RechargeTitleService $rechargeTitleService)
     {
-        $this->middleware('can:read recharge/title|create recharge/title|update recharge/title|delete recharge/title');
+        $this->middleware('can:admin');
         $this->rechargeTitleService = $rechargeTitleService;
     }
     /**

@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RechargeItemController;
 use App\Http\Controllers\RechargeTitleController;
@@ -25,28 +27,50 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::get('get/recharge-title', [RechargeTitleController::class, 'list'])->name('get.recharge-list');
 
     // Dashboard
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', DashboardController::class)->name('home');
 
-    // konfigurasi
-    Route::resource('konfigurasi/roles', RoleController::class);
-    Route::resource('konfigurasi/navigation', NavigationController::class);
-    Route::resource('konfigurasi/permissions', PermissionController::class);
+    // Deposit
+    Route::resource('deposit', DepositController::class);
 
-    // Users
-    Route::resource('admin/users', UserController::class);
+    // Payment Method
+    Route::get('payment-method', [PaymentMethodController::class, 'index'])->name('payment-method.index');
+    Route::post('payment-method', [PaymentMethodController::class, 'store'])->name('payment-method.store');
+    Route::get('payment-method/{slug}/edit', [PaymentMethodController::class, 'show'])->name('payment-method.show');
+    Route::put('payment-method/{slug}', [PaymentMethodController::class, 'update'])->name('payment-method.update');
+    Route::delete('payment-method/{slug}', [PaymentMethodController::class, 'destroy'])->name('payment-method.destroy');
+
+    // Get Payment Method Provider
+    Route::get('payment-method-provider/{provider}', [PaymentMethodController::class, 'getPaymentProvider'])->name('payment-method.getPaymentProvider');
+    Route::delete('payment-method-provider/{provider}', [PaymentMethodController::class, 'deletePaymentProvider'])->name('payment-method.deletePaymentProvider');
+
+    // Get Payment Method
+    Route::get('payment-method-list/{type}', [PaymentMethodController::class, 'list'])->name('payment-method.list');
+    Route::get('payment-method-detail/{code}', [PaymentMethodController::class, 'detailMethod'])->name('payment-method.detailMethod');
+
+    Route::prefix('admin')->group(function () {
+        // Users
+        Route::resource('users', UserController::class);
+
+        // Recharge
+        Route::prefix('recharge')->group(function () {
+            Route::resource('title', RechargeTitleController::class);
+            Route::resource('item', RechargeItemController::class);
+        });
+    });
 
     // Setting
     Route::prefix('settings')->group(function () {
+
+        // ACL
+        Route::prefix('acl')->group(function () {
+            Route::resource('roles', RoleController::class);
+            // Route::resource('navigation', NavigationController::class);
+            Route::resource('permissions', PermissionController::class);
+        });
 
         // Landing Page
         Route::prefix('landingpage')->group(function () {
             Route::resource('hero', HeroController::class);
         });
-    });
-
-    // Recharge
-    Route::prefix('recharge')->group(function () {
-        Route::resource('title', RechargeTitleController::class);
-        Route::resource('item', RechargeItemController::class);
     });
 });

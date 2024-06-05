@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('invoice')->unique();
             $table->string('method')->nullable();
             $table->string('nominal');
-            $table->enum('status', ['success', 'pending', 'failed'])->default('pending');
+            $table->enum('status', ['paid', 'pending', 'unpaid'])->default('pending');
             $table->timestamps();
         });
     }

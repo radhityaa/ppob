@@ -114,6 +114,15 @@ class DepositController extends Controller
 
         $paymentMethod = PaymentMethod::where('code', $request->method)->first();
 
+        // Perhitungan fee berdasarkan flat_fee dan percent_fee
+        $flatFee = $paymentMethod->fee;
+        $percentFee = $paymentMethod->percent_fee;
+        $fee = $flatFee;
+
+        if ($percentFee > 0) {
+            $fee = $request->nominal * ($percentFee / 100);
+        }
+
         if ($paymentMethod->group === 'manual') {
             $invoice = invoice(Auth::user()->id, 'DPSM');
 
@@ -122,7 +131,7 @@ class DepositController extends Controller
                 'invoice' => $invoice,
                 'method' => $request->method,
                 'nominal' => $request->nominal,
-                'fee' => $paymentMethod->fee,
+                'fee' => $fee,
                 'total' => $request->nominal + $paymentMethod->fee,
                 'amount_received' => $request->nominal,
                 'status' => 'unpaid',
@@ -158,7 +167,7 @@ class DepositController extends Controller
             'invoice' => $response->data->merchant_ref,
             'method' => $response->data->payment_name,
             'nominal' => $request->nominal,
-            'fee' => $response->data->total_fee,
+            'fee' => $fee,
             'total' => $response->data->amount,
             'amount_received' => $response->data->amount_received,
             'pay_code' => $response->data->pay_code,
@@ -230,7 +239,7 @@ class DepositController extends Controller
      */
     public function update(Request $request, Deposit $deposit)
     {
-        dd($deposit);
+        //
     }
 
     /**

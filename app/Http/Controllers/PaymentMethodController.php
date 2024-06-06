@@ -68,6 +68,7 @@ class PaymentMethodController extends Controller
                             'group' => $channel['group'],
                             'code' => $channel['code'],
                             'fee' => $channel['total_fee']['flat'],
+                            'percent_fee' => $channel['total_fee']['percent'],
                             'icon_url' => $channel['icon_url'],
                             'status' => $channel['active'],
                             'provider' => 'tripay'
@@ -107,6 +108,7 @@ class PaymentMethodController extends Controller
                 'code' => $request->code,
                 'name' => $request->name,
                 'fee' => $request->fee,
+                'percent_fee' => $request->percent_fee,
                 'status' => $request->status,
                 'provider' => 'manual'
             ]);
@@ -169,6 +171,7 @@ class PaymentMethodController extends Controller
             'code' => $request->code,
             'name' => $request->name,
             'fee' => $request->fee,
+            'percent_fee' => $request->percent_fee,
             'status' => $request->status,
             'provider' => $request->provider
         ]);

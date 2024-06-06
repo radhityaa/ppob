@@ -38,6 +38,7 @@
                         <th>Code</th>
                         <th>Name</th>
                         <th>Fee</th>
+                        <th>Percent Fee</th>
                         <th>Provider</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -75,10 +76,17 @@
                                 <input type="text" id="name" name="name" class="form-control"
                                     placeholder="Ex: Maybank Virtual Account" required />
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col mb-3">
                                 <label for="fee" class="form-label">Fee</label>
                                 <input type="number" id="fee" name="fee" class="form-control" placeholder="Ex: 0"
                                     required />
+                            </div>
+                            <div class="col mb-3">
+                                <label for="percent_fee" class="form-label">Percent Fee</label>
+                                <input type="number" id="percent_fee" name="percent_fee" class="form-control"
+                                    placeholder="Ex: 0.0" required />
                             </div>
                         </div>
                         <div class="row">
@@ -161,6 +169,10 @@
                     name: 'fee'
                 },
                 {
+                    data: 'percent_fee',
+                    name: 'percent_fee'
+                },
+                {
                     data: 'provider',
                     name: 'provider'
                 },
@@ -214,6 +226,7 @@
                     $('#code').val(res.code)
                     $('#name').val(res.name)
                     $('#fee').val(res.fee)
+                    $('#percent_fee').val(res.percent_fee)
                     $('#provider').val(res.provider)
 
                     selectStatus.empty()

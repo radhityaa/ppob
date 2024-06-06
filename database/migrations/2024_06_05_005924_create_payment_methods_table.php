@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->double('fee');
+            $table->decimal('percent_fee');
             $table->string('icon_url')->nullable();
             $table->boolean('status');
             $table->string('provider');

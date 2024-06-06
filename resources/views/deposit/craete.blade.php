@@ -148,7 +148,8 @@
         })
 
         function numberFormatIdr(value) {
-            var reverse = value.toString().split('').reverse().join('');
+            var roundedValue = Math.round(value);
+            var reverse = roundedValue.toString().split('').reverse().join('');
             var ribuan = reverse.match(/\d{1,3}/g);
             var formatted = ribuan.join('.').split('').reverse().join('');
             return 'Rp ' + formatted;
@@ -225,11 +226,19 @@
                         code: selectedData.id
                     },
                     success: function(res) {
+                        // console.log(res)
                         var total = res.fee + parseInt($('#nominal').val().replace(/Rp|\./g,
                             ''), 10)
+                        var flatFee = res.fee
+                        var percentFee = res.percent_fee
+                        var fee = flatFee
+
+                        if (percentFee > 0) {
+                            fee = total * (percentFee / 100)
+                        }
 
                         $('.detail').show()
-                        $('#fee').val(numberFormatIdr(res.fee))
+                        $('#fee').val(numberFormatIdr(fee))
                         $('#total').val(numberFormatIdr(total))
                         $('#receive').val($('#nominal').val())
                     },

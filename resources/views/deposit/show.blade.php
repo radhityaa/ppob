@@ -93,9 +93,17 @@
                                             </tr>
                                         @elseif($deposit->pay_url)
                                             <tr>
-                                                <td class="pe-4">URL:</td>
+                                                <td class="pe-4">Payment:</td>
                                                 <td><span>{{ $deposit->pay_url }}</span> <a href="{{ $deposit->pay_url }}"
                                                         target="_blank"
+                                                        style="color: green; font-weight: 200; cursor: pointer;">(Open)</a>
+                                                </td>
+                                            </tr>
+                                        @elseif(!$deposit->pay_url && !$deposit->pay_code)
+                                            <tr>
+                                                <td class="pe-4">Payment:</td>
+                                                <td><span>{{ $deposit->checkout_url }}</span> <a
+                                                        href="{{ $deposit->checkout_url }}" target="_blank"
                                                         style="color: green; font-weight: 200; cursor: pointer;">(Open)</a>
                                                 </td>
                                             </tr>

@@ -9,6 +9,7 @@ use App\Http\Controllers\RechargeItemController;
 use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Setting\Landingpage\HeroController;
+use App\Http\Controllers\TripayController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
@@ -76,3 +77,5 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         });
     });
 });
+
+Route::post('tripay/callback', [TripayController::class, 'callback'])->name('tripay.callback');

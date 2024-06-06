@@ -113,7 +113,7 @@
                     <li class="menu-item {{ request()->is('admin/recharge/*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons ti ti-device-imac-cog"></i>
-                            <div>Menu Layanan</div>
+                            <div>Kategori Layanan</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item {{ request()->is('admin/recharge/title') ? 'active' : '' }}">
@@ -124,6 +124,30 @@
                             <li class="menu-item {{ request()->is('admin/recharge/item') ? 'active' : '' }}">
                                 <a href="{{ route('item.index') }}" class="menu-link">
                                     <div>Item</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item {{ request()->is('settings/margin') ? 'active' : '' }}">
+                        <a href="{{ route('admin.setting.margin.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-settings-dollar"></i>
+                            <div>Setting Margin</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/recharge/*') ? 'active open' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ti ti-layout-list"></i>
+                            <div>Product</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('prabayar') ? 'active' : '' }}">
+                                <a href="{{ route('prabayar.index') }}" class="menu-link">
+                                    <div>Prabayar</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#" class="menu-link">
+                                    <div>Pascabayar (Commingsoon)</div>
                                 </a>
                             </li>
                         </ul>

@@ -5,10 +5,12 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PrabayarController;
 use App\Http\Controllers\RechargeItemController;
 use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Setting\Landingpage\HeroController;
+use App\Http\Controllers\SettingMarginController;
 use App\Http\Controllers\TripayController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
@@ -50,6 +52,15 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::get('payment-method-list/{type}', [PaymentMethodController::class, 'list'])->name('payment-method.list');
     Route::get('payment-method-detail/{code}', [PaymentMethodController::class, 'detailMethod'])->name('payment-method.detailMethod');
 
+    // Services
+    // Prabayar
+    Route::prefix('prabayar')->group(function () {
+        Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
+        Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
+        Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
+    });
+
+    // Admin Route
     Route::prefix('admin')->group(function () {
         // Users
         Route::resource('users', UserController::class);
@@ -74,6 +85,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         // Landing Page
         Route::prefix('landingpage')->group(function () {
             Route::resource('hero', HeroController::class);
+        });
+
+        // Setting Margin
+        Route::prefix('margin')->group(function () {
+            Route::get('', [SettingMarginController::class, 'index'])->name('admin.setting.margin.index');
+            Route::put('{id}', [SettingMarginController::class, 'update'])->name('admin.setting.margin.update');
         });
     });
 });

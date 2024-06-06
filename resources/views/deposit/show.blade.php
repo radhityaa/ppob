@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="mb-2 pt-1">
                                     <span class="fw-medium fs-4 text-uppercase"><span
-                                            class="badge @if ($deposit->status === 'paid') bg-success @elseif ($deposit->status === 'unpaid') bg-danger @else bg-warning @endif">{{ $deposit->status }}</span></span>
+                                            class="badge @if ($deposit->status === 'paid') bg-success @elseif ($deposit->status === 'unpaid') bg-dark @else bg-danger @endif">{{ $deposit->status }}</span></span>
                                 </div>
                                 @if ($deposit->paid_at)
                                     <div class="mb-2 pt-1">

@@ -43,9 +43,9 @@ class DepositController extends Controller
                     if ($row->status == 'paid') {
                         return '<span class="badge bg-success">Paid</span>';
                     } else if ($row->status == 'unpaid') {
-                        return '<span class="badge bg-danger">Unpaid</span>';
+                        return '<span class="badge bg-dark">Unpaid</span>';
                     } else {
-                        return '<span class="badge bg-warning">Failed</span>';
+                        return '<span class="badge bg-danger">Failed</span>';
                     }
                 })
                 ->addColumn('action', function ($row) {

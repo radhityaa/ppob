@@ -39,14 +39,26 @@
                             </div>
                             <div>
                                 <h4 class="fw-medium mb-2">{{ $deposit->invoice }}</h4>
-                                <div class="mb-2 pt-1">
+                                <div class="pt-1">
                                     <span>Tanggal:</span>
-                                    <span class="fw-medium">{{ $deposit->created_at->format('d M Y') }}</span>
+                                    <span class="fw-medium">{{ $deposit->created_at->format('d M Y h:i:s') }}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span>Tanggal Exp:</span>
+                                    <span
+                                        class="fw-medium text-danger">{{ $deposit->expired_at->format('d M Y h:i:s') }}</span>
                                 </div>
                                 <div class="mb-2 pt-1">
                                     <span class="fw-medium fs-4 text-uppercase"><span
-                                            class="badge bg-{{ ($deposit->status === 'pending' ? 'warning' : $deposit->status === 'paid') ? 'success' : 'danger' }}">{{ $deposit->status }}</span></span>
+                                            class="badge @if ($deposit->status === 'paid') bg-success @elseif ($deposit->status === 'unpaid') bg-danger @else bg-warning @endif">{{ $deposit->status }}</span></span>
                                 </div>
+                                @if ($deposit->paid_at)
+                                    <div class="mb-2 pt-1">
+                                        <span>Dibayar Pada:</span>
+                                        <span
+                                            class="fw-medium text-success">{{ $deposit->paid_at->format('d M Y h:i:s') }}</span>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -113,29 +125,36 @@
                                     <td>1</td>
                                     <td>Rp {{ number_format($deposit->nominal, 0, '.', '.') }}</td>
                                 </tr>
-                                <tr>
-                                    <td colspan="3" class="align-top px-4 py-4">
-                                        <span class="ms-3">Terima Kasih Atas Kepercayaan anda</span>
-                                    </td>
-                                    <td class="text-end pe-3 py-4">
-                                        <p class="mb-2 pt-3">Subtotal:</p>
-                                        <p class="mb-2">Discount:</p>
-                                        <p class="mb-2">Fee:</p>
-                                        <p class="mb-0 pb-3">Total:</p>
-                                    </td>
-                                    <td class="ps-2 py-4">
-                                        <p class="fw-medium mb-2 pt-3">Rp
-                                            {{ number_format($deposit->nominal, 0, '.', '.') }}
-                                        </p>
-                                        <p class="fw-medium mb-2">0</p>
-                                        <p class="fw-medium mb-2">Rp {{ number_format($deposit->fee, 0, '.', '.') }}</p>
-                                        <p class="fw-medium mb-0 pb-3">Rp {{ number_format($deposit->total, 0, '.', '.') }}
-                                        </p>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="row px-5">
+                            <table class="m-0 mt-3">
+                                <tr>
+                                    <td class="px-4">Subtotal: </td>
+                                    <td class="fw-medium">Rp {{ number_format($deposit->nominal, 0, '.', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4">Diskon: </td>
+                                    <td class="fw-medium">Rp 0</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4">Fee: </td>
+                                    <td class="fw-medium">Rp {{ number_format($deposit->fee, 0, '.', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4">Total: </td>
+                                    <td class="fw-medium">Rp {{ number_format($deposit->total, 0, '.', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4">Terbilang: </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-end px-4 fw-bold" style="text-transform: capitalize">{{ $terbilang }} Rupiah</div>
 
                     <div class="card-body mx-3">
                         <div class="row">
@@ -156,22 +175,19 @@
             <div class="col-xl-3 col-md-4 col-12 invoice-actions">
                 <div class="card">
                     <div class="card-body">
-                        @if ($deposit->pay_url)
-                            <a href="{{ $deposit->pay_url }}" target="_blank" class="btn btn-success d-grid w-100 mb-2">
-                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                        class="ti ti-link ti-xs me-2"></i>Pay URL</span>
-                            </a>
-                        @elseif ($deposit->pay_code)
-                            <button class="btn btn-success d-grid w-100 mb-2" id="copy-code-btn">
-                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                        class="ti ti-copy ti-xs me-2"></i>Copy Code</span>
-                            </button>
-                        @endif
-                        <button class="btn btn-primary d-grid w-100 mb-2">
+                        @role('admin')
+                            @if ($deposit->status === 'unpaid')
+                                <button class="btn btn-primary d-grid w-100 mb-2" id="konfirmasi">
+                                    <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                            class="ti ti-check ti-xs me-2"></i>Konfirmasi</span>
+                                </button>
+                            @endif
+                        @endrole
+                        <button class="btn btn-info d-grid w-100 mb-2">
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                     class="ti ti-send ti-xs me-2"></i>Kirim Invoice</span>
                         </button>
-                        <button class="btn btn-primary d-grid w-100 mb-2">
+                        <button class="btn btn-success d-grid w-100 mb-2">
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                     class="ti ti-printer ti-xs me-2"></i>Print</span>
                         </button>
@@ -179,7 +195,13 @@
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                     class="ti ti-download ti-xs me-2"></i>Download</span>
                         </button>
-                        <a href="{{ route('deposit.index') }}" class="btn btn-primary d-grid w-100 mb-2">
+                        @if ($deposit->status === 'unpaid')
+                            <button class="btn btn-danger d-grid w-100 mb-2" id="cancel">
+                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                        class="ti ti-x ti-xs me-2"></i>Batalkan</span>
+                            </button>
+                        @endif
+                        <a href="{{ route('deposit.index') }}" class="btn btn-warning d-grid w-100 mb-2">
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                     class="ti ti-chevrons-left ti-xs me-2"></i>Kembali</span>
                         </a>
@@ -193,6 +215,12 @@
 
 @push('page-js')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
         $(document).ready(function() {
             $('#copy-code-btn').on('click', function() {
                 // Dapatkan elemen yang berisi kode yang akan disalin
@@ -230,5 +258,114 @@
                 alert('Code Berhasil Dicopy!');
             });
         });
+
+        $('#konfirmasi').on('click', function() {
+            Swal.fire({
+                title: 'Loading...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                showConfirmButton: false,
+                customClass: {
+                    confirmButton: 'd-none'
+                },
+                buttonsStyling: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            let url = "{{ route('deposit.confirm', ':invoice') }}"
+            url = url.replace(':invoice', '{{ $deposit->invoice }}')
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                dataType: "json",
+                success: function(res) {
+                    window.location.reload()
+                    Swal.close()
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Konfirmasi Berhasil.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        customClass: {
+                            confirmButton: 'd-none'
+                        },
+                        buttonsStyling: false,
+                    })
+                },
+                error: function(err) {
+                    window.location.reload()
+                    Swal.close()
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while fetching data.',
+                        icon: 'error',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        customClass: {
+                            confirmButton: 'd-none'
+                        },
+                        buttonsStyling: false,
+                    })
+                }
+            })
+        })
+
+        $('#cancel').on('click', function() {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, batalkan!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let url = "{{ route('deposit.cancel', ':invoice') }}";
+                    url = url.replace(':invoice', '{{ $deposit->invoice }}');
+
+                    $.ajax({
+                        url: url,
+                        method: "POST",
+                        success: function(res) {
+                            console.log(res)
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: res.message,
+                                icon: 'success',
+                                showCancelButton: false,
+                                timer: 2500,
+                                customClass: {
+                                    confirmButton: 'd-none',
+                                    cancelButton: 'd-none'
+
+                                },
+                                buttonsStyling: false,
+                            })
+                            window.location.reload();
+                        },
+                        error: function(err) {
+                            Swal.fire({
+                                title: 'Gagal',
+                                text: err.responseJSON.message,
+                                icon: 'error',
+                                showCancelButton: false,
+                                customClass: {
+                                    confirmButton: 'd-none',
+                                    cancelButton: 'd-none'
+
+                                },
+                                buttonsStyling: false,
+                            })
+                        }
+                    })
+                }
+            })
+        })
     </script>
 @endpush

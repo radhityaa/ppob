@@ -31,6 +31,8 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
 
     // Deposit
     Route::resource('deposit', DepositController::class);
+    Route::post('deposit-cancel/{deposit}', [DepositController::class, 'cancel'])->name('deposit.cancel');
+    Route::post('deposit-confirm/{deposit}', [DepositController::class, 'confirm'])->name('deposit.confirm');
 
     // Payment Method
     Route::get('payment-method', [PaymentMethodController::class, 'index'])->name('payment-method.index');

@@ -20,7 +20,7 @@
                         <h5 class="card-title mb-0">Selamat Datang! 🎉</h5>
                         <p class="mb-2 text-truncate">{{ Auth::user()->name }}</p>
                         <h4 class="text-primary mb-1">Rp {{ number_format(Auth::user()->saldo, 0, '.', '.') }}</h4>
-                        <a href="javascript:;" class="btn btn-primary">Isi Saldo</a>
+                        <a href="{{ route('deposit.index') }}" class="btn btn-primary">Isi Saldo</a>
                     </div>
                 </div>
                 <div class="col-5 text-center text-sm-left">

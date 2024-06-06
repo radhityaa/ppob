@@ -60,8 +60,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="group" class="form-label">Group</label>
-                                <input type="text" id="group" name="group" class="form-control"
-                                    placeholder="Ex: Virtual Account" required />
+                                <input type="text" id="group" name="group" class="form-control" value="manual"
+                                    placeholder="Ex: Virtual Account" disabled />
                             </div>
                             <div class="col mb-3">
                                 <label for="code" class="form-label">Code</label>
@@ -84,8 +84,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="provider" class="form-label">Provider</label>
-                                <input type="text" id="provider" name="provider" class="form-control"
-                                    placeholder="Ex: Manual" required />
+                                <input type="text" id="provider" name="provider" class="form-control" value="manual"
+                                    disabled />
                             </div>
                             <div class="col mb-3">
                                 <label for="status" class="form-label">Status</label>

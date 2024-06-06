@@ -13,10 +13,12 @@
         <div class="col-md-12">
             <div class="d-md-flex justify-content-between align-items-center">
                 <h4 class="fw-bold">{{ $title ?? '' }}</h4>
-                <a href="{{ route('deposit.create') }}" class="btn btn-primary mb-3" id="createDeposit">
-                    <i class="ti ti-plus"></i>
-                    Deposit
-                </a>
+                @unlessrole('admin')
+                    <a href="{{ route('deposit.create') }}" class="btn btn-primary mb-3" id="createDeposit">
+                        <i class="ti ti-plus"></i>
+                        Deposit
+                    </a>
+                @endunlessrole
             </div>
         </div>
     </div>
@@ -29,7 +31,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
                             <div>
-                                <h3 class="mb-1">Rp. 5.000.000</h3>
+                                <h3 class="mb-1">Rp {{ number_format($totalNominal, 0, '.', '.') }}</h3>
                                 <p class="mb-0">Total</p>
                             </div>
                             <span class="avatar me-sm-4">
@@ -42,8 +44,8 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
                             <div>
-                                <h3 class="mb-1">165</h3>
-                                <p class="mb-0">Pending</p>
+                                <h3 class="mb-1">{{ $totalUnpaid }}</h3>
+                                <p class="mb-0">Unpaid</p>
                             </div>
                             <span class="avatar me-lg-4">
                                 <span class="avatar-initial bg-label-secondary rounded"><i
@@ -55,7 +57,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
                             <div>
-                                <h3 class="mb-1">5</h3>
+                                <h3 class="mb-1">{{ $totalPaid }}</h3>
                                 <p class="mb-0">Paid</p>
                             </div>
                             <span class="avatar me-sm-4">
@@ -67,8 +69,8 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h3 class="mb-1">10</h3>
-                                <p class="mb-0">Unpaid</p>
+                                <h3 class="mb-1">{{ $totalCancel }}</h3>
+                                <p class="mb-0">Cancel</p>
                             </div>
                             <span class="avatar">
                                 <span class="avatar-initial bg-label-secondary rounded"><i
@@ -83,51 +85,23 @@
 
     <!-- Invoice List Table -->
     <div class="card">
+        <div class="d-flex justify-content-end py-2">
+            <button class="btn btn-primary btn-sm" onclick="refresh()">Refresh</button>
+        </div>
         <div class="card-datatable table-responsive">
-            <table class="invoice-list-table table border-top">
+            <table class="dataTable table border-top">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th>#ID</th>
-                        <th><i class="ti ti-trending-up text-secondary"></i></th>
-                        <th>Client</th>
-                        <th>Total</th>
-                        <th class="text-truncate">Issued Date</th>
-                        <th>Balance</th>
-                        <th>Invoice Status</th>
-                        <th class="cell-fit">Actions</th>
+                        <th>#</th>
+                        <th>Invoice</th>
+                        <th>Tanggal</th>
+                        <th>Method</th>
+                        <th>Nominal</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
             </table>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalDeposit" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDepositTitle">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="" id="form-user">
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="nominal" class="form-label">Nominal</label>
-                                <input type="text" id="nominal" name="nominal" class="form-control" required />
-                            </div>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-save">Simpan</button>
-                    <x-button-loading />
-                </div>
-                </form>
-            </div>
         </div>
     </div>
 @endsection
@@ -135,5 +109,56 @@
 @push('page-js')
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
 
-    <script type="text/javascript"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
+        var table = $('.dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('deposit.index') }}",
+            columnDefs: [{
+                "targets": "_all",
+                "className": "text-start"
+            }],
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'invoice',
+                    name: 'invoice'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'method',
+                    name: 'method'
+                },
+                {
+                    data: 'nominal',
+                    name: 'nominal'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        function refresh() {
+            table.ajax.reload(null, false)
+        }
+    </script>
 @endpush

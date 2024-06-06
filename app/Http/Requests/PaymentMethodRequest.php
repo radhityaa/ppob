@@ -22,7 +22,7 @@ class PaymentMethodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'group' => 'required|string',
+            'group' => 'string',
             'code' => 'required|string',
             'name' => 'required|string',
             'fee' => 'required|numeric',

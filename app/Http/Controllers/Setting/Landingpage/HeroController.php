@@ -15,7 +15,7 @@ class HeroController extends Controller
 
     public function __construct(HeroService $heroService)
     {
-        $this->middleware('can:read landingpage/hero|create landingpage/hero|update landingpage/hero|delete landingpage/hero');
+        $this->middleware('can:admin');
         $this->heroService = $heroService;
     }
     /**

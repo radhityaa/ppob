@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Http;
 
 class PaymentMethodController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin')->except(['list', 'detailMethod']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -99,7 +103,7 @@ class PaymentMethodController extends Controller
             PaymentMethod::create([
                 'name' => $name = $request->name,
                 'slug' => Str::slug($name, '-', Str::random(6)),
-                'group' => $request->group,
+                'group' => 'manual',
                 'code' => $request->code,
                 'name' => $request->name,
                 'fee' => $request->fee,

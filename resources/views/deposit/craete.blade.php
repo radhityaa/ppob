@@ -267,6 +267,7 @@
                 $.ajax({
                     url: "{{ route('deposit.store') }}",
                     method: "POST",
+                    responsive: true,
                     data: {
                         nominal: nominal,
                         method: method
@@ -302,16 +303,13 @@
                         }
                     },
                     error: function(res) {
-                        console.log(res)
                         $('.btn-loading').addClass('d-none')
                         $('.btn-primary').removeClass('d-none')
 
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
-                            text: res.responseJSON.message,
-                            showConfirmButton: false,
-                            timer: 1500
+                            text: res.responseJSON.message
                         })
                     }
                 })

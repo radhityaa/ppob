@@ -134,7 +134,7 @@
                             <div>Users</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('admin/payment-method') ? 'active' : '' }}">
+                    <li class="menu-item {{ request()->is('payment-method') ? 'active' : '' }}">
                         <a href="{{ route('payment-method.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-cash-banknote"></i>
                             <div>Payment Method</div>
@@ -145,23 +145,11 @@
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Settings</span>
                     </li>
-                    <li class="menu-item {{ request()->is('settings/acl/*') ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <li class="menu-item {{ request()->is('settings/acl/roles') ? 'active' : '' }}">
+                        <a href="{{ route('roles.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-user-bolt"></i>
-                            <div>ACL</div>
+                            <div>Role</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item {{ request()->is('settings/acl/roles') ? 'active' : '' }}">
-                                <a href="{{ route('roles.index') }}" class="menu-link">
-                                    <div>Role</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('settings/acl/permissions') ? 'active' : '' }}">
-                                <a href="{{ route('permissions.index') }}" class="menu-link">
-                                    <div>Permission</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="menu-item {{ request()->is('settings/landingpage/*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('total');
             $table->double('fee');
             $table->double('amount_received');
-            $table->enum('status', ['paid', 'unpaid', 'cancel'])->nullable();
+            $table->enum('status', ['paid', 'unpaid', 'failed'])->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamps();

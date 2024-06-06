@@ -69,8 +69,8 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h3 class="mb-1">{{ $totalCancel }}</h3>
-                                <p class="mb-0">Cancel</p>
+                                <h3 class="mb-1">{{ $totalFailed }}</h3>
+                                <p class="mb-0">Failed</p>
                             </div>
                             <span class="avatar">
                                 <span class="avatar-initial bg-label-secondary rounded"><i

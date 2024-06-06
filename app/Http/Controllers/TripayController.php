@@ -68,11 +68,11 @@ class TripayController extends Controller
                     break;
 
                 case 'EXPIRED':
-                    $deposit->update(['status' => 'cancel']);
+                    $deposit->update(['status' => 'failed']);
                     break;
 
                 case 'FAILED':
-                    $deposit->update(['status' => 'cancel']);
+                    $deposit->update(['status' => 'failed']);
                     break;
 
                 default:

@@ -45,7 +45,7 @@ class DepositController extends Controller
                     } else if ($row->status == 'unpaid') {
                         return '<span class="badge bg-danger">Unpaid</span>';
                     } else {
-                        return '<span class="badge bg-warning">Cancel</span>';
+                        return '<span class="badge bg-warning">Failed</span>';
                     }
                 })
                 ->addColumn('action', function ($row) {
@@ -82,9 +82,9 @@ class DepositController extends Controller
 
         $totalPaid = $statusCounts->get('paid', 0);
         $totalUnpaid = $statusCounts->get('unpaid', 0);
-        $totalCancel = $statusCounts->get('cancel', 0);
+        $totalFailed = $statusCounts->get('failed', 0);
 
-        return view('deposit.index', compact('title', 'totalPaid', 'totalUnpaid', 'totalCancel', 'totalNominal'));
+        return view('deposit.index', compact('title', 'totalPaid', 'totalUnpaid', 'totalFailed', 'totalNominal'));
     }
 
     /**
@@ -184,7 +184,7 @@ class DepositController extends Controller
             ], 400);
         }
 
-        $deposit->update(['status' => 'cancel']);
+        $deposit->update(['status' => 'failed']);
 
         return response()->json([
             'success' => true,

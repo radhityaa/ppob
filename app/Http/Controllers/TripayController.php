@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\TripayHelper;
 use App\Models\Deposit;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 
 class TripayController extends Controller
@@ -53,7 +56,15 @@ class TripayController extends Controller
 
             switch ($status) {
                 case 'PAID':
-                    $deposit->update(['status' => 'paid']);
+                    $deposit->update([
+                        'status' => 'paid',
+                        'paid_at' => Carbon::createFromTimestamp($data->paid_at)->toDateTimeString()
+                    ]);
+                    $user = User::where('id', $deposit->user_id)->first();
+                    $user->update([
+                        'saldo' => $user->saldo + $data->amount_received
+                    ]);
+
                     break;
 
                 case 'EXPIRED':

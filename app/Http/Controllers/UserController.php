@@ -83,4 +83,13 @@ class UserController extends Controller
 
         return response()->json($result);
     }
+
+    public function list()
+    {
+        $users = User::role('member')->get();
+
+        return response()->json([
+            'data' => $users
+        ]);
+    }
 }

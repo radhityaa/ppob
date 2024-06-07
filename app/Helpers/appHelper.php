@@ -5,6 +5,7 @@ use App\Models\Navigation;
 use App\Models\RechargeTitle;
 use App\Models\Role;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 if (!function_exists('getMenus')) {
     function getMenus()
@@ -78,9 +79,9 @@ if (!function_exists('formatRupiahToNumber')) {
 }
 
 if (!function_exists('invoice')) {
-    function invoice($userId, $prefix)
+    function invoice($userId, string $prefix, string $tableName = 'deposits')
     {
-        $lastInvoice = Deposit::orderBy('created_at', 'desc')->first();
+        $lastInvoice = DB::table($tableName)->orderBy('created_at', 'desc')->first();
         $invoiceNumber = $lastInvoice ? $lastInvoice->id + 1 : 1;
 
         $date = now();

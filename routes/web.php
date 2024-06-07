@@ -11,6 +11,7 @@ use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Setting\Landingpage\HeroController;
 use App\Http\Controllers\SettingMarginController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TripayController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     // Roles & Permissions
     Route::get('get/roles', [RoleController::class, 'list'])->name('roles.list');
     Route::get('get/recharge-title', [RechargeTitleController::class, 'list'])->name('get.recharge-list');
+    Route::get('users-list', [UserController::class, 'list'])->name('users.list');
 
     // Dashboard
     Route::get('/dashboard', DashboardController::class)->name('home');
@@ -36,6 +38,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::resource('deposit', DepositController::class);
     Route::post('deposit-cancel/{deposit}', [DepositController::class, 'cancel'])->name('deposit.cancel');
     Route::post('deposit-confirm/{deposit}', [DepositController::class, 'confirm'])->name('deposit.confirm');
+
+    // Transfer Saldo
+    Route::prefix('transfer')->name('transfer.')->group(function () {
+        Route::get('', [TransferController::class, 'index'])->name('index');
+        Route::post('', [TransferController::class, 'store'])->name('store');
+    });
 
     // Payment Method
     Route::get('payment-method', [PaymentMethodController::class, 'index'])->name('payment-method.index');

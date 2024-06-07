@@ -20,11 +20,21 @@ class PrabayarController extends Controller
                 ->addColumn('cut_off', function ($row) {
                     return $row->start_cut_off . $row->end_cut_off;
                 })
+                ->editColumn('buyer_product_status', function ($row) {
+                    if ($row->buyer_product_status) {
+                        return '<span class="badge bg-success">Active</span>';
+                    } else {
+                        return '<span class="badge bg-danger">Non-Aktif</span>';
+                    }
+                })
+                ->editColumn('price', function ($row) {
+                    return 'Rp ' . number_format($row->price, 0, '', '.');
+                })
                 ->editColumn('action', function ($row) {
                     $actionBtn = '<button type="button" data-code="' . $row->buyer_sku_code . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
                     return '<div class="d-flex">' . $actionBtn . '</div>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'buyer_product_status'])
                 ->make(true);
         }
 

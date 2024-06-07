@@ -31,13 +31,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Product Code</th>
+                        <th>SKU</th>
                         <th>Name</th>
                         <th>Category</th>
                         <th>Brand</th>
                         <th>Price</th>
                         <th>Status</th>
-                        <th>Cut Off</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -172,10 +171,6 @@
                 {
                     data: 'buyer_product_status',
                     name: 'buyer_product_status'
-                },
-                {
-                    data: 'cut_off',
-                    name: 'cut_off'
                 },
                 {
                     data: 'action',

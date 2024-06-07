@@ -15,7 +15,11 @@ class UserService
 {
     public function dataTable()
     {
-        $data = User::where('id', '!=', Auth::user()->id)->with('roles')->get();
+        if (Auth::user()->hasRole('admin')) {
+            $data = User::with('roles')->get();
+        } else {
+            $data = User::where('id', '!=', Auth::user()->id)->with('roles')->get();
+        }
 
         return DataTables::of($data)
             ->addIndexColumn()

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrabayarController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Setting\Landingpage\HeroController;
 use App\Http\Controllers\SettingMarginController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TripayController;
 use App\Http\Controllers\UserController;
@@ -40,7 +42,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::post('deposit-confirm/{deposit}', [DepositController::class, 'confirm'])->name('deposit.confirm');
 
     // Transfer Saldo
-    Route::prefix('transfer')->name('transfer.')->group(function () {
+    Route::middleware('can: reseller')->prefix('transfer')->name('transfer.')->group(function () {
         Route::get('', [TransferController::class, 'index'])->name('index');
         Route::post('', [TransferController::class, 'store'])->name('store');
     });
@@ -100,6 +102,11 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('', [SettingMarginController::class, 'index'])->name('admin.setting.margin.index');
             Route::put('{id}', [SettingMarginController::class, 'update'])->name('admin.setting.margin.update');
         });
+    });
+
+    // Orders Prabayar
+    Route::prefix('prabayar')->name('prabayar.')->group(function () {
+        Route::get('pulsa', [OrderController::class, 'pulsa'])->name('pulsa');
     });
 });
 

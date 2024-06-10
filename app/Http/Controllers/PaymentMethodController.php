@@ -29,6 +29,12 @@ class PaymentMethodController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at->format('Y-m-d');
+                })
+                ->editColumn('fee', function ($row) {
+                    return number_format($row->fee, 0, ',', '.');
+                })
                 ->editColumn('status', function ($row) {
                     if ($row->status == 1) {
                         return '<span class="badge bg-success">Active</span>';
@@ -38,7 +44,9 @@ class PaymentMethodController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '';
-                    $actionBtn = '<button type="button" id="edit" data-slug="' . $row->slug . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-pencil"></i></button>';
+                    if ($row->provider === 'manual') {
+                        $actionBtn = '<button type="button" id="edit" data-slug="' . $row->slug . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-pencil"></i></button>';
+                    }
                     $actionBtn .= '<button type="button" id="delete" data-slug="' . $row->slug . '" class="deleteUser btn btn-danger btn-sm"><i class="ti ti-trash"></i></button>';
 
                     return '<div class="d-flex">' . $actionBtn . '</div>';
@@ -101,9 +109,13 @@ class PaymentMethodController extends Controller
         DB::beginTransaction();
 
         try {
+            if (!$request->percent_fee) {
+                $request['percent_fee'] = 0.0;
+            }
+
             PaymentMethod::create([
                 'name' => $name = $request->name,
-                'slug' => Str::slug($name, '-', Str::random(6)),
+                'slug' => Str::slug($name) . '-' . Str::random(6),
                 'group' => 'manual',
                 'code' => $request->code,
                 'name' => $request->name,

@@ -105,13 +105,15 @@
                     </a>
                 </li>
 
-                {{-- Transfer Saldo --}}
-                <li class="menu-item {{ request()->is('transfer*') ? 'active' : '' }}">
-                    <a href="{{ route('transfer.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons ti ti-arrows-transfer-up"></i>
-                        <div>Transfer Saldo</div>
-                    </a>
-                </li>
+                @role('reseller|admin')
+                    {{-- Transfer Saldo --}}
+                    <li class="menu-item {{ request()->is('transfer*') ? 'active' : '' }}">
+                        <a href="{{ route('transfer.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-arrows-transfer-up"></i>
+                            <div>Transfer Saldo</div>
+                        </a>
+                    </li>
+                @endrole
 
                 @role('admin')
                     {{-- Admin Menu --}}

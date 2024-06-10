@@ -68,6 +68,7 @@
                             <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
                                 <h6 class="mb-3">Ditagih Ke:</h6>
                                 <p class="mb-1">{{ $deposit->user->name }}</p>
+                                <p class="mb-1">{{ $deposit->user->slug }}</p>
                                 <p class="mb-1">{{ $deposit->user->phone }}</p>
                                 <p class="mb-1">{{ $deposit->user->email }}</p>
                             </div>
@@ -83,7 +84,15 @@
                                             <td class="pe-4">Bank:</td>
                                             <td>{{ $deposit->method }}</td>
                                         </tr>
-                                        @if ($deposit->pay_code)
+                                        @php
+                                            use Illuminate\Support\Str;
+                                        @endphp
+                                        @if (Str::startsWith($deposit->invoice, 'DPSM'))
+                                            <tr>
+                                                <td class="pe-4">Payment:</td>
+                                                <td><span>Manual</span> </td>
+                                            </tr>
+                                        @elseif ($deposit->pay_code)
                                             <tr>
                                                 <td class="pe-4">Code:</td>
                                                 <td><span id="pay-code">{{ $deposit->pay_code }}</span> <span

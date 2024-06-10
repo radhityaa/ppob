@@ -13,12 +13,10 @@
         <div class="col-md-12">
             <div class="d-md-flex justify-content-between align-items-center">
                 <h4 class="fw-bold">{{ $title ?? '' }}</h4>
-                @unlessrole('admin')
-                    <a href="{{ route('deposit.create') }}" class="btn btn-primary mb-3" id="createDeposit">
-                        <i class="ti ti-plus"></i>
-                        Deposit
-                    </a>
-                @endunlessrole
+                <a href="{{ route('deposit.create') }}" class="btn btn-primary mb-3" id="createDeposit">
+                    <i class="ti ti-plus"></i>
+                    Deposit
+                </a>
             </div>
         </div>
     </div>
@@ -93,6 +91,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Username</th>
                         <th>Invoice</th>
                         <th>Tanggal</th>
                         <th>Method</th>
@@ -127,6 +126,10 @@
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
+                },
+                {
+                    data: 'user.slug',
+                    name: 'user.slug'
                 },
                 {
                     data: 'invoice',

@@ -30,6 +30,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
+                        <th>Username</th>
                         <th>Role</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -53,7 +54,7 @@
                 <div class="modal-body">
                     <form action="" method="" id="form-user">
                         <div class="row">
-                            <div class="col mb-3">
+                            <div class="col-lg-6 mb-3">
                                 <label for="name" class="form-label">Nama Lengkap</label>
                                 <input type="text" id="name" name="name" class="form-control"
                                     placeholder="Nama Lengkap" required />
@@ -62,6 +63,10 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <label for="slug" class="form-label">Username</label>
+                                <input type="text" id="slug" name="slug" class="form-control" disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -167,6 +172,10 @@
                     name: 'name'
                 },
                 {
+                    data: 'slug',
+                    name: 'slug'
+                },
+                {
                     data: 'role',
                     name: 'role'
                 },
@@ -231,6 +240,7 @@
                     $('#name').val(res.name)
                     $('#phone').val(res.phone)
                     $('#email').val(res.email)
+                    $('#slug').val(res.slug)
                     $('#saldo').val(numberFormatIdr(res.saldo))
 
                     selectStatus.empty();

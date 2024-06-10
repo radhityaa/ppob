@@ -203,7 +203,7 @@ class DepositController extends Controller
 
     public function confirm(Deposit $deposit)
     {
-        $deposit->update(['status' => 'paid']);
+        $deposit->update(['status' => 'paid', 'paid_at' => now()]);
         $user = User::where('id', $deposit->user_id)->first();
         $user->update(['saldo' => DB::raw('saldo + ' . $deposit->nominal)]);
 

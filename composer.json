@@ -36,7 +36,9 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/TripayHelper.php"
+            "app/Helpers/TripayHelper.php",
+            "app/Helpers/DigiflazzHelper.php",
+            "app/Helpers/MyHelper.php"
         ]
     },
     "autoload-dev": {

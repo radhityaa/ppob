@@ -41,6 +41,7 @@
                         <th>Percent Fee</th>
                         <th>Provider</th>
                         <th>Status</th>
+                        <th>Dibuat</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -86,7 +87,7 @@
                             <div class="col mb-3">
                                 <label for="percent_fee" class="form-label">Percent Fee</label>
                                 <input type="number" id="percent_fee" name="percent_fee" class="form-control"
-                                    placeholder="Ex: 0.0" required />
+                                    placeholder="Ex: 0.0" />
                             </div>
                         </div>
                         <div class="row">
@@ -179,6 +180,10 @@
                 {
                     data: 'status',
                     name: 'status'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
                 },
                 {
                     data: 'action',

@@ -73,7 +73,7 @@
                     </tr>
                     <tr>
                         <th class="fw-semibold">Sisa Saldo</th>
-                        <td id="saldo fw-bold"></td>
+                        <td class="fw-bold" id="saldo"></td>
                     </tr>
                 </tbody>
             </table>

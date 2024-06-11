@@ -92,6 +92,7 @@ class WebhookController extends Controller
         $secret = DigiflazzHelper::getWebhookSecret();
         $post_data = file_get_contents('php://input');
         $signature = hash_hmac('sha1', $post_data, $secret);
+        Log::info($signature);
 
         if ($request->header('X-Hub-Signature') == 'sha1=' . $signature) {
             Log::info(json_decode($request->getContent(), true));

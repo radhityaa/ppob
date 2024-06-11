@@ -34,16 +34,206 @@
         <div class="row g-4" id="services">
         </div>
     </div>
+
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel"
+        style="height: auto;">
+        <div class="offcanvas-header p-3">
+            <h5 id="offcanvasBottomLabel" class="offcanvas-title">Aktivasi Voucher Axis 1.5 GB 3 Hari</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <table class="table">
+                <thead>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    <td class="d-none" id="buyer_sku_code"></td>
+                    <tr>
+                        <th class="fw-semibold">Tujuan</th>
+                        <td class="fw-bold" id="target-detail"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Jenis</th>
+                        <td id="type"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Harga</th>
+                        <td id="price"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Keterangan</th>
+                        <td id="description"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Multi Trx</th>
+                        <td id="multi"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Cut Off System</th>
+                        <td id="cut-off"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="m-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div>
+                        <button type="button" id="buy" class="btn btn-primary me-2 btn-buy">Beli</button>
+                        <x-button-loading />
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">
+                            Batal
+                        </button>
+                    </div>
+
+                    <div class="badge bg-success">Sisa Saldo: <span id="saldo"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- / Detail Product --}}
 @endsection
 
 @push('page-js')
     <script>
         $(document).ready(function() {
             $('#target').val('')
+            $('#buyer_sku_code').html('');
+            $('.btn-loading').addClass('d-none')
+            $('.btn-buy').removeClass('d-none')
+
+            $('#offcanvasBottom').on('hidden.bs.offcanvas', function() {
+                $('#target-detail').html('');
+                $('#type').html('');
+                $('#price').html('');
+                $('#description').html('');
+                $('#multi').html('');
+                $('#cut-off').html('');
+                $('#buyer_sku_code').html('');
+
+                $('.btn-loading').addClass('d-none')
+                $('.btn-buy').removeClass('d-none')
+            });
 
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        })
+
+        function detailProduct(id) {
+            url = "{{ route('prabayar.detailServices', ':id') }}"
+            url = url.replace(':id', id);
+
+            var target = $('#target').val();
+            $('#target-detail').html('loading...');
+            $('#type').html('loading...');
+            $('#price').html('loading...');
+            $('#description').html('loading...');
+            $('#multi').html('loading...');
+            $('#cut-off').html('loading...');
+            $('#saldo').html('loading...');
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                success: function(res) {
+                    if (res.saldo < res.data.price) {
+                        $('.btn-buy').attr('disabled', 'disabled');
+                    }
+
+                    if (res.data.multi) {
+                        $('#multi').html('YA');
+                    } else {
+                        $('#multi').html('TIDAK');
+                    }
+
+                    var formatPrice = new Intl.NumberFormat('id-ID', {
+                        minimumFractionDigits: 0,
+                        currency: 'IDR'
+                    }).format(res.data.price)
+
+                    var formatSaldo = new Intl.NumberFormat('id-ID', {
+                        minimumFractionDigits: 0,
+                        currency: 'IDR'
+                    }).format(res.saldo)
+
+                    $('#target-detail').html(target);
+                    $('#type').html(res.data.category + ' • ' + res.data.type);
+                    $('#price').html('Rp ' + formatPrice);
+                    $('#saldo').html('Rp ' + formatSaldo);
+                    $('#description').html(res.data.desc);
+                    $('#cut-off').html(res.data.start_cut_off + ' s/d ' + res.data.end_cut_off);
+                    $('#buyer_sku_code').html(res.data.buyer_sku_code);
+                },
+                error: function(err) {
+                    $('#target-detail').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#type').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#price').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#description').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#multi').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#cut-off').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#buyer_sku_code').html('');
+                }
+            })
+        }
+
+        $('#buy').on('click', function() {
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: "Pastikan Target/Nomor Tujuan Sudah Benar!",
+                icon: 'warning',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#82868',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('.btn-loading').removeClass('d-none')
+                    $('.btn-buy').addClass('d-none')
+
+                    var target = $('#target').val();
+                    var buyerSkuCode = $('#buyer_sku_code').html();
+
+                    $.ajax({
+                        url: "{{ route('transaction.store') }}",
+                        method: "POST",
+                        data: {
+                            target,
+                            buyerSkuCode
+                        },
+                        success: function(res) {
+                            $('.btn-loading').addClass('d-none')
+                            $('.btn-buy').removeClass('d-none')
+
+                            $('#offcanvasBottom').offcanvas('hide')
+
+                            Swal.fire({
+                                title: 'Success!',
+                                text: res.message,
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false,
+                                customClass: {
+                                    confirmButton: 'd-none'
+                                },
+                                buttonsStyling: false,
+                            })
+
+                            setInterval(() => {
+                                window.location.href = '{{ route('home') }}';
+                            }, 2000);
+                        },
+                        error: function(err) {
+                            $('.btn-loading').addClass('d-none')
+                            $('.btn-buy').removeClass('d-none')
+
+                            $('#offcanvasBottom').offcanvas('hide')
+
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: err.responseJSON.message,
+                                icon: 'error',
+                            })
+                        }
+                    })
                 }
             });
         })
@@ -95,12 +285,12 @@
                                     </div>
                                 </div>
                                 <ul class="ps-3 g-2">
-                                    <li>${service.type}</li>
-                                    <li>${service.category}</li>
+                                    <li class="text-truncate-multiline">${service.category} • ${service.type}</li>
                                     <li class="text-truncate-multiline">${service.product_name}</li>
+                                    <li class="text-truncate-multiline">${service.desc}</li>
                                 </ul>
                                 <div class="d-grid w-100">
-                                    <button class="btn ${textClass} ${bgColor} btn-sm" ${buttonDisabled} data-bs-target="#upgradePlanModal" data-bs-toggle="modal">
+                                    <button class="btn ${textClass} ${bgColor} btn-sm" ${buttonDisabled} onclick="detailProduct(${service.id})" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                                         <span class="text-white">${service.buyer_product_status ? 'Beli' : 'Gangguan'}</span>
                                     </button>
                                 </div>

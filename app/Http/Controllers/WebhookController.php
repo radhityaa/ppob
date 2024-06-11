@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DigiflazzHelper;
 use App\Helpers\TripayHelper;
 use App\Models\Deposit;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
-class TripayController extends Controller
+class WebhookController extends Controller
 {
-    public function callback(Request $request)
+    public function callbackTripay(Request $request)
     {
         $callbackSignature = $request->server('HTTP_X_CALLBACK_SIGNATURE');
         $json = $request->getContent();
@@ -83,6 +84,17 @@ class TripayController extends Controller
             }
 
             return Response::json(['success' => true]);
+        }
+    }
+
+    public function callbackDigiflazz(Request $request)
+    {
+        $secret = DigiflazzHelper::getWebhookSecret();
+        $post_data = file_get_contents('php://input');
+        $signature = hash_hmac('sha1', $post_data, $secret);
+
+        if ($request->header('X-Hub-Signature') == 'sha1=' . $signature) {
+            Log::info(json_decode($request->getContent(), true));
         }
     }
 }

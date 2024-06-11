@@ -47,7 +47,7 @@ class TransferController extends Controller
     {
         $request->validate([
             'username' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'description' => 'nullable|string'
         ]);
 

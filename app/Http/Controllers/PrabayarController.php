@@ -6,6 +6,7 @@ use App\Helpers\DigiflazzHelper;
 use App\Models\Prabayar;
 use App\Models\SettingMargin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class PrabayarController extends Controller
@@ -96,6 +97,16 @@ class PrabayarController extends Controller
                 'message' => 'Terjadi kesalahan saat mengambil data dari Digiflazz.',
             ], 400);
         }
+    }
+
+    public function detailServices($id)
+    {
+        $data = Prabayar::find($id);
+        $saldo = Auth::user()->saldo;
+        return response()->json([
+            'data' => $data,
+            'saldo' => $saldo
+        ]);
     }
 
     public function deleteAllServices()

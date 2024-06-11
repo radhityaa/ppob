@@ -14,8 +14,8 @@ use App\Http\Controllers\Setting\Landingpage\HeroController;
 use App\Http\Controllers\SettingMarginController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
-use App\Http\Controllers\TripayController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -67,8 +67,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::prefix('prabayar')->group(function () {
         Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
         Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
+        Route::get('getServices/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
         Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
     });
+
+    // Transaction
+    Route::resource('transaction', TransactionController::class);
 
     // Admin Route
     Route::prefix('admin')->group(function () {
@@ -110,4 +114,5 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     });
 });
 
-Route::post('tripay/callback', [TripayController::class, 'callback'])->name('tripay.callback');
+Route::post('tripay/callback', [WebhookController::class, 'callbackTripay'])->name('tripay.callback');
+Route::post('digiflazz/callback', [WebhookController::class, 'callbackDigiflazz'])->name('digiflazz.callback');

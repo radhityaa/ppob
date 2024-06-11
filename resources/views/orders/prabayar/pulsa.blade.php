@@ -71,11 +71,15 @@
                         <th class="fw-semibold">Cut Off System</th>
                         <td id="cut-off"></td>
                     </tr>
+                    <tr>
+                        <th class="fw-semibold">Sisa Saldo</th>
+                        <td id="saldo fw-bold"></td>
+                    </tr>
                 </tbody>
             </table>
 
             <div class="m-3">
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-md-flex align-items-center gap-3">
                     <div>
                         <button type="button" id="buy" class="btn btn-primary me-2 btn-buy">Beli</button>
                         <x-button-loading />
@@ -84,7 +88,9 @@
                         </button>
                     </div>
 
-                    <div class="badge bg-success">Sisa Saldo: <span id="saldo"></span></div>
+                    <div class="badge bg-danger saldo" style="display: none;">Saldo Tidak Cukup! : <span
+                            id="saldo"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,15 +105,18 @@
             $('#buyer_sku_code').html('');
             $('.btn-loading').addClass('d-none')
             $('.btn-buy').removeClass('d-none')
+            $('.saldo').hide();
 
             $('#offcanvasBottom').on('hidden.bs.offcanvas', function() {
                 $('#target-detail').html('');
+                $('.offcanvas-title').html('');
                 $('#type').html('');
                 $('#price').html('');
                 $('#description').html('');
                 $('#multi').html('');
                 $('#cut-off').html('');
                 $('#buyer_sku_code').html('');
+                $('.saldo').hide();
 
                 $('.btn-loading').addClass('d-none')
                 $('.btn-buy').removeClass('d-none')
@@ -126,6 +135,7 @@
 
             var target = $('#target').val();
             $('#target-detail').html('loading...');
+            $('.offcanvas-title').html('loading...');
             $('#type').html('loading...');
             $('#price').html('loading...');
             $('#description').html('loading...');
@@ -139,6 +149,7 @@
                 success: function(res) {
                     if (res.saldo < res.data.price) {
                         $('.btn-buy').attr('disabled', 'disabled');
+                        $('.saldo').show();
                     }
 
                     if (res.data.multi) {
@@ -158,6 +169,7 @@
                     }).format(res.saldo)
 
                     $('#target-detail').html(target);
+                    $('.offcanvas-title').html(res.data.product_name);
                     $('#type').html(res.data.category + ' • ' + res.data.type);
                     $('#price').html('Rp ' + formatPrice);
                     $('#saldo').html('Rp ' + formatSaldo);
@@ -172,6 +184,7 @@
                     $('#description').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#multi').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#cut-off').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#offcanvas-title').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#buyer_sku_code').html('');
                 }
             })

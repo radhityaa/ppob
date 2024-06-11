@@ -235,14 +235,8 @@
                     Swal.close()
                     Swal.fire({
                         title: 'Error!',
-                        text: 'An error occurred while fetching data.',
-                        icon: 'error',
-                        timer: 1500,
-                        showConfirmButton: false,
-                        customClass: {
-                            confirmButton: 'd-none'
-                        },
-                        buttonsStyling: false,
+                        text: err.responseJSON.message,
+                        icon: 'error'
                     })
                 }
             })

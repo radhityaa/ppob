@@ -50,7 +50,7 @@ class TransactionController extends Controller
             $data = [
                 'username' => $username,
                 'buyer_sku_code' => 'xld10',
-                'customer_no' => '087800001233',
+                'customer_no' => '087800001234',
                 'ref_id' => $invoice,
                 'sign' => $sign,
                 'testing' => true,

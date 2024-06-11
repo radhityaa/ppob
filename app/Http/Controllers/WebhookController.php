@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\DigiflazzHelper;
 use App\Helpers\TripayHelper;
 use App\Models\Deposit;
+use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -89,13 +90,38 @@ class WebhookController extends Controller
 
     public function callbackDigiflazz(Request $request)
     {
-        $secret = DigiflazzHelper::getWebhookSecret();
-        $post_data = file_get_contents('php://input');
-        $signature = hash_hmac('sha1', $post_data, $secret);
-        Log::info($signature);
+        // $secret = DigiflazzHelper::getWebhookSecret();
+        // $post_data = file_get_contents('php://input');
+        // $signature = hash_hmac('sha1', $post_data, $secret);
+        // Log::info($signature);
 
-        if ($request->header('X-Hub-Signature') == 'sha1=' . $signature) {
-            Log::info(json_decode($request->getContent(), true));
+        // if ($request->header('X-Hub-Signature') == 'sha1=' . $signature) {
+        //     Log::info(json_decode($request->getContent(), true));
+        // }
+
+        $postData = $request->getContent();
+        $secret = DigiflazzHelper::getWebhookSecret();
+        $signature = 'sha1=' . hash_hmac('sha1', $postData, $secret);
+
+        if ($request->header('X-Hub-Signature') === $signature) {
+            $eventData = $request->input('data');
+            Log::info('Webhook Event Data: ', ['data' => $eventData]);
+
+            $refId = $eventData['ref_id'];
+            $transaction = Transaction::where('invoice', $refId)->first();
+
+            // foreach ($transactions as $transaction) {
+            $transaction->update([
+                'message' => $eventData['message'],
+                'status' => $eventData['status'],
+                'sn' => $eventData['sn']
+            ]);
+            // }
+
+            return response('Webhook received successfully', 200);
+        } else {
+            Log::warning('Invalid signature. Webhook ignored');
+            return response('Invalid signature', 403);
         }
     }
 }

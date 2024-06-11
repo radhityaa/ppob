@@ -38,7 +38,7 @@
     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel"
         style="height: auto;">
         <div class="offcanvas-header p-3">
-            <h5 id="offcanvasBottomLabel" class="offcanvas-title">Aktivasi Voucher Axis 1.5 GB 3 Hari</h5>
+            <h5 id="offcanvasBottomLabel" class="offcanvas-title"></h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-0">
@@ -80,7 +80,7 @@
 
             <div class="m-3">
                 <div class="d-md-flex align-items-center gap-3">
-                    <div>
+                    <div class="mb-2">
                         <button type="button" id="buy" class="btn btn-primary me-2 btn-buy">Beli</button>
                         <x-button-loading />
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">
@@ -88,7 +88,7 @@
                         </button>
                     </div>
 
-                    <div class="badge bg-danger saldo" style="display: none;">Saldo Tidak Cukup! : <span
+                    <div class="badge bg-danger saldo" style="display: none;">Saldo Tidak Cukup! <span
                             id="saldo"></span>
                     </div>
                 </div>

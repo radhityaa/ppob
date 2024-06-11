@@ -49,8 +49,8 @@ class PrabayarController extends Controller
 
         $result = DigiflazzHelper::getService('prepaid');
 
-        if (isset($result->data) && is_array($result->data)) {
-            foreach ($result->data as $item) {
+        if (isset($result->data) && isset($result->data->rc) && $result->data->rc == "00" && is_array($result->data->items)) {
+            foreach ($result->data->items as $item) {
                 Prabayar::updateOrCreate(
                     ['buyer_sku_code' => $item->buyer_sku_code],
                     [
@@ -73,12 +73,17 @@ class PrabayarController extends Controller
                     ]
                 );
             }
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Berhasil mengambil data.',
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil mengambil data.',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => isset($result->data->message) ? $result->data->message : 'Terjadi kesalahan saat mengambil data dari Digiflazz.',
+            ], 400);
+        }
     }
 
     public function deleteAllServices()

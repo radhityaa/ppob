@@ -105,6 +105,46 @@
                     </a>
                 </li>
 
+                {{-- History --}}
+                <li class="menu-item {{ request()->is('history/*') ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-history"></i>
+                        <div>Riwayat Transaksi</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('history/prabayar') ? 'active' : '' }}">
+                            <a href="{{ route('history.prabayar') }}" class="menu-link">
+                                <div>Prabayar</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">
+                                <div>Pascabayar (Commingsoon)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- Product --}}
+                <li class="menu-item {{ request()->is('product/*') ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-layout-list"></i>
+                        <div>Product</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('product/prabayar') ? 'active' : '' }}">
+                            <a href="{{ route('prabayar.index') }}" class="menu-link">
+                                <div>Prabayar</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">
+                                <div>Pascabayar (Commingsoon)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 @role('reseller|admin')
                     {{-- Transfer Saldo --}}
                     <li class="menu-item {{ request()->is('transfer*') ? 'active' : '' }}">
@@ -144,24 +184,6 @@
                             <div>Setting Margin</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('admin/recharge/*') ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons ti ti-layout-list"></i>
-                            <div>Product</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item {{ request()->is('prabayar') ? 'active' : '' }}">
-                                <a href="{{ route('prabayar.index') }}" class="menu-link">
-                                    <div>Prabayar</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="menu-link">
-                                    <div>Pascabayar (Commingsoon)</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="menu-item {{ request()->is('admin/users') ? 'active' : '' }}">
                         <a href="{{ route('users.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-user-cog"></i>
@@ -178,6 +200,12 @@
                     {{-- Settings --}}
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Settings</span>
+                    </li>
+                    <li class="menu-item {{ request()->is('settings/env') ? 'active' : '' }}">
+                        <a href="{{ route('env.show') }}" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-settings-cog"></i>
+                            <div>Env</div>
+                        </a>
                     </li>
                     <li class="menu-item {{ request()->is('settings/acl/roles') ? 'active' : '' }}">
                         <a href="{{ route('roles.index') }}" class="menu-link">

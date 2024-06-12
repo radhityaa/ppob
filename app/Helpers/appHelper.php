@@ -84,11 +84,6 @@ if (!function_exists('invoice')) {
         $lastInvoice = DB::table($tableName)->orderBy('created_at', 'desc')->first();
         $invoiceNumber = $lastInvoice ? $lastInvoice->id + 1 : 1;
 
-        $date = now();
-        $year = $date->format('y');
-        $month = $date->format('m');
-        $day = $date->format('d');
-
-        return sprintf($prefix . '-%06d-%s%s%s-%d', $invoiceNumber, $year, $month, $day, $userId);
+        return sprintf($prefix . '-%06d-%d', $invoiceNumber, $userId);
     }
 }

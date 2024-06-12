@@ -34,7 +34,7 @@
                         <th>#</th>
                         <th>Tanggal</th>
                         <th>Invoice</th>
-                        <th>Username</th>
+                        <th>Tujuan</th>
                         <th>Total</th>
                         <th>Keterangan</th>
                         <th>Actions</th>
@@ -82,6 +82,47 @@
                     <x-button-loading />
                 </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail-->
+    <div class="modal fade modal-sm" id="modalDetailTransfer" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetailTransferTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <table class="table">
+                        <thead>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <tr>
+                                <th class="fw-semibold">Tanggal</th>
+                                <td class="fw-bold" id="date"></td>
+                            </tr>
+                            <tr>
+                                <th class="fw-semibold">Tujuan</th>
+                                <td id="username-detail"></td>
+                            </tr>
+                            <tr>
+                                <th class="fw-semibold">Total</th>
+                                <td id="amount-detail"></td>
+                            </tr>
+                            <tr>
+                                <th class="fw-semibold">Ket</th>
+                                <td id="description-detail"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -174,6 +215,39 @@
             method = "POST"
         })
 
+        $('body').on('click', '#detailTf', function() {
+            var invoice = $(this).data('invoice')
+            $('#modalDetailTransfer').modal('show')
+
+            let url = "{{ route('transfer.show', ':invoice') }}"
+            url = url.replace(':invoice', invoice)
+
+            $('#modalDetailTransferTitle').html('Loading...')
+            $('#username-detail').html('Loading...')
+            $('#amount-detail').html('Loading...')
+            $('#description-detail').html('Loading...')
+            $('#date').html('Loading...')
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(res) {
+                    $('#modalDetailTransferTitle').html(res.invoice)
+                    $('#username-detail').html(res.user.slug)
+                    $('#amount-detail').html(res.amount)
+                    $('#description-detail').html(res.description)
+                    $('#date').html(res.created_at)
+                },
+                error: function(err) {
+                    $('#modalDetailTransferTitle').html('Terjadi Kesalahan, Ulangi Lagi')
+                    $('#username-detail').html('Terjadi Kesalahan, Ulangi Lagi')
+                    $('#amount-detail').html('Terjadi Kesalahan, Ulangi Lagi')
+                    $('#description-detail').html('Terjadi Kesalahan, Ulangi Lagi')
+                    $('#date').html('Terjadi Kesalahan, Ulangi Lagi')
+                }
+            })
+        })
+
         $(document).ready(function() {
             $('.btn-loading').addClass('d-none')
             $('.btn-transfer').removeClass('d-none')
@@ -210,12 +284,17 @@
                 $('.btn-loading').removeClass('d-none')
                 $('.btn-transfer').addClass('d-none')
                 let username = $('#username').val()
-                let amount = $('#amount').val()
+                var amount = parseInt($('#amount').val().replace(/Rp|\./g, ''))
                 let description = $('#description').val()
+
                 $.ajax({
                     url: "{{ route('transfer.store') }}",
                     method: "POST",
-                    data: $(this).serialize(),
+                    data: {
+                        username,
+                        amount,
+                        description
+                    },
                     dataType: "json",
                     success: function(res) {
                         $('.btn-loading').addClass('d-none')

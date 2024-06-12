@@ -47,23 +47,25 @@
                     <div class="col-lg-6">
                         <label for="image_hero_dashboard" class="form-label">Image Hero Dashboard</label>
                         <div class="py-4">
-                            <img src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_dashboard) }}"
+                            <img id="imageHeroDashboardPreviewId"
+                                src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_dashboard) }}"
                                 width="300" height="300" class="img-fluid rounded" id="image_hero_dashboard">
                         </div>
                         <div>
-                            <input type="file" class="form-control" id="image_hero_dashboard"
-                                name="image_hero_dashboard">
+                            <input onchange="imagePreview(event, 'imageHeroDashboardPreviewId')" type="file"
+                                class="form-control" id="image_hero_dashboard" name="image_hero_dashboard">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <label for="image_hero_dashboard_dark" class="form-label">Image Hero Dashboard Dark</label>
                         <div class="py-4">
-                            <img src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_dashboard_dark) }}"
+                            <img id="imageHeroDashboardDarkPreviewId"
+                                src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_dashboard_dark) }}"
                                 width="300" height="300" class="img-fluid rounded">
                         </div>
                         <div>
-                            <input type="file" class="form-control" id="image_hero_dashboard_dark"
-                                name="image_hero_dashboard_dark">
+                            <input onchange="imagePreview(event, 'imageHeroDashboardDarkPreviewId')" type="file"
+                                class="form-control" id="image_hero_dashboard_dark" name="image_hero_dashboard_dark">
                         </div>
                     </div>
                 </div>
@@ -71,22 +73,25 @@
                     <div class="col-lg-6">
                         <label for="image_hero_element" class="form-label">Image Hero Element</label>
                         <div class="py-3">
-                            <img src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_element) }}"
+                            <img id="imageHeroElementPreviewId"
+                                src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_element) }}"
                                 width="300" height="300" class="img-fluid rounded">
                         </div>
                         <div>
-                            <input type="file" class="form-control" id="image_hero_element" name="image_hero_element">
+                            <input onchange="imagePreview(event, 'imageHeroElementPreviewId')" type="file"
+                                class="form-control" id="image_hero_element" name="image_hero_element">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <label for="image_hero_element_dark" class="form-label">Image Hero Element Dark</label>
                         <div class="py-3">
-                            <img src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_element_dark) }}"
+                            <img id="imageHeroElementDarkPreviewId"
+                                src="{{ asset('assets/img/front-pages/landing-page/' . $data->image_hero_element_dark) }}"
                                 width="300" height="300" class="img-fluid rounded">
                         </div>
                         <div>
-                            <input type="file" class="form-control" id="image_hero_element_dark"
-                                name="image_hero_element_dark">
+                            <input onchange="imagePreview(event, 'imageHeroElementDarkPreviewId')" type="file"
+                                class="form-control" id="image_hero_element_dark" name="image_hero_element_dark">
                         </div>
                     </div>
                 </div>
@@ -121,6 +126,14 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         })
+
+        let imagePreview = function(event, id) {
+            let output = document.getElementById(id);
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
 
         $(document).ready(function() {
             $('.btn-loading').addClass('d-none')

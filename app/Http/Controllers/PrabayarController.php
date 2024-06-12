@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\DigiflazzHelper;
+use App\Http\Resources\ProductResource;
 use App\Models\Prabayar;
 use App\Models\SettingMargin;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class PrabayarController extends Controller
@@ -23,24 +26,36 @@ class PrabayarController extends Controller
                 })
                 ->editColumn('buyer_product_status', function ($row) {
                     if ($row->buyer_product_status) {
-                        return '<span class="badge bg-success">Active</span>';
+                        return '<span class="badge bg-success">Normal</span>';
                     } else {
-                        return '<span class="badge bg-danger">Non-Aktif</span>';
+                        return '<span class="badge bg-danger">Gangguan</span>';
                     }
                 })
                 ->editColumn('price', function ($row) {
                     return 'Rp ' . number_format($row->price, 0, '', '.');
                 })
                 ->editColumn('action', function ($row) {
-                    $actionBtn = '<button type="button" data-code="' . $row->buyer_sku_code . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
-                    return '<div class="d-flex">' . $actionBtn . '</div>';
+                    if (Auth::user()->role('admin')) {
+                        $actionBtn = '<button id="detailProduct" data-code="' . $row->buyer_sku_code . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
+                        return '<div class="d-flex">' . $actionBtn . '</div>';
+                    }
+
+                    return '';
                 })
                 ->rawColumns(['action', 'buyer_product_status'])
                 ->make(true);
         }
 
         $title = 'Prabayar';
-        return view('products.prabayar.index', compact('title'));
+        $role = Auth::user()->hasRole('admin');
+
+        return view('products.prabayar.index', compact('title', 'role'));
+    }
+
+    public function show($buyer_sku_code)
+    {
+        $data = Prabayar::where('buyer_sku_code', $buyer_sku_code)->first();
+        return response()->json(new ProductResource($data));
     }
 
     public function getServices()
@@ -116,5 +131,79 @@ class PrabayarController extends Controller
             'success' => true,
             'message' => 'Data berhasil dihapus semua.',
         ], 200);
+    }
+
+    public function history(Request $request)
+    {
+        if ($request->ajax()) {
+            if (Auth::user()->role === 'admin') {
+                $data = Transaction::where('type', 'prabayar')->latest()->get();
+            } else {
+                $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->get();
+            }
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('sn', function ($row) {
+                    return $row->sn ? '<span class="copy-sn" data-sn="' . $row->sn . '">' . $row->sn . ' <span class="copy-text">(copy)</span></span>' : '';
+                })
+                ->editColumn('status', function ($row) {
+                    switch ($row->status) {
+                        case 'Sukses':
+                            return '<span class="badge bg-success">Sukses</span>';
+                            break;
+                        case 'Pending':
+                            return '<span class="badge bg-warning">Pending</span>';
+                            break;
+                        case 'Gagal':
+                            return '<span class="badge bg-danger">Gagal</span>';
+                            break;
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<button data-invoice="' . $row->invoice . '" id="detail" class="btn btn-info btn-sm me-1"><i class="ti ti-eye"></i></button>';
+                    $actionBtn .= '<a href="#" class="btn btn-success btn-sm me-1"><i class="ti ti-share"></i></a>';
+
+                    return '<div class="d-flex">' . $actionBtn . '</div>';
+                })
+                ->rawColumns(['action', 'status', 'sn'])
+                ->make(true);
+        }
+
+        $title = 'Riwayat Pembelian';
+
+        if (Auth::user()->hasRole('admin')) {
+            // Jika admin, ambil semua deposit
+            $statusCounts = Transaction::where('type', 'prabayar')
+                ->select('status', DB::raw('count(*) as count'))
+                ->groupBy('status')
+                ->get()
+                ->pluck('count', 'status');
+
+            $total = Transaction::where('type', 'prabayar')->count();
+        } else {
+            // Jika bukan admin, ambil transaction berdasarkan user_id
+            $statusCounts = Transaction::where('user_id', Auth::user()->id)
+                ->where('type', 'prabayar')
+                ->select('status', DB::raw('count(*) as count'))
+                ->groupBy('status')
+                ->get()
+                ->pluck('count', 'status');
+
+            $total = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->count();
+        }
+
+        $totalSukses = $statusCounts->get('Sukses', 0);
+        $totalPending = $statusCounts->get('Pending', 0);
+        $totalGagal = $statusCounts->get('Gagal', 0);
+
+        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total'));
+    }
+
+    public function historyDetail($invoice)
+    {
+        $data = Transaction::where('invoice', $invoice)->first();
+
+        return response()->json($data);
     }
 }

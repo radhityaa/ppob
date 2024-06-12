@@ -46,16 +46,16 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        if ($mode === 'development') {
+        if ($mode === 'dev') {
             $data = [
                 'username' => $username,
                 'buyer_sku_code' => 'xld10',
-                'customer_no' => '087800001234',
+                'customer_no' => '087800001230',
                 'ref_id' => $invoice,
                 'sign' => $sign,
                 'testing' => true,
             ];
-        } else {
+        } else if ($mode === 'prod') {
             $data = [
                 'username' => $username,
                 'buyer_sku_code' => $request->buyerSkuCode,
@@ -63,6 +63,11 @@ class TransactionController extends Controller
                 'ref_id' => $invoice,
                 'sign' => $sign
             ];
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat melakukan transaksi.',
+            ], 400);
         }
 
         $result = DigiflazzHelper::transaction('transaction', $data);

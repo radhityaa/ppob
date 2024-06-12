@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\EnvController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::middleware('can: reseller')->prefix('transfer')->name('transfer.')->group(function () {
         Route::get('', [TransferController::class, 'index'])->name('index');
         Route::post('', [TransferController::class, 'store'])->name('store');
+        Route::get('{transfer}', [TransferController::class, 'show'])->name('show');
     });
 
     // Payment Method
@@ -63,12 +65,21 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::get('payment-method-detail/{code}', [PaymentMethodController::class, 'detailMethod'])->name('payment-method.detailMethod');
 
     // Services
-    // Prabayar
-    Route::prefix('prabayar')->group(function () {
-        Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
-        Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
-        Route::get('getServices/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
-        Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
+    Route::prefix('product')->group(function () {
+        // Prabayar
+        Route::prefix('prabayar')->group(function () {
+            Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
+            Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices')->middleware('can:admin');
+            Route::get('getServices/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
+            Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices')->middleware('can:admin');
+            Route::get('{buyer_sku_code}', [PrabayarController::class, 'show'])->name('prabayar.show');
+        });
+    });
+
+    // History Transaction
+    Route::prefix('history')->name('history.')->group(function () {
+        Route::get('prabayar', [PrabayarController::class, 'history'])->name('prabayar');
+        Route::get('prabayar/{invoice}', [PrabayarController::class, 'historyDetail'])->name('prabayar.detail');
     });
 
     // Transaction
@@ -105,6 +116,13 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         Route::prefix('margin')->group(function () {
             Route::get('', [SettingMarginController::class, 'index'])->name('admin.setting.margin.index');
             Route::put('{id}', [SettingMarginController::class, 'update'])->name('admin.setting.margin.update');
+        });
+
+        // Env
+        Route::prefix('env')->name('env.')->group(function () {
+            Route::singleton('', EnvController::class);
+            // Route::get('', [EnvController::class, 'index'])->name('index')->middleware('can:admin');
+            // Route::put('', [EnvController::class, 'update'])->name('update')->middleware('can:admin');
         });
     });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TripayHelper;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,14 +23,8 @@ class TransferController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('created_at', function ($row) {
-                    return $row->created_at->format('Y-m-d H:i:s');
-                })
-                ->editColumn('amount', function ($row) {
-                    return 'Rp. ' . number_format($row->amount, 0, ',', '.');
-                })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="' . route('deposit.show', $row->invoice) . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></a>';
+                    $actionBtn = '<button id="detailTf" data-invoice="' . $row->invoice . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
 
                     return '<div class="d-flex">' . $actionBtn . '</div>';
                 })
@@ -51,7 +46,6 @@ class TransferController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        $request['amount'] = formatRupiahToNumber($request->amount);
         $target = User::where('slug', $request->username)->first();
         $request['user_id'] = Auth::user()->id;
         $request['invoice'] = invoice($request->user_id, 'TF', 'transfers');
@@ -90,5 +84,10 @@ class TransferController extends Controller
                 'message' => 'Transfer Gagal: ' . $th->getMessage()
             ]);
         }
+    }
+
+    public function show(Transfer $transfer)
+    {
+        return response()->json($transfer);
     }
 }

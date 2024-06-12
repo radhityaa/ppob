@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Http;
 
 class TripayHelper
 {
+    public static function getMode()
+    {
+        $mode = env('TRIPAY_MODE');
+        if ($mode == 'dev') {
+            return 'https://tripay.co.id/api-sandbox';
+        } else if ($mode == 'prod') {
+            return 'https://tripay.co.id/api';
+        }
+    }
+
     public static function getPrivateKey()
     {
         return env('TRIPAY_PRIVATE_KEY');
@@ -27,13 +37,15 @@ class TripayHelper
 
     public static function getChannels()
     {
-        $response = Http::withToken(self::getApiKey())->get('https://tripay.co.id/api-sandbox/merchant/payment-channel');
+        $mode = self::getMode();
+        $response = Http::withToken(self::getApiKey())->get($mode . '/merchant/payment-channel');
         return json_decode($response->body(), true);
     }
 
     public static function createDepositLocal($nominal, $method, array $orderItems)
     {
         try {
+            $mode = self::getMode();
             $invoice = invoice(Auth::user()->id, 'DPS');
             $signature = self::generateSignature($invoice, $nominal);
 
@@ -49,7 +61,7 @@ class TripayHelper
                 'signature'    => $signature
             ];
 
-            $response = Http::withToken(self::getApiKey())->post('https://tripay.co.id/api-sandbox/transaction/create', $data);
+            $response = Http::withToken(self::getApiKey())->post($mode . '/transaction/create', $data);
             return json_decode($response->body());
         } catch (\Throwable $e) {
             return [

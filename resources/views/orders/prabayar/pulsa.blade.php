@@ -231,7 +231,8 @@
                             })
 
                             setInterval(() => {
-                                window.location.href = '{{ route('home') }}';
+                                window.location.href =
+                                '{{ route('history.prabayar') }}';
                             }, 2000);
                         },
                         error: function(err) {

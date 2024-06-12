@@ -90,15 +90,6 @@ class WebhookController extends Controller
 
     public function callbackDigiflazz(Request $request)
     {
-        // $secret = DigiflazzHelper::getWebhookSecret();
-        // $post_data = file_get_contents('php://input');
-        // $signature = hash_hmac('sha1', $post_data, $secret);
-        // Log::info($signature);
-
-        // if ($request->header('X-Hub-Signature') == 'sha1=' . $signature) {
-        //     Log::info(json_decode($request->getContent(), true));
-        // }
-
         $postData = $request->getContent();
         $secret = DigiflazzHelper::getWebhookSecret();
         $signature = 'sha1=' . hash_hmac('sha1', $postData, $secret);
@@ -110,13 +101,11 @@ class WebhookController extends Controller
             $refId = $eventData['ref_id'];
             $transaction = Transaction::where('invoice', $refId)->first();
 
-            // foreach ($transactions as $transaction) {
             $transaction->update([
                 'message' => $eventData['message'],
                 'status' => $eventData['status'],
                 'sn' => $eventData['sn']
             ]);
-            // }
 
             return response('Webhook received successfully', 200);
         } else {

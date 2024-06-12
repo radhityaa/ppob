@@ -43,7 +43,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::post('deposit-confirm/{deposit}', [DepositController::class, 'confirm'])->name('deposit.confirm');
 
     // Transfer Saldo
-    Route::middleware('can: reseller')->prefix('transfer')->name('transfer.')->group(function () {
+    Route::middleware('can:reseller')->prefix('transfer')->name('transfer.')->group(function () {
         Route::get('', [TransferController::class, 'index'])->name('index');
         Route::post('', [TransferController::class, 'store'])->name('store');
         Route::get('{transfer}', [TransferController::class, 'show'])->name('show');
@@ -121,8 +121,6 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         // Env
         Route::prefix('env')->name('env.')->group(function () {
             Route::singleton('', EnvController::class);
-            // Route::get('', [EnvController::class, 'index'])->name('index')->middleware('can:admin');
-            // Route::put('', [EnvController::class, 'update'])->name('update')->middleware('can:admin');
         });
     });
 

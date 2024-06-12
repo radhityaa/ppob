@@ -15,7 +15,7 @@ class PaymentMethodController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:admin')->except(['list', 'detailMethod']);
+        $this->middleware(['role:admin'])->except(['list', 'detailMethod']);
     }
     /**
      * Display a listing of the resource.

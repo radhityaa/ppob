@@ -14,6 +14,11 @@ use Yajra\DataTables\DataTables;
 
 class PrabayarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin'])->only(['getServices', 'detailServices']);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {

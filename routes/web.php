@@ -44,21 +44,21 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
 
     // Transfer Saldo
     Route::prefix('transfer')->name('transfer.')->group(function () {
-        Route::get('', [TransferController::class, 'index'])->name('index')->middleware('can: reseller');
-        Route::post('', [TransferController::class, 'store'])->name('store')->middleware('can: reseller');
-        Route::get('{transfer}', [TransferController::class, 'show'])->name('show')->middleware('can: reseller');
+        Route::get('', [TransferController::class, 'index'])->name('index');
+        Route::post('', [TransferController::class, 'store'])->name('store');
+        Route::get('{transfer}', [TransferController::class, 'show'])->name('show');
     });
 
     // Payment Method
     Route::get('payment-method', [PaymentMethodController::class, 'index'])->name('payment-method.index');
-    Route::post('payment-method', [PaymentMethodController::class, 'store'])->name('payment-method.store')->middleware('can: admin');
+    Route::post('payment-method', [PaymentMethodController::class, 'store'])->name('payment-method.store');
     Route::get('payment-method/{slug}/edit', [PaymentMethodController::class, 'show'])->name('payment-method.show');
-    Route::put('payment-method/{slug}', [PaymentMethodController::class, 'update'])->name('payment-method.update')->middleware('can: admin');
-    Route::delete('payment-method/{slug}', [PaymentMethodController::class, 'destroy'])->name('payment-method.destroy')->middleware('can: admin');
+    Route::put('payment-method/{slug}', [PaymentMethodController::class, 'update'])->name('payment-method.update');
+    Route::delete('payment-method/{slug}', [PaymentMethodController::class, 'destroy'])->name('payment-method.destroy');
 
     // Get Payment Method Provider
     Route::get('payment-method-provider/{provider}', [PaymentMethodController::class, 'getPaymentProvider'])->name('payment-method.getPaymentProvider');
-    Route::delete('payment-method-provider/{provider}', [PaymentMethodController::class, 'deletePaymentProvider'])->name('payment-method.deletePaymentProvider')->middleware('can: admin');
+    Route::delete('payment-method-provider/{provider}', [PaymentMethodController::class, 'deletePaymentProvider'])->name('payment-method.deletePaymentProvider');
 
     // Get Payment Method
     Route::get('payment-method-list/{type}', [PaymentMethodController::class, 'list'])->name('payment-method.list');
@@ -69,9 +69,9 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         // Prabayar
         Route::prefix('prabayar')->group(function () {
             Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
-            Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices')->middleware('can:admin');
+            Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
             Route::get('getServices/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
-            Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices')->middleware('can:admin');
+            Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
             Route::get('{buyer_sku_code}', [PrabayarController::class, 'show'])->name('prabayar.show');
         });
     });

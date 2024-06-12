@@ -12,6 +12,11 @@ use Yajra\DataTables\DataTables;
 
 class TransferController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:reseller']);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {

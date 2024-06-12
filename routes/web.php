@@ -44,9 +44,9 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
 
     // Transfer Saldo
     Route::prefix('transfer')->name('transfer.')->group(function () {
-        Route::get('', [TransferController::class, 'index'])->name('index');
-        Route::post('', [TransferController::class, 'store'])->name('store');
-        Route::get('{transfer}', [TransferController::class, 'show'])->name('show');
+        Route::get('', [TransferController::class, 'index'])->name('index')->middleware('can: reseller');
+        Route::post('', [TransferController::class, 'store'])->name('store')->middleware('can: reseller');
+        Route::get('{transfer}', [TransferController::class, 'show'])->name('show')->middleware('can: reseller');
     });
 
     // Payment Method

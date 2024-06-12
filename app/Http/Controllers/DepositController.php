@@ -17,7 +17,7 @@ class DepositController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:admin')->except(['index', 'create', 'show', 'store', 'cancel']);
+        $this->middleware(['role:admin'])->except(['index', 'create', 'show', 'store', 'cancel']);
     }
     /**
      * Display a listing of the resource.

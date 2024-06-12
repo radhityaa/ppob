@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function __construct(UserService $userService)
     {
-        $this->middleware('can:admin');
+        $this->middleware(['role:admin'])->except('list');
         $this->userService = $userService;
     }
 

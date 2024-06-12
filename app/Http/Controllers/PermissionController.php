@@ -14,7 +14,7 @@ class PermissionController extends Controller
 
     public function __construct(PermissionService $permissionService)
     {
-        $this->middleware('can:admin');
+        $this->middleware(['role:admin']);
         $this->permissionService = $permissionService;
     }
     /**

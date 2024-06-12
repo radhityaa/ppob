@@ -14,7 +14,7 @@ class TransferController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:reseller']);
+        $this->middleware(['role:reseller|admin']);
     }
 
     public function index(Request $request)

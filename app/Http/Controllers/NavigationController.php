@@ -13,7 +13,7 @@ class NavigationController extends Controller
     protected $navigationService;
     public function __construct(NavigationService $navigationService)
     {
-        $this->middleware('can:admin');
+        $this->middleware(['role:admin']);
         $this->navigationService = $navigationService;
     }
     /**

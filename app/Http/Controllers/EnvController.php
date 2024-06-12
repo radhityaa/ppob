@@ -9,6 +9,7 @@ class EnvController extends Controller
 {
     public function __construct(protected EnvFileService $envFileService)
     {
+        $this->middleware(['role:admin']);
     }
     public function show()
     {

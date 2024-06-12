@@ -43,7 +43,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::post('deposit-confirm/{deposit}', [DepositController::class, 'confirm'])->name('deposit.confirm');
 
     // Transfer Saldo
-    Route::middleware('can:reseller')->prefix('transfer')->name('transfer.')->group(function () {
+    Route::prefix('transfer')->name('transfer.')->group(function () {
         Route::get('', [TransferController::class, 'index'])->name('index');
         Route::post('', [TransferController::class, 'store'])->name('store');
         Route::get('{transfer}', [TransferController::class, 'show'])->name('show');

@@ -16,7 +16,7 @@ class PrabayarController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:admin'])->only(['getServices', 'detailServices']);
+        $this->middleware(['role:admin'])->only(['getServices', 'show']);
     }
 
     public function index(Request $request)

@@ -141,7 +141,7 @@ class PrabayarController extends Controller
     public function history(Request $request)
     {
         if ($request->ajax()) {
-            if (Auth::user()->role === 'admin') {
+            if (Auth::user()->hasRole('admin')) {
                 $data = Transaction::where('type', 'prabayar')->latest()->get();
             } else {
                 $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->get();

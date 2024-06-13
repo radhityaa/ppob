@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CekBillController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\EnvController;
@@ -124,9 +126,21 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         });
     });
 
+    // Get Category
+    Route::prefix('category')->name('category.')->group(function () {
+        Route::get('kuota', [CategoryController::class, 'kuota'])->name('kuota');
+    });
+
+    // Check Bill
+    Route::prefix('check')->name('check.')->group(function () {
+        Route::post('token', [CekBillController::class, 'token'])->name('token');
+    });
+
     // Orders Prabayar
     Route::prefix('prabayar')->name('prabayar.')->group(function () {
         Route::get('pulsa', [OrderController::class, 'pulsa'])->name('pulsa');
+        Route::get('kuota', [OrderController::class, 'kuota'])->name('kuota');
+        Route::get('token', [OrderController::class, 'token'])->name('token');
     });
 });
 

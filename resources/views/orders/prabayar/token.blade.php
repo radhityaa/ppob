@@ -20,8 +20,8 @@
     <div class="card">
         <div class="card-body">
             <div class="col mb-1">
-                <label for="target" class="form-label">Tujuan</label>
-                <input type="number" name="target" id="target" value="{{ old('target') }}" placeholder="Ex: 0895xxxxx"
+                <label for="target" class="form-label">No. Meteran</label>
+                <input type="number" name="target" id="target" value="{{ old('target') }}" placeholder="Ex: 1442xxxxxx"
                     class="form-control" required />
             </div>
             <div class="col mt-1">
@@ -50,6 +50,14 @@
                     <tr>
                         <th class="fw-semibold">Tujuan</th>
                         <td class="fw-bold" id="target-detail"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Atas Nama</th>
+                        <td class="fw-bold" id="owner"></td>
+                    </tr>
+                    <tr>
+                        <th class="fw-semibold">Daya (VA)</th>
+                        <td class="fw-bold" id="kwh"></td>
                     </tr>
                     <tr>
                         <th class="fw-semibold">Jenis</th>
@@ -116,6 +124,8 @@
                 $('#multi').html('');
                 $('#cut-off').html('');
                 $('#buyer_sku_code').html('');
+                $('#owner').html('');
+                $('#kwh').html('');
                 $('.saldo').hide();
 
                 $('.btn-loading').addClass('d-none')
@@ -142,11 +152,34 @@
             $('#multi').html('loading...');
             $('#cut-off').html('loading...');
             $('#saldo').html('loading...');
+            $('#owner').html('loading...');
+            $('#kwh').html('loading...');
 
             $.ajax({
                 url: url,
                 method: "GET",
                 success: function(res) {
+                    $.ajax({
+                        url: "{{ route('check.token') }}",
+                        method: "POST",
+                        data: {
+                            target
+                        },
+                        success: function(res) {
+                            if (!res.success) {
+                                $('#owner').html('Tidak Ditemukan');
+                                $('#kwh').html('Tidak Ditemukan');
+                            } else {
+                                $('#owner').html(res.data.name);
+                                $('#kwh').html(res.data.segment_power);
+                            }
+                        },
+                        error: function(err) {
+                            $('#owner').html('Tidak Ditemukan');
+                            $('#kwh').html('Tidak Ditemukan');
+                        }
+                    })
+
                     if (res.saldo < res.data.price) {
                         $('.btn-buy').attr('disabled', 'disabled');
                         $('.saldo').show();
@@ -184,6 +217,8 @@
                     $('#description').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#multi').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#cut-off').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#owner').html('Terjadi Kesalahan, Ulangi Lagi');
+                    $('#kwh').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#offcanvas-title').html('Terjadi Kesalahan, Ulangi Lagi');
                     $('#buyer_sku_code').html('');
                 }
@@ -256,7 +291,7 @@
             var target = $('#target').val();
 
             $.ajax({
-                url: "{{ route('prabayar.pulsa') }}",
+                url: "{{ route('prabayar.token') }}",
                 method: "GET",
                 data: {
                     target: target

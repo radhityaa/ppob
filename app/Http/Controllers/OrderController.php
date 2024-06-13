@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MyHelper;
+use App\Models\Prabayar;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -25,5 +26,49 @@ class OrderController extends Controller
         $title = 'Isi Ulang Pulsa';
 
         return view('orders.prabayar.pulsa', compact('title'));
+    }
+
+    public function kuota(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Prabayar::where([
+                'category' => 'Data',
+                'brand' => $request->brand,
+                'type' => $request->type
+            ])
+                ->orderByRaw('CAST(price AS DECIMAL(10, 2))')
+                ->get();
+
+            return response()->json($data);
+        }
+
+        $title = 'Isi Ulang Kuota';
+
+        return view('orders.prabayar.kuota', compact('title'));
+    }
+
+    public function token(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Prabayar::where('category', 'PLN')->orderByRaw('CAST(price AS DECIMAL(10, 2))')->get();
+
+            if (!$data) {
+                return response()->json([
+                    'status'    => false,
+                    'message'   => 'Tidak Ditemukan',
+                    'data'      => null,
+                ], 400);
+            }
+
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Token PLN',
+                'data'      => $data,
+            ]);
+        }
+
+        $title = 'Token PLN';
+
+        return view('orders.prabayar.token', compact('title'));
     }
 }

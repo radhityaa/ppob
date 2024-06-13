@@ -58,4 +58,14 @@ class DigiflazzHelper
         $response = Http::post('https://api.digiflazz.com/v1/' . $url, $data);
         return json_decode($response);
     }
+
+    public static function validasiTokenPln($target)
+    {
+        $data = [
+            'commands' => 'pln-subscribe',
+            'customer_no' => $target
+        ];
+
+        return self::transaction('transaction', $data);
+    }
 }

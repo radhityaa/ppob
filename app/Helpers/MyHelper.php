@@ -764,4 +764,22 @@ class MyHelper
 
         return compact('status', 'data', 'message');
     }
+
+    public static function getSingleEmoney($category, $brand)
+    {
+        $data = Prabayar::where('category', $category)->where('brand', $brand)->orderByRaw('CAST(price AS DECIMAL(10, 2))')->get();
+        if ($data) {
+            return [
+                'status'    => true,
+                'message'   => $brand,
+                'data'      => $data,
+            ];
+        }
+
+        return [
+            'status'    => false,
+            'message'   => 'Tidak Diketahui',
+            'data'      => null,
+        ];
+    }
 }

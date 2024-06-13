@@ -25,10 +25,6 @@
                 <input type="number" name="target" id="target" value="{{ old('target') }}" placeholder="Ex: 0895xxxxx"
                     class="form-control" required />
             </div>
-            <div class="col mb-3" id="typeEl" style="display: none;">
-                <label for="typeSel" class="form-label">Kategori</label>
-                <select name="typeSel" id="typeSel" class="form-control" required></select>
-            </div>
             <div class="col">
                 <span id="provider" class="badge" style="display: none;"></span>
             </div>
@@ -54,7 +50,6 @@
             $('.btn-buy').removeClass('d-none')
             $('.saldo').hide();
             $('#brand').val('');
-            $('#typeSel').empty()
 
             $('#offcanvasBottom').on('hidden.bs.offcanvas', function() {
                 $('#target-detail').html('');
@@ -203,83 +198,40 @@
 
         $('#target').on('keyup', function() {
             var target = $('#target').val();
-            let typeSelect = $('#typeSel')
-            let opt = ''
-            var typeEl = $('#typeEl')
-            typeSelect.empty()
 
             $.ajax({
-                url: "{{ route('category.kuota') }}",
+                url: "{{ route('prabayar.emoney.ovo') }}",
                 method: "GET",
                 data: {
                     target: target
                 },
                 success: function(res) {
                     if (res.status) {
-                        typeEl.show()
                         $('#provider').show()
                         $('#provider').removeClass('bg-danger');
                         $('#provider').addClass('bg-success');
                         $('#provider').text(res.message);
-                        $('#brand').val(res.message);
 
-                        opt = '<option value="" disabled selected>Pilih Layanan</option>'
-                        $.each(res.data, function(key, val) {
-                            opt += '<option value="' + val + '">' + val + '</option>'
-                        })
-                        typeSelect.append(opt);
-                    } else {
-                        var services = $('#services');
-                        typeEl.hide()
-                        typeSelect.empty()
-                        services.empty();
-                        $('#brand').val('');
-                        $('#provider').show();
-                        $('#provider').removeClass('bg-success');
-                        $('#provider').addClass('bg-danger');
-                        $('#provider').text(res.message);
-                    }
-                },
-                error: function(err) {
-                    typeEl.hide()
-                    typeSelect.empty()
-                    $('#brand').val('');
-                }
-            });
-        });
+                        var servicesContainer = $('#services');
+                        servicesContainer.empty(); // Clear the existing content
 
-        $('#typeSel').on('change', function() {
-            var type = $('#typeSel').val()
-            var brand = $('#brand').val()
-            var servicesContainer = $('#services')
+                        // Assuming 'res' is an array of objects
+                        $.each(res.data, function(i, service) {
+                            var formatPrice = new Intl.NumberFormat('id-ID', {
+                                minimumFractionDigits: 0,
+                                currency: 'IDR'
+                            }).format(service.price)
 
-            $.ajax({
-                url: "{{ route('prabayar.kuota') }}",
-                method: "GET",
-                data: {
-                    type,
-                    brand
-                },
-                success: function(res) {
-                    servicesContainer.empty(); // Clear the existing content
+                            var badgeClass = service.buyer_product_status ? 'bg-label-primary' :
+                                'bg-label-danger';
+                            var textClass = service.buyer_product_status ? 'text-primary' :
+                                'text-danger';
+                            var buttonDisabled = !service.buyer_product_status ? 'disabled' :
+                                '';
+                            var bgColor = service.buyer_product_status ? 'bg-primary' :
+                                'bg-danger';
 
-                    // Assuming 'res' is an array of objects
-                    $.each(res, function(i, service) {
-                        var formatPrice = new Intl.NumberFormat('id-ID', {
-                            minimumFractionDigits: 0,
-                            currency: 'IDR'
-                        }).format(service.price)
-
-                        var badgeClass = service.buyer_product_status ? 'bg-label-primary' :
-                            'bg-label-danger';
-                        var textClass = service.buyer_product_status ? 'text-primary' :
-                            'text-danger';
-                        var buttonDisabled = !service.buyer_product_status ? 'disabled' :
-                            '';
-                        var bgColor = service.buyer_product_status ? 'bg-primary' :
-                            'bg-danger';
-
-                        var cardHtml = `
+                            var cardHtml = `
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
@@ -305,13 +257,21 @@
                     </div>
                 `;
 
-                        servicesContainer.append(cardHtml);
-                    });
+                            servicesContainer.append(cardHtml);
+                        });
+                    } else {
+                        var services = $('#services');
+                        services.empty();
+                        $('#provider').show();
+                        $('#provider').removeClass('bg-success');
+                        $('#provider').addClass('bg-danger');
+                        $('#provider').text(res.message);
+                    }
                 },
                 error: function(err) {
-                    console.log(err)
+                    console.log(err);
                 }
-            })
-        })
+            });
+        });
     </script>
 @endpush

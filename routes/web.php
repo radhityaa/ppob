@@ -129,6 +129,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     // Get Category
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('kuota', [CategoryController::class, 'kuota'])->name('kuota');
+        Route::get('grab', [CategoryController::class, 'grab'])->name('grab');
     });
 
     // Check Bill
@@ -141,6 +142,13 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         Route::get('pulsa', [OrderController::class, 'pulsa'])->name('pulsa');
         Route::get('kuota', [OrderController::class, 'kuota'])->name('kuota');
         Route::get('token', [OrderController::class, 'token'])->name('token');
+
+        // Emoney
+        Route::prefix('emoney')->name('emoney.')->group(function () {
+            Route::get('dana', [OrderController::class, 'dana'])->name('dana');
+            Route::get('ovo', [OrderController::class, 'ovo'])->name('ovo');
+            Route::get('grab', [OrderController::class, 'grab'])->name('grab');
+        });
     });
 });
 

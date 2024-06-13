@@ -71,4 +71,47 @@ class OrderController extends Controller
 
         return view('orders.prabayar.token', compact('title'));
     }
+
+    public function dana(Request $request)
+    {
+        if ($request->ajax()) {
+            $result = MyHelper::getSingleEmoney('E-Money', 'Dana');
+            return response()->json($result);
+        }
+
+        $title = 'Isi Ulang Dana';
+
+        return view('orders.prabayar.emoney.dana', compact('title'));
+    }
+
+    public function ovo(Request $request)
+    {
+        if ($request->ajax()) {
+            $result = MyHelper::getSingleEmoney('E-Money', 'OVO');
+            return response()->json($result);
+        }
+
+        $title = 'Isi Ulang OVO';
+
+        return view('orders.prabayar.emoney.ovo', compact('title'));
+    }
+
+    public function grab(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Prabayar::where([
+                'category' => 'E-Money',
+                'brand' => 'GRAB',
+                'type' => $request->type
+            ])
+                ->orderByRaw('CAST(price AS DECIMAL(10, 2))')
+                ->get();
+
+            return response()->json($data);
+        }
+
+        $title = 'Isi Ulang Grab';
+
+        return view('orders.prabayar.emoney.grab', compact('title'));
+    }
 }

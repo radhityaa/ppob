@@ -113,7 +113,7 @@
         <h2 style="font-weight:bold; font-size: 13px;">TERIMA KASIH</h2>
         <div style="font-size: 11px;">
             Tersedia Pulsa, Kuota, E-Money, Token PLN, Bayar Listrik, PDAM, Telkom, Internet, Wifi, Voucher Data, Topup
-            Game Dan Pembayaran Lainnya
+            Game Dan Pembayaran Lainnya.
         </div>
     </div>
 

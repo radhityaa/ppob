@@ -10,6 +10,9 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Invoice;
 use Yajra\DataTables\DataTables;
 
 class PrabayarController extends Controller
@@ -214,8 +217,42 @@ class PrabayarController extends Controller
 
     public function print(Request $request)
     {
-        $trx = Transaction::where('invoice', $request->invoice)->first();
-        $margin = $request->margin;
-        return view('history.print', compact('trx', 'margin'));
+        // $trx = Transaction::where('invoice', $request->invoice)->first();
+        // $margin = $request->margin;
+        // return view('history.print', compact('trx', 'margin'));
+
+        $dataOrder = Transaction::where('invoice', $request->invoice)->first();
+        $priceSell = formatRupiahToNumber($request->margin);
+
+        $seller = new Party([
+            'name' => $dataOrder->user->name,
+            'phone' => $dataOrder->user->phone,
+            'email' => $dataOrder->user->email,
+            'target' => $dataOrder->target,
+            'sn' => $dataOrder->sn
+        ]);
+
+        $buyer = new Party([
+            'name' => $dataOrder->target
+        ]);
+
+        $item = [
+            (new InvoiceItem())
+                ->title($dataOrder->product_name)
+                ->description($dataOrder->message)
+                ->pricePerUnit($priceSell)
+        ];
+
+        $invoice = Invoice::make('Ayasya Shop')->template('transaction')
+            ->status($dataOrder->status)
+            ->serialNumberFormat($dataOrder->invoice)
+            ->seller($seller)
+            ->buyer($buyer)
+            ->date($dataOrder->created_at)
+            ->dateFormat('d/m/Y h:i')
+            ->currencyCode('idr')
+            ->addItems($item);
+
+        return $invoice->stream();
     }
 }

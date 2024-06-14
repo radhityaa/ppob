@@ -364,6 +364,7 @@
         }
 
         $(document).ready(function() {
+
             $('body').on('click', '.copy-text', function() {
                 var snText = $(this).closest('.copy-sn').data('sn')
                 navigator.clipboard.writeText(snText).then(function() {
@@ -392,6 +393,7 @@
 
             $('#modalMargin').on('hidden.bs.modal', function() {
                 $('#margin').val('')
+                $('.modal-body form')[0].reset();
             })
         })
 

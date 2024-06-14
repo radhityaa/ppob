@@ -215,6 +215,7 @@ class PrabayarController extends Controller
     public function print(Request $request)
     {
         $trx = Transaction::where('invoice', $request->invoice)->first();
-        return view('history.print', compact('trx'));
+        $margin = $request->margin;
+        return view('history.print', compact('trx', 'margin'));
     }
 }

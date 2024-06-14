@@ -69,7 +69,7 @@
 <body>
     <div class="ticket">
         <img src="{{ asset('assets/img/favicon/favicon.ico') }}" alt="Logo">
-        <p class="centered">RECEIPT EXAMPLE
+        <p class="centered">{{ $margin }}
             <br>Address line 1
             <br>Address line 2
         </p>

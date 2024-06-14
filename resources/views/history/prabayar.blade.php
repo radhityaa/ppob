@@ -189,19 +189,40 @@
                     <div class="modal-body">
                         <div class="row gap-2">
                             <div class="col-12">
-                                <button class="w-100 btn btn-success"><i class="ti ti-brand-whatsapp"></i>
+                                <button class="w-100 btn btn-success"><i class="ti ti-brand-whatsapp me-1"></i>
                                     Whatsapp</button>
                             </div>
                             <div class="col-12">
-                                <form action="{{ route('history.prabayar.print') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="invoice" id="invoice">
-                                    <button type="submit" id="print" class="w-100 btn btn-info"><i
-                                            class="ti ti-printer"></i>
-                                        Print</button>
-                                </form>
+                                <button id="print" class="w-100 btn btn-info"><i class="ti ti-printer me-1"></i>
+                                    Print</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        {{-- Modal Margin --}}
+        <div class="modal fade modal-sm" id="modalMargin" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form action="{{ route('history.prabayar.print') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="invoice" id="invoice">
+                            <div class="mb-3">
+                                <label for="margin" class="form-label">Harga Jual</label>
+                                <input type="text" name="margin" id="margin" class="form-control" required>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="print" class="w-100 btn btn-info"><i
+                                        class="ti ti-printer me-1"></i>
+                                    Print</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -327,9 +348,20 @@
         $('body').on('click', '#share', function() {
             $('#modalShare').modal('show')
             var invoice = $(this).data('invoice')
-            $('#invoice').val(invoice)
+
+            $('#print').on('click', function() {
+                $('#invoice').val(invoice)
+                $('#modalShare').modal('hide')
+                $('#modalMargin').modal('show')
+            })
         })
 
+        function numberFormatIdr(value) {
+            var reverse = value.toString().split('').reverse().join('');
+            var ribuan = reverse.match(/\d{1,3}/g);
+            var formatted = ribuan.join('.').split('').reverse().join('');
+            return 'Rp ' + formatted;
+        }
 
         $(document).ready(function() {
             $('body').on('click', '.copy-text', function() {
@@ -339,6 +371,27 @@
                 }, function(err) {
                     alert('Gagal Dicopy: ' + err.responseJSON.message)
                 })
+            })
+
+            $('#margin').on('input', function() {
+                // Ambil nilai input
+                var inputValue = $(this).val();
+
+                // Hilangkan semua karakter selain angka
+                var numericValue = inputValue.replace(/Rp|\./g, '');
+
+                // Konversi ke integer
+                var integerValue = parseInt(numericValue, 10);
+
+                // Format kembali sebagai Rupiah
+                var formatted = numberFormatIdr(integerValue);
+
+                $(this).val(formatted);
+                $('#margin').val(formatted);
+            })
+
+            $('#modalMargin').on('hidden.bs.modal', function() {
+                $('#margin').val('')
             })
         })
 

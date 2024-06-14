@@ -43,91 +43,93 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalUser" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalUserTitle">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade" id="modalUser" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalUserTitle">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="" id="form-user">
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <label for="name" class="form-label">Nama Lengkap</label>
+                                    <input type="text" id="name" name="name" class="form-control"
+                                        placeholder="Nama Lengkap" required />
+                                    @error('name')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="slug" class="form-label">Username</label>
+                                    <input type="text" id="slug" name="slug" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <label for="phone" class="form-label">No. HP</label>
+                                    <input type="number" id="phone" name="phone" class="form-control"
+                                        placeholder="Nomor HP" required />
+                                    @error('phone')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" id="email" name="email" class="form-control"
+                                        placeholder="Alamat Email" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <label for="saldo" class="form-label">Saldo</label>
+                                    <input type="text" id="saldo" name="saldo" class="form-control"
+                                        placeholder="Saldo" required />
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-control" name="status" id="status" required>
+                                        <option value="aktif">Aktif</option>
+                                        <option value="band">Banned</option>
+                                        <option value="suspend">Suspend</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" id="password" name="password" class="form-control"
+                                        autocomplete="off" />
+                                    <small class="form-text">Isi jika ingin diganti</small>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-control" name="role" id="role" required>
+                                        @foreach (getAllRoles() as $role)
+                                            <option value="{{ $role->id }}">
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-save">Simpan</button>
+                        <x-button-loading />
+                    </div>
+                    </form>
                 </div>
-                <div class="modal-body">
-                    <form action="" method="" id="form-user">
-                        <div class="row">
-                            <div class="col-lg-6 mb-3">
-                                <label for="name" class="form-label">Nama Lengkap</label>
-                                <input type="text" id="name" name="name" class="form-control"
-                                    placeholder="Nama Lengkap" required />
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <label for="slug" class="form-label">Username</label>
-                                <input type="text" id="slug" name="slug" class="form-control" disabled />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 mb-3">
-                                <label for="phone" class="form-label">No. HP</label>
-                                <input type="number" id="phone" name="phone" class="form-control"
-                                    placeholder="Nomor HP" required />
-                                @error('phone')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" name="email" class="form-control"
-                                    placeholder="Alamat Email" required />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 mb-3">
-                                <label for="saldo" class="form-label">Saldo</label>
-                                <input type="text" id="saldo" name="saldo" class="form-control" placeholder="Saldo"
-                                    required />
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-control" name="status" id="status" required>
-                                    <option value="aktif">Aktif</option>
-                                    <option value="band">Banned</option>
-                                    <option value="suspend">Suspend</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" id="password" name="password" class="form-control"
-                                    autocomplete="off" />
-                                <small class="form-text">Isi jika ingin diganti</small>
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                                <label for="role" class="form-label">Role</label>
-                                <select class="form-control" name="role" id="role" required>
-                                    @foreach (getAllRoles() as $role)
-                                        <option value="{{ $role->id }}">
-                                            {{ $role->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-save">Simpan</button>
-                    <x-button-loading />
-                </div>
-                </form>
             </div>
         </div>
     </div>

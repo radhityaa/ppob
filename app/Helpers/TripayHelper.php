@@ -2,14 +2,21 @@
 
 namespace App\Helpers;
 
+use App\Models\SettingProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class TripayHelper
 {
+    public static function getData()
+    {
+        return SettingProvider::where('name', 'tripay')->first();
+    }
+
     public static function getMode()
     {
-        $mode = env('TRIPAY_MODE');
+        $mode = self::getData()->mode;
+
         if ($mode == 'dev') {
             return 'https://tripay.co.id/api-sandbox';
         } else if ($mode == 'prod') {
@@ -19,18 +26,23 @@ class TripayHelper
 
     public static function getPrivateKey()
     {
-        return env('TRIPAY_PRIVATE_KEY');
+        return self::getData()->private_key;
     }
 
     public static function getApiKey()
     {
-        return env('TRIPAY_API_KEY');
+        return self::getData()->api_key;
+    }
+
+    public static function getMerchantCode()
+    {
+        return self::getData()->code;
     }
 
     public static function generateSignature($merchantRef, $amount)
     {
         $privateKey = self::getPrivateKey();
-        $merchantCode = env('TRIPAY_CODE_MERCHANT');
+        $merchantCode = self::getMerchantCode();
 
         return hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey);
     }
@@ -68,30 +80,6 @@ class TripayHelper
                 'success' => false,
                 'message' => 'Gagal menyimpan data: ' . $e->getMessage()
             ];
-        }
-    }
-
-    public static function terbilang($number)
-    {
-        $units = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
-        if ($number < 12) {
-            return $units[$number];
-        } elseif ($number < 20) {
-            return $units[$number - 10] . " belas";
-        } elseif ($number < 100) {
-            return $units[(int)($number / 10)] . " puluh " . self::terbilang($number % 10);
-        } elseif ($number < 200) {
-            return "seratus " . self::terbilang($number - 100);
-        } elseif ($number < 1000) {
-            return $units[(int)($number / 100)] . " ratus " . self::terbilang($number % 100);
-        } elseif ($number < 2000) {
-            return "seribu " . self::terbilang($number - 1000);
-        } elseif ($number < 1000000) {
-            return self::terbilang((int)($number / 1000)) . " ribu " . self::terbilang($number % 1000);
-        } elseif ($number < 1000000000) {
-            return self::terbilang((int)($number / 1000000)) . " juta " . self::terbilang($number % 1000000);
-        } else {
-            return "nomor terlalu besar";
         }
     }
 }

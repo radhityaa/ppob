@@ -207,6 +207,24 @@
                             <div>Env</div>
                         </a>
                     </li>
+                    <li class="menu-item {{ request()->is('settings/provider*') ? 'active open' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ti ti-home-cog"></i>
+                            <div>Provider</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('settings/provider/setting') ? 'active' : '' }}">
+                                <a href="{{ route('provider.setting') }}" class="menu-link">
+                                    <div>Setting</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ request()->is('settings/provider/change') ? 'active' : '' }}">
+                                <a href="{{ route('provider.change') }}" class="menu-link">
+                                    <div>Change (Commingsoon)</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="menu-item {{ request()->is('settings/acl/roles') ? 'active' : '' }}">
                         <a href="{{ route('roles.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-user-bolt"></i>

@@ -48,94 +48,96 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade modal-lg" id="modalDetail" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetailTitle">Detail Product</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-0">
-                    <table class="table mt-2">
-                        <thead>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            <tr>
-                                <th class="fw-semibold">Product</th>
-                                <td class="fw-bold" id="product_name"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Category</th>
-                                <td id="category"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Brand</th>
-                                <td id="brand"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Type</th>
-                                <td id="type"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Seller Name</th>
-                                <td id="seller_name"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Price</th>
-                                <td id="price"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">SKU</th>
-                                <td id="buyer_sku_code"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Buyer Status</th>
-                                <td id="buyer_product_status"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Seller Status</th>
-                                <td id="seller_product_status"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Unli Stock</th>
-                                <td id="unlimited_stock"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Stock</th>
-                                <td id="stock"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Multi</th>
-                                <td id="multi"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Cut Off</th>
-                                <td id="cut_off"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Description</th>
-                                <td id="desc"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Provider</th>
-                                <td id="provider"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Created At</th>
-                                <td id="created_at"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Updated At</th>
-                                <td id="updated_at"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade modal-lg" id="modalDetail" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalDetailTitle">Detail Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <table class="table mt-2">
+                            <thead>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                <tr>
+                                    <th class="fw-semibold">Product</th>
+                                    <td class="fw-bold" id="product_name"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Category</th>
+                                    <td id="category"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Brand</th>
+                                    <td id="brand"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Type</th>
+                                    <td id="type"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Seller Name</th>
+                                    <td id="seller_name"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Price</th>
+                                    <td id="price"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">SKU</th>
+                                    <td id="buyer_sku_code"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Buyer Status</th>
+                                    <td id="buyer_product_status"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Seller Status</th>
+                                    <td id="seller_product_status"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Unli Stock</th>
+                                    <td id="unlimited_stock"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Stock</th>
+                                    <td id="stock"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Multi</th>
+                                    <td id="multi"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Cut Off</th>
+                                    <td id="cut_off"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Description</th>
+                                    <td id="desc"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Provider</th>
+                                    <td id="provider"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Created At</th>
+                                    <td id="created_at"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Updated At</th>
+                                    <td id="updated_at"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -207,13 +209,20 @@
         var table = $('.dataTable').DataTable({
             processing: true,
             serverSide: true,
-            responsive: true,
             ajax: "{{ route('prabayar.index') }}",
             columnDefs: [{
-                "targets": "_all",
-                "className": "text-start"
+                // For Responsive
+                className: 'control',
+                orderable: false,
+                searchable: false,
+                responsivePriority: 3,
+                targets: 0,
+                render: function(data, type, full, meta) {
+                    return '';
+                }
             }],
             columns: columns,
+            responsive: true,
         });
 
         function refresh() {

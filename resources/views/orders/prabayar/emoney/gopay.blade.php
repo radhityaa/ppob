@@ -213,7 +213,7 @@
                 method: "GET",
                 data: {
                     category: 'E-Money',
-                    brand: 'GRAB'
+                    brand: 'GO PAY'
                 },
                 success: function(res) {
                     if (res.status) {
@@ -256,7 +256,7 @@
             var servicesContainer = $('#services')
 
             $.ajax({
-                url: "{{ route('prabayar.emoney.grab') }}",
+                url: "{{ route('prabayar.emoney.gopay') }}",
                 method: "GET",
                 data: {
                     type,

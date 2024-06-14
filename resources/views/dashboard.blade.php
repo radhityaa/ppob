@@ -49,7 +49,7 @@
                                 <i class="ti ti-coins ti-sm"></i>
                             </div>
                             <div class="card-info">
-                                <h5 class="mb-0">230k</h5>
+                                <h5 class="mb-0">Rp. {{ number_format($usedBalanceToday, 0, '.', '.') }}</h5>
                                 <small>Saldo Terpakai Hari Ini</small>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                 <i class="ti ti-coins ti-sm"></i>
                             </div>
                             <div class="card-info">
-                                <h5 class="mb-0">8.549k</h5>
+                                <h5 class="mb-0">Rp. {{ number_format($usedBalanceMonth, 0, '.', '.') }}</h5>
                                 <small>Saldo Terpakai Bulan Ini</small>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                 <i class="ti ti-shopping-cart ti-sm"></i>
                             </div>
                             <div class="card-info">
-                                <h5 class="mb-0">1.423k</h5>
+                                <h5 class="mb-0">{{ $transactionsToday }}</h5>
                                 <small>Transaksi Hari Ini</small>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                 <i class="ti ti-shopping-cart ti-sm"></i>
                             </div>
                             <div class="card-info">
-                                <h5 class="mb-0">$9745</h5>
+                                <h5 class="mb-0">{{ $transactionsMonth }}</h5>
                                 <small>Transaksi Bulan Ini</small>
                             </div>
                         </div>
@@ -113,27 +113,4 @@
         </div>
     @endforeach
     {{-- /Menu Service --}}
-
-    <!-- Transaction table -->
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title mb-0">Riwayat Transaksi Hari Ini</h5>
-        </div>
-        <div class="table-responsive card-datatable">
-            <table class="table datatable-invoice border-top">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>ID</th>
-                        <th><i class="ti ti-trending-up text-secondary"></i></th>
-                        <th>Total</th>
-                        <th>Issued Date</th>
-                        <th>Invoice Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-    <!-- /Transaction table -->
 @endsection

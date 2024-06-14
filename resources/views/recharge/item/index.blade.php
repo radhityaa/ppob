@@ -42,51 +42,53 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalRecharge" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRechargeItem">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="" id="form-recharge-item">
-                        <div class="col mb-3">
-                            <label for="recharge_title_id" class="form-label">Recharge Title</label>
-                            <select name="recharge_title_id" id="recharge_title_id" class="form-control">
-                                @foreach (getRechargeTitles() as $item)
-                                    <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="row">
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade" id="modalRecharge" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRechargeItem">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="" id="form-recharge-item">
                             <div class="col mb-3">
-                                <label for="label" class="form-label">Label</label>
-                                <input type="text" id="label" name="label" class="form-control" placeholder="Kuota"
-                                    required />
+                                <label for="recharge_title_id" class="form-label">Recharge Title</label>
+                                <select name="recharge_title_id" id="recharge_title_id" class="form-control">
+                                    @foreach (getRechargeTitles() as $item)
+                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="col mb-3">
-                                <label for="route" class="form-label">Route</label>
-                                <input type="text" id="route" name="route" class="form-control"
-                                    placeholder="Route Name" required />
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="label" class="form-label">Label</label>
+                                    <input type="text" id="label" name="label" class="form-control"
+                                        placeholder="Kuota" required />
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="route" class="form-label">Route</label>
+                                    <input type="text" id="route" name="route" class="form-control"
+                                        placeholder="Route Name" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" name="image" id="image" class="form-control" required>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="image" class="form-label">Image</label>
+                                    <input type="file" name="image" id="image" class="form-control" required>
+                                </div>
                             </div>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-save">Simpan</button>
+                        <x-button-loading />
+                    </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-save">Simpan</button>
-                    <x-button-loading />
-                </div>
-                </form>
             </div>
         </div>
     </div>

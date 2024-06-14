@@ -29,7 +29,7 @@ class TransferController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<button id="detailTf" data-invoice="' . $row->invoice . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
+                    $actionBtn = '<button id="detailTf" data-invoice="' . $row->invoice . '" class="btn btn-info btn-sm me-1"><i class="ti ti-eye"></i></button>';
 
                     return '<div class="d-flex">' . $actionBtn . '</div>';
                 })

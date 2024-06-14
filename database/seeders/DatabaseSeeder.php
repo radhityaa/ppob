@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
             UserRolePermissionSeeder::class,
             NavigationSeeder::class,
             HeroSeeder::class,
+            SettingProviderSeeder::class,
+            SettingPaymentGatewaySeeder::class,
+            SettingProviderProductSeeder::class
         ]);
     }
 }

@@ -36,7 +36,7 @@
                         <th>Invoice</th>
                         <th>Tujuan</th>
                         <th>Total</th>
-                        <th>Keterangan</th>
+                        <th>Ket</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -44,84 +44,90 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalTransfer" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTransferTitle">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="" id="form">
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <select name="username" id="username" class="select2 form-select" required>
-                                </select>
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade" id="modalTransfer" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTransferTitle">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="" id="form">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <select name="username" id="username" class="select2 form-select" required>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="amount" class="form-label">Nominal</label>
-                                <input type="text" id="amount" name="amount" class="form-control" required />
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="amount" class="form-label">Nominal</label>
+                                    <input type="text" id="amount" name="amount" class="form-control" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="description" id="description" class="form-label">Keterangan (Opsional)</label>
-                                <textarea name="description" id="description" class="form-control"></textarea>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="description" id="description" class="form-label">Keterangan
+                                        (Opsional)</label>
+                                    <textarea name="description" id="description" class="form-control"></textarea>
+                                </div>
                             </div>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-transfer">Transfer</button>
+                        <x-button-loading />
+                    </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-transfer">Transfer</button>
-                    <x-button-loading />
-                </div>
-                </form>
             </div>
+
         </div>
     </div>
 
-    <!-- Modal Detail-->
-    <div class="modal fade modal-sm" id="modalDetailTransfer" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetailTransferTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-0">
-                    <table class="table">
-                        <thead>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            <tr>
-                                <th class="fw-semibold">Tanggal</th>
-                                <td class="fw-bold" id="date"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Tujuan</th>
-                                <td id="username-detail"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Total</th>
-                                <td id="amount-detail"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Ket</th>
-                                <td id="description-detail"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
+    <div class="mt-3">
+        <!-- Modal Detail-->
+        <div class="modal fade modal-sm" id="modalDetailTransfer" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalDetailTransferTitle"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <table class="table">
+                            <thead>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                <tr>
+                                    <th class="fw-semibold">Tanggal</th>
+                                    <td class="fw-bold" id="date"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Tujuan</th>
+                                    <td id="username-detail"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Total</th>
+                                    <td id="amount-detail"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Ket</th>
+                                    <td id="description-detail"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,11 +148,17 @@
         var table = $('.dataTable').DataTable({
             processing: true,
             serverSide: true,
-            responsive: true,
             ajax: "{{ route('transfer.index') }}",
             columnDefs: [{
-                "targets": "_all",
-                "className": "text-start"
+                // For Responsive
+                className: 'control',
+                orderable: false,
+                searchable: false,
+                responsivePriority: 3,
+                targets: 0,
+                render: function(data, type, full, meta) {
+                    return '';
+                }
             }],
             columns: [{
                     data: 'DT_RowIndex',
@@ -178,7 +190,8 @@
                     orderable: false,
                     searchable: false
                 }
-            ]
+            ],
+            responsive: true,
         });
 
         function refresh() {

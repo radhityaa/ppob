@@ -75,8 +75,8 @@ class OrderController extends Controller
     public function dana(Request $request)
     {
         if ($request->ajax()) {
-            $result = MyHelper::getSingleEmoney('E-Money', 'Dana');
-            return response()->json($result);
+            $data = MyHelper::getEmoneyServices($request->type, 'Dana');
+            return response()->json($data['data']);
         }
 
         $title = 'Isi Ulang Dana';
@@ -87,8 +87,8 @@ class OrderController extends Controller
     public function ovo(Request $request)
     {
         if ($request->ajax()) {
-            $result = MyHelper::getSingleEmoney('E-Money', 'OVO');
-            return response()->json($result);
+            $data = MyHelper::getEmoneyServices($request->type, 'OVO');
+            return response()->json($data['data']);
         }
 
         $title = 'Isi Ulang OVO';
@@ -99,19 +99,24 @@ class OrderController extends Controller
     public function grab(Request $request)
     {
         if ($request->ajax()) {
-            $data = Prabayar::where([
-                'category' => 'E-Money',
-                'brand' => 'GRAB',
-                'type' => $request->type
-            ])
-                ->orderByRaw('CAST(price AS DECIMAL(10, 2))')
-                ->get();
-
-            return response()->json($data);
+            $data = MyHelper::getEmoneyServices($request->type, 'Grab');
+            return response()->json($data['data']);
         }
 
         $title = 'Isi Ulang Grab';
 
         return view('orders.prabayar.emoney.grab', compact('title'));
+    }
+
+    public function gopay(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = MyHelper::getEmoneyServices($request->type, 'GO PAY');
+            return response()->json($data['data']);
+        }
+
+        $title = 'Isi Ulang Gopay';
+
+        return view('orders.prabayar.emoney.gopay', compact('title'));
     }
 }

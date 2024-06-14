@@ -204,14 +204,15 @@
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                     class="ti ti-send ti-xs me-2"></i>Kirim Invoice</span>
                         </button>
-                        <button class="btn btn-success d-grid w-100 mb-2">
-                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                    class="ti ti-printer ti-xs me-2"></i>Print</span>
-                        </button>
-                        <button class="btn btn-primary d-grid w-100 mb-2">
-                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i
-                                    class="ti ti-download ti-xs me-2"></i>Download</span>
-                        </button>
+                        <form action="{{ route('deposit.print') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="invoice" id="invoice" value="{{ $deposit->invoice }}">
+
+                            <button type="submit" class="btn btn-success d-grid w-100 mb-2">
+                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                        class="ti ti-printer ti-xs me-2"></i>Print</span>
+                            </button>
+                        </form>
                         @if ($deposit->status === 'unpaid')
                             <button class="btn btn-danger d-grid w-100 mb-2" id="cancel">
                                 <span class="d-flex align-items-center justify-content-center text-nowrap"><i

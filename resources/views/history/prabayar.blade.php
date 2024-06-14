@@ -123,57 +123,86 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade modal-sm" id="modalDetail" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetailTitle">Detail Transaksi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade modal-sm" id="modalDetail" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalDetailTitle">Detail Transaksi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <table class="table">
+                            <thead>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                <td class="d-none" id="buyer_sku_code"></td>
+                                <tr>
+                                    <th class="fw-semibold">Tanggal</th>
+                                    <td class="fw-bold" id="date"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Tujuan</th>
+                                    <td id="target"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Produk</th>
+                                    <td id="product_name"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">SN</th>
+                                    <td id="sn"><span id="sn-text"></span> <span class="copy-text-detail"
+                                            data-sn="" id="copy-sn-detail">(copy)</span></td>
+                                </tr>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Ket</th>
+                                    <td id="message"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Harga</th>
+                                    <td id="price"></td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-semibold">Status</th>
+                                    <td id="status"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body p-0">
-                    <table class="table">
-                        <thead>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            <td class="d-none" id="buyer_sku_code"></td>
-                            <tr>
-                                <th class="fw-semibold">Tanggal</th>
-                                <td class="fw-bold" id="date"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Tujuan</th>
-                                <td id="target"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Produk</th>
-                                <td id="product_name"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">SN</th>
-                                <td id="sn"><span id="sn-text"></span> <span class="copy-text-detail"
-                                        data-sn="" id="copy-sn-detail">(copy)</span></td>
-                            </tr>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Ket</th>
-                                <td id="message"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Harga</th>
-                                <td id="price"></td>
-                            </tr>
-                            <tr>
-                                <th class="fw-semibold">Status</th>
-                                <td id="status"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Close
-                    </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        {{-- Modal Share --}}
+        <div class="modal fade modal-sm" id="modalShare" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row gap-2">
+                            <div class="col-12">
+                                <button class="w-100 btn btn-success"><i class="ti ti-brand-whatsapp"></i>
+                                    Whatsapp</button>
+                            </div>
+                            <div class="col-12">
+                                <form action="{{ route('history.prabayar.print') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="invoice" id="invoice">
+                                    <button type="submit" id="print" class="w-100 btn btn-info"><i
+                                            class="ti ti-printer"></i>
+                                        Print</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,11 +222,17 @@
         var table = $('.dataTable').DataTable({
             processing: true,
             serverSide: true,
-            responsive: true,
             ajax: "{{ route('history.prabayar') }}",
             columnDefs: [{
-                "targets": "_all",
-                "className": "text-start"
+                // For Responsive
+                className: 'control',
+                orderable: false,
+                searchable: false,
+                responsivePriority: 3,
+                targets: 0,
+                render: function(data, type, full, meta) {
+                    return '';
+                }
             }],
             columns: [{
                     data: 'DT_RowIndex',
@@ -237,7 +272,8 @@
                     orderable: false,
                     searchable: false
                 }
-            ]
+            ],
+            responsive: true,
         });
 
         function refresh() {
@@ -287,6 +323,13 @@
                 }
             })
         })
+
+        $('body').on('click', '#share', function() {
+            $('#modalShare').modal('show')
+            var invoice = $(this).data('invoice')
+            $('#invoice').val(invoice)
+        })
+
 
         $(document).ready(function() {
             $('body').on('click', '.copy-text', function() {

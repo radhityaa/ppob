@@ -12,12 +12,18 @@ class CategoryController extends Controller
         $target = $request->target;
         $prefix = substr($target, 0, 4);
 
-        $result = MyHelper::CategoryKuota($prefix);
+        $result = MyHelper::getTypePrabayar($prefix);
 
         return response()->json([
             'status' => $result['status'],
             'message' => $result['message'],
             'data' => $result['data'],
         ]);
+    }
+
+    public function show(Request $request)
+    {
+        $data = MyHelper::getType($request->category, $request->brand);
+        return response()->json($data);
     }
 }

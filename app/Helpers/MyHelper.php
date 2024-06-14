@@ -6,6 +6,30 @@ use App\Models\Prabayar;
 
 class MyHelper
 {
+    public static function terbilang($number)
+    {
+        $units = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
+        if ($number < 12) {
+            return $units[$number];
+        } elseif ($number < 20) {
+            return $units[$number - 10] . " belas";
+        } elseif ($number < 100) {
+            return $units[(int)($number / 10)] . " puluh " . self::terbilang($number % 10);
+        } elseif ($number < 200) {
+            return "seratus " . self::terbilang($number - 100);
+        } elseif ($number < 1000) {
+            return $units[(int)($number / 100)] . " ratus " . self::terbilang($number % 100);
+        } elseif ($number < 2000) {
+            return "seribu " . self::terbilang($number - 1000);
+        } elseif ($number < 1000000) {
+            return self::terbilang((int)($number / 1000)) . " ribu " . self::terbilang($number % 1000);
+        } elseif ($number < 1000000000) {
+            return self::terbilang((int)($number / 1000000)) . " juta " . self::terbilang($number % 1000000);
+        } else {
+            return "nomor terlalu besar";
+        }
+    }
+
     public static function ListPulsa($prefix)
     {
         $cases = [
@@ -423,7 +447,7 @@ class MyHelper
         return compact('status', 'data', 'message');
     }
 
-    public static function CategoryKuota($prefix)
+    public static function getTypePrabayar($prefix)
     {
         $cases = [
             // Telkomsel
@@ -765,9 +789,40 @@ class MyHelper
         return compact('status', 'data', 'message');
     }
 
-    public static function getSingleEmoney($category, $brand)
+    public static function getType($category, $brand)
     {
-        $data = Prabayar::where('category', $category)->where('brand', $brand)->orderByRaw('CAST(price AS DECIMAL(10, 2))')->get();
+        $data = Prabayar::select('type')
+            ->where(['category' => $category, 'brand' => $brand])
+            ->orderByRaw('CAST(price AS DECIMAL(10, 2))')
+            ->pluck('type')
+            ->unique();
+        $data->toArray();
+
+        if ($data) {
+            return [
+                'status'    => true,
+                'message'   => $brand,
+                'data'      => $data,
+            ];
+        }
+
+        return [
+            'status'    => false,
+            'message'   => 'Tidak Diketahui',
+            'data'      => null,
+        ];
+    }
+
+    public static function getEmoneyServices($type, $brand)
+    {
+        $data = Prabayar::where([
+            'category' => 'E-Money',
+            'brand' => $brand,
+            'type' => $type
+        ])
+            ->orderByRaw('CAST(price AS DECIMAL(10, 2))')
+            ->get();
+
         if ($data) {
             return [
                 'status'    => true,

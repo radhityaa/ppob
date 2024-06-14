@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CekBillController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\EnvController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\OrderController;
@@ -15,6 +16,9 @@ use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Setting\Landingpage\HeroController;
 use App\Http\Controllers\SettingMarginController;
+use App\Http\Controllers\SettingPaymentGatewayController;
+use App\Http\Controllers\SettingProviderController;
+use App\Http\Controllers\SettingProviderProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
@@ -43,6 +47,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::resource('deposit', DepositController::class);
     Route::post('deposit-cancel/{deposit}', [DepositController::class, 'cancel'])->name('deposit.cancel');
     Route::post('deposit-confirm/{deposit}', [DepositController::class, 'confirm'])->name('deposit.confirm');
+    Route::post('deposit-print', [DepositController::class, 'print'])->name('deposit.print');
 
     // Transfer Saldo
     Route::prefix('transfer')->name('transfer.')->group(function () {
@@ -81,6 +86,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     // History Transaction
     Route::prefix('history')->name('history.')->group(function () {
         Route::get('prabayar', [PrabayarController::class, 'history'])->name('prabayar');
+        Route::post('prabayar/print', [PrabayarController::class, 'print'])->name('prabayar.print');
         Route::get('prabayar/{invoice}', [PrabayarController::class, 'historyDetail'])->name('prabayar.detail');
     });
 
@@ -124,12 +130,23 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         Route::prefix('env')->name('env.')->group(function () {
             Route::singleton('', EnvController::class);
         });
+
+        // Provider
+        Route::prefix('provider')->name('provider.')->group(function () {
+
+            // Setting
+            Route::get('setting', [SettingProviderController::class, 'setting'])->name('setting');
+            Route::put('setting/{slug}', [SettingProviderController::class, 'update'])->name('update');
+            Route::get('setting/{slug}', [SettingProviderController::class, 'edit'])->name('edit');
+
+            Route::get('change', [SettingProviderController::class, 'change'])->name('change');
+        });
     });
 
     // Get Category
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('kuota', [CategoryController::class, 'kuota'])->name('kuota');
-        Route::get('grab', [CategoryController::class, 'grab'])->name('grab');
+        Route::get('get', [CategoryController::class, 'show'])->name('show');
     });
 
     // Check Bill
@@ -148,6 +165,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('dana', [OrderController::class, 'dana'])->name('dana');
             Route::get('ovo', [OrderController::class, 'ovo'])->name('ovo');
             Route::get('grab', [OrderController::class, 'grab'])->name('grab');
+            Route::get('gopay', [OrderController::class, 'gopay'])->name('gopay');
         });
     });
 });

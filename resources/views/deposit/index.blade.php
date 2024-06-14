@@ -81,7 +81,6 @@
         </div>
     </div>
 
-    <!-- Invoice List Table -->
     <div class="card">
         <div class="d-flex justify-content-end py-2">
             <button class="btn btn-primary btn-sm" onclick="refresh()">Refresh</button>
@@ -120,8 +119,15 @@
             serverSide: true,
             ajax: "{{ route('deposit.index') }}",
             columnDefs: [{
-                "targets": "_all",
-                "className": "text-start"
+                // For Responsive
+                className: 'control',
+                orderable: false,
+                searchable: false,
+                responsivePriority: 2,
+                targets: 0,
+                render: function(data, type, full, meta) {
+                    return '';
+                }
             }],
             columns: [{
                     data: 'DT_RowIndex',
@@ -157,8 +163,10 @@
                     orderable: false,
                     searchable: false
                 }
-            ]
+            ],
+            responsive: true,
         });
+
 
         function refresh() {
             table.ajax.reload(null, false)

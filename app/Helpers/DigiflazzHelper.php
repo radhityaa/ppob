@@ -2,39 +2,45 @@
 
 namespace App\Helpers;
 
+use App\Models\SettingProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class DigiflazzHelper
 {
+    public static function getData()
+    {
+        return SettingProvider::where('name', 'digiflazz')->first();
+    }
+
     public static function getMode()
     {
-        return env('DIGIFLAZZ_MODE');
+        return self::getData()->mode;
     }
 
     public static function getUsername()
     {
-        return env('DIGIFLAZZ_USERNAME');
+        return self::getData()->username;
     }
 
     public static function getKey()
     {
-        return env('DIGIFLAZZ_KEY');
+        return self::getData()->api_key;
     }
 
     public static function getWebhookId()
     {
-        return env('DIGIFLAZZ_WEBHOOK_ID');
+        return self::getData()->webhook_id;
     }
 
     public static function getWebhookUrl()
     {
-        return env('DIGIFLAZZ_WEBHOOK_URL');
+        return self::getData()->webhook_url;
     }
 
     public static function getWebhookSecret()
     {
-        return env('DIGIFLAZZ_WEBHOOK_SECRET');
+        return self::getData()->webhook_secret;
     }
 
     public static function getSign(string $type)

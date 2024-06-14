@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyHelper;
 use App\Helpers\TripayHelper;
 use App\Models\Deposit;
 use App\Models\PaymentMethod;
@@ -219,11 +220,18 @@ class DepositController extends Controller
     public function show(Deposit $deposit)
     {
         $title = 'Invoice : ' . $deposit->invoice;
-        $terbilang = TripayHelper::terbilang($deposit->total);
+        $terbilang = MyHelper::terbilang($deposit->total);
         $paymentMethod = PaymentMethod::where('code', $deposit->method)->first();
         $depositType = $paymentMethod?->group;
 
         return view('deposit.show', compact('deposit', 'title', 'terbilang', 'depositType'));
+    }
+
+    public function print(Request $request)
+    {
+        $deposit = Deposit::where('invoice', $request->invoice)->first();
+        $terbilang = MyHelper::terbilang($deposit->total);
+        return view('deposit.print', compact('deposit', 'terbilang'));
     }
 
     /**

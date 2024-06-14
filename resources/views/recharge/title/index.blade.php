@@ -39,32 +39,34 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalRecharge" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRechargeTitle">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="" id="form-recharge-title">
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="title" class="form-label">Title</label>
-                                <input type="text" id="title" name="title" class="form-control"
-                                    placeholder="E-Money" required />
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade" id="modalRecharge" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRechargeTitle">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="" id="form-recharge-title">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" id="title" name="title" class="form-control"
+                                        placeholder="E-Money" required />
+                                </div>
                             </div>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-save">Simpan</button>
+                        <x-button-loading />
+                    </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        Tutup
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-save">Simpan</button>
-                    <x-button-loading />
-                </div>
-                </form>
             </div>
         </div>
     </div>

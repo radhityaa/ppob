@@ -167,7 +167,7 @@ class PrabayarController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button data-invoice="' . $row->invoice . '" id="detail" class="btn btn-info btn-sm me-1"><i class="ti ti-eye"></i></button>';
-                    $actionBtn .= '<a href="#" class="btn btn-success btn-sm me-1"><i class="ti ti-share"></i></a>';
+                    $actionBtn .= '<button id="share" data-invoice="' . $row->invoice . '" class="btn btn-success btn-sm me-1"><i class="ti ti-share"></i></button>';
 
                     return '<div class="d-flex">' . $actionBtn . '</div>';
                 })
@@ -210,5 +210,11 @@ class PrabayarController extends Controller
         $data = Transaction::where('invoice', $invoice)->first();
 
         return response()->json($data);
+    }
+
+    public function print(Request $request)
+    {
+        $trx = Transaction::where('invoice', $request->invoice)->first();
+        return view('history.print', compact('trx'));
     }
 }

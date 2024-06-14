@@ -26,6 +26,7 @@
             font-size: 12px;
             width: 100%;
             padding-top: 10px;
+            padding-bottom: 5px;
             border-collapse: collapse;
         }
 
@@ -106,9 +107,11 @@
         </tr>
     </table>
 
+    <span>===========================================</span>
+
     <div style="text-align: center;">
-        <h2 style="font-weight:bold;">TERIMA KASIH</h2>
-        <div style="font-size: 0.7rem">
+        <h2 style="font-weight:bold; font-size: 13px;">TERIMA KASIH</h2>
+        <div style="font-size: 11px;">
             Tersedia Pulsa, Kuota, E-Money, Token PLN, Bayar Listrik, PDAM, Telkom, Internet, Wifi, Voucher Data, Topup
             Game Dan Pembayaran Lainnya
         </div>

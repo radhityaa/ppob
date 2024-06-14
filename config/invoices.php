@@ -63,12 +63,12 @@ return [
          * Supported tags {VALUE}, {SYMBOL}, {CODE}
          * Example: 1.99 €
          */
-        'format' => '{VALUE} {SYMBOL}',
+        'format' => '{SYMBOL}{VALUE}',
     ],
 
     'paper' => [
         // A4 = 210 mm x 297 mm = 595 pt x 842 pt
-        'size'        => 'a6',
+        'size'        => 'a7',
         'orientation' => 'portrait',
     ],
 
@@ -110,6 +110,7 @@ return [
          * Do not write log.html or make it optional
          *  @see https://github.com/dompdf/dompdf/issues/2810
          */
-        'logOutputFile' => '/dev/null',
+        // 'logOutputFile' => '/dev/null',
+        'logOutputFile' => '',
     ],
 ];

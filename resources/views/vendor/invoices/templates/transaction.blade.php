@@ -5,23 +5,16 @@
     <title>{{ $invoice->name }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {{-- <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900&family=Roboto+Mono:wght@400;500;600;700&display=swap"
-        rel="stylesheet"> --}}
-
     <style type="text/css" media="screen">
         html {
-            font-family: "Roboto Mono";
+            font-family: "Noto Sans";
             line-height: 1.15;
             margin: 0;
         }
 
         body {
-            font-family: "Roboto Mono", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             font-weight: 400;
-            line-height: 1.5;
             color: #212529;
             text-align: left;
             background-color: #fff;
@@ -30,16 +23,16 @@
         }
 
         table {
-            font-size: 13px;
+            font-size: 12px;
             width: 100%;
+            padding-top: 10px;
             border-collapse: collapse;
-            margin-top: 20px;
         }
 
         th,
         td {
             text-align: left;
-            padding: 5px;
+            padding: 2px;
         }
 
         th {
@@ -58,22 +51,24 @@
 </head>
 
 <body>
-    {{-- Header --}}
-    {{-- @if ($invoice->logo)
-        <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
-    @endif --}}
 
     <div style="text-align: center">
-        <div style="line-height: 20px; font-size: 13pt;"><strong>{{ $invoice->name }}</strong></div>
-        <div style="line-height: 20px; font-size: 13pt;"><strong>** Shafa Cell **</strong></div>
-        <div style="margin-top: 2px; line-height: 20px; font-size: 10pt">{{ $invoice->getDate() }}</div>
-
-        <span style="font-size: 15pt"><strong>Struk Pembelian</strong></span>
+        <div style="line-height: 15px; font-size: 17px;"><strong>** Shafa Cell **</strong></div>
+        <div style="line-height: 10px; font-size: 10px; padding-bottom: 6px; padding-top: 6px;">Perum Bumi Cengkong
+            Lestari Blok B5 No. 12,
+            Cengkong, Purwasari,
+            Karawang</div>
+        <span>===========================================</span>
     </div>
 
     <table>
         <tr>
-            <td class="label">No. Invoice</td>
+            <td class="label">Tanggal</td>
+            <td class="separator">:</td>
+            <td>{{ $invoice->getDate() }}</td>
+        </tr>
+        <tr>
+            <td class="label">Invoice</td>
             <td class="separator">:</td>
             <td>{{ $invoice->getSerialNumber() }}</td>
         </tr>
@@ -85,7 +80,7 @@
             </tr>
         @endforeach
         <tr>
-            <td class="label">Nomor Tujuan</td>
+            <td class="label">Tujuan</td>
             <td class="separator">:</td>
             <td>{{ $invoice->seller->target }}</td>
         </tr>
@@ -111,12 +106,12 @@
         </tr>
     </table>
 
-    <div style="text-align: center; font-weight:bold; margin-top: 20px;">
-        <h1>TERIMA KASIH</h1>
-        <div style="font-size: 0.7rem">{{ $invoice->seller->name }}</div>
-        <div style="font-size: 0.7rem">{{ $invoice->seller->email }}</div>
-        <div style="font-size: 0.7rem">{{ $invoice->seller->phone }}</div>
-        <div style="font-size: 0.7rem">Perum Bumi Cengkong Lestari, Cengkong, Purwasari, Karawang</div>
+    <div style="text-align: center;">
+        <h2 style="font-weight:bold;">TERIMA KASIH</h2>
+        <div style="font-size: 0.7rem">
+            Tersedia Pulsa, Kuota, E-Money, Token PLN, Bayar Listrik, PDAM, Telkom, Internet, Wifi, Voucher Data, Topup
+            Game Dan Pembayaran Lainnya
+        </div>
     </div>
 
     <script type="text/php">

@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('username')->unique();
             $table->string('phone')->unique();
             $table->string('email')->unique();
+            $table->string('shop_name');
+            $table->text('address');
             $table->enum('status', ['aktif', 'ban', 'suspend'])->default('aktif')->nullable();
             $table->double('saldo')->default(0)->nullable();
             $table->timestamp('email_verified_at')->nullable();

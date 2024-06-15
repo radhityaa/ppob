@@ -54,11 +54,9 @@
 <body>
 
     <div style="text-align: center">
-        <div style="line-height: 15px; font-size: 17px;"><strong>** Shafa Cell **</strong></div>
-        <div style="line-height: 10px; font-size: 10px; padding-bottom: 6px; padding-top: 6px;">Perum Bumi Cengkong
-            Lestari Blok B5 No. 12,
-            Cengkong, Purwasari,
-            Karawang</div>
+        <div style="line-height: 15px; font-size: 17px;"><strong>** {{ Auth::user()->shop_name }} **</strong></div>
+        <div style="line-height: 10px; font-size: 10px; padding-bottom: 6px; padding-top: 6px;">
+            {{ Auth::user()->address }}</div>
         <span>===========================================</span>
     </div>
 

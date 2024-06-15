@@ -26,7 +26,6 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>User</th>
                         <th>Name</th>
                         <th>Mode</th>
                         <th>Type</th>
@@ -140,10 +139,6 @@
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
-                },
-                {
-                    data: 'user.slug',
-                    name: 'user.slug'
                 },
                 {
                     data: 'name',

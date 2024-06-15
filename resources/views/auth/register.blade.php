@@ -25,42 +25,72 @@
                 </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-1 pt-2">Daftar Akun Baru 🚀</h4>
-            <p class="mb-4">Silahkan isi formulir di bawah</p>
+            <div class="text-center">
+                <h4 class="mb-1 pt-2">Daftar Akun Baru 🚀</h4>
+                <p class="mb-4">Silahkan isi formulir di bawah</p>
+            </div>
 
             <form id="formAuthentication" class="mb-3" action="{{ route('register') }}" method="POST">
                 @csrf
 
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nama Lengkap</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                        value="{{ old('name') }}" name="name" autocomplete="name" placeholder="Nama Lengkap" autofocus
-                        required />
+                <div class="row">
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="name" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            value="{{ old('name') }}" name="name" autocomplete="name" placeholder="Nama Lengkap"
+                            autofocus required />
 
-                    @error('name')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="username"
+                            value="{{ old('username') }}" name="username" autocomplete="username" placeholder="Username"
+                            autofocus required />
+
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="phone" class="form-label">No. HP</label>
+                        <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="089xxxxxxxx"
+                            required />
+
+                        @error('phone')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            value="{{ old('email') }}" name="email" autocomplete="email" placeholder="example@mail.com"
+                            required />
+
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">No. HP</label>
-                    <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
-                        value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="089xxxxxxxx" required />
+                    <label for="address" class="form-label">Alamat</label>
+                    <textarea name="address" id="address" placeholder="Alamat Toko"
+                        class="form-control @error('address') is-invalid @enderror" required>{{ old('address') }}</textarea>
 
-                    @error('phone')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                        value="{{ old('email') }}" name="email" autocomplete="email" placeholder="example@mail.com"
-                        required />
-
-                    @error('email')
+                    @error('address')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -104,24 +134,6 @@
                     <span>Login</span>
                 </a>
             </p>
-
-            <div class="divider my-4">
-                <div class="divider-text">or</div>
-            </div>
-
-            <div class="d-flex justify-content-center">
-                <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
-                    <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>
-                </a>
-
-                <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
-                    <i class="tf-icons fa-brands fa-google fs-5"></i>
-                </a>
-
-                <a href="javascript:;" class="btn btn-icon btn-label-twitter">
-                    <i class="tf-icons fa-brands fa-twitter fs-5"></i>
-                </a>
-            </div>
         </div>
     </div>
 @endsection

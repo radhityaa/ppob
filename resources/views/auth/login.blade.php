@@ -32,12 +32,12 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
-                        name="email" value="{{ old('email') }}" autocomplete="email" placeholder="example@mail.com"
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
+                        name="username" value="{{ old('username') }}" autocomplete="username" placeholder="example@mail.com"
                         autofocus required />
 
-                    @error('email')
+                    @error('username')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -83,24 +83,6 @@
                     <span>Buat akun baru</span>
                 </a>
             </p>
-
-            <div class="divider my-4">
-                <div class="divider-text">or</div>
-            </div>
-
-            <div class="d-flex justify-content-center">
-                <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
-                    <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>
-                </a>
-
-                <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
-                    <i class="tf-icons fa-brands fa-google fs-5"></i>
-                </a>
-
-                <a href="javascript:;" class="btn btn-icon btn-label-twitter">
-                    <i class="tf-icons fa-brands fa-twitter fs-5"></i>
-                </a>
-            </div>
         </div>
     </div>
 @endsection

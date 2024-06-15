@@ -14,7 +14,6 @@ class SettingPaymentGatewaySeeder extends Seeder
     public function run(): void
     {
         SettingPaymentGateway::create([
-            'user_id' => 1,
             'setting_provider_id' => 1,
         ]);
     }

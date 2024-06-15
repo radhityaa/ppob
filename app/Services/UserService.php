@@ -42,10 +42,10 @@ class UserService
             ->addColumn('action', function ($row) {
                 $actionBtn = '';
                 if (Gate::allows('update users')) {
-                    $actionBtn = '<button type="button" id="edit-user" data-slug="' . $row->slug . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-pencil"></i></button>';
+                    $actionBtn = '<button type="button" id="edit-user" data-username="' . $row->username . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-pencil"></i></button>';
                 }
                 if (Gate::allows('delete users')) {
-                    $actionBtn .= '<button type="button" id="delete-user" data-slug="' . $row->slug . '" class="deleteUser btn btn-danger btn-sm"><i class="ti ti-trash"></i></button>';
+                    $actionBtn .= '<button type="button" id="delete-user" data-username="' . $row->username . '" class="deleteUser btn btn-danger btn-sm"><i class="ti ti-trash"></i></button>';
                 }
 
                 return '<div class="d-flex">' . $actionBtn . '</div>';
@@ -87,7 +87,7 @@ class UserService
     {
         $user = User::create([
             'name' => $data['name'],
-            'slug' => Str::slug($data['name'] . '-' . randomLetters(6)),
+            'username' => $data['username'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'saldo' => formatRupiahToNumber($data['saldo']),

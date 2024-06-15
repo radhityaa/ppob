@@ -134,8 +134,8 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'user.slug',
-                    name: 'user.slug'
+                    data: 'user.username',
+                    name: 'user.username'
                 },
                 {
                     data: 'invoice',

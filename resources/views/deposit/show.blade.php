@@ -33,9 +33,8 @@
                                     </div>
                                     <span class="app-brand-text fw-bold fs-4"> {{ config('app.name') }} </span>
                                 </div>
-                                <p class="mb-2">Perum Bumi Cengkong Lestari</p>
-                                <p class="mb-2">Blok B5 No. 12, Cengkong, Purwasari, Karawang, Jawa Barat</p>
-                                <p class="mb-0">+62 895-3471-13987</p>
+                                <p class="mb-2" style="width: 400px;">{{ env('WEBSITE_ADDRESS') }}</p>
+                                <p class="mb-0">{{ env('WEBSITE_PHONE') }}</p>
                             </div>
                             <div>
                                 <h4 class="fw-medium mb-2">{{ $deposit->invoice }}</h4>
@@ -68,7 +67,7 @@
                             <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
                                 <h6 class="mb-3">Ditagih Ke:</h6>
                                 <p class="mb-1">{{ $deposit->user->name }}</p>
-                                <p class="mb-1">{{ $deposit->user->slug }}</p>
+                                <p class="mb-1">{{ $deposit->user->username }}</p>
                                 <p class="mb-1">{{ $deposit->user->phone }}</p>
                                 <p class="mb-1">{{ $deposit->user->email }}</p>
                             </div>

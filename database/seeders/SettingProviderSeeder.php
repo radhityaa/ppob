@@ -16,7 +16,6 @@ class SettingProviderSeeder extends Seeder
     {
         collect([
             [
-                'user_id' => 1,
                 'name' => 'tripay',
                 'slug' => Str::slug(Str::random()),
                 'mode' => 'dev',
@@ -26,7 +25,6 @@ class SettingProviderSeeder extends Seeder
                 'code' => 'T29295',
             ],
             [
-                'user_id' => 1,
                 'name' => 'digiflazz',
                 'slug' => Str::slug(Str::random()),
                 'mode' => 'dev',

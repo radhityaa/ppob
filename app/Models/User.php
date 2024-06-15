@@ -22,12 +22,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'slug',
+        'username',
+        'address',
         'phone',
         'email',
         'status',
         'saldo',
         'password',
+        'shop_name'
     ];
 
     /**
@@ -53,11 +55,6 @@ class User extends Authenticatable
 
     public function getRouteKeyName()
     {
-        return 'slug';
-    }
-
-    static function booted()
-    {
-        static::creating(fn (User $user) => $user->slug = Str::slug($user->name . '-' . randomLetters(6)));
+        return 'username';
     }
 }

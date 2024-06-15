@@ -78,8 +78,10 @@ class UserRolePermissionSeeder extends Seeder
     {
         $result['admin'] = User::create([
             'name' => $name = 'Admin',
-            'slug' => Str::slug($name . '-' . randomLetters(6)),
+            'shop_name' => $name,
+            'username' => 'admin123',
             'phone' => '123456789',
+            'address' => 'Perum Bumi Cengkong Lestari Blok B5 No.12 Rt 11/12, Cengkong, Purwasari, Karawang',
             'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -88,8 +90,10 @@ class UserRolePermissionSeeder extends Seeder
 
         $result['reseller'] = User::create([
             'name' => $name = 'Reseller',
-            'slug' => Str::slug($name . '-' . randomLetters(6)),
+            'shop_name' => $name,
+            'username' => 'reseller',
             'phone' => '123456289',
+            'address' => 'Perum Bumi Cengkong Lestari Blok B5 No.12 Rt 11/12, Cengkong, Purwasari, Karawang',
             'email' => 'reseller@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -98,8 +102,10 @@ class UserRolePermissionSeeder extends Seeder
 
         $result['agen'] = User::create([
             'name' => $name = 'agen',
-            'slug' => Str::slug($name . '-' . randomLetters(6)),
+            'shop_name' => $name,
+            'username' => 'agen123',
             'phone' => '123453789',
+            'address' => 'Perum Bumi Cengkong Lestari Blok B5 No.12 Rt 11/12, Cengkong, Purwasari, Karawang',
             'email' => 'agen@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -108,8 +114,10 @@ class UserRolePermissionSeeder extends Seeder
 
         $result['member'] = User::create([
             'name' => $name = 'member',
-            'slug' => Str::slug($name . '-' . randomLetters(6)),
+            'shop_name' => $name,
+            'username' => 'member',
             'phone' => '223453789',
+            'address' => 'Perum Bumi Cengkong Lestari Blok B5 No.12 Rt 11/12, Cengkong, Purwasari, Karawang',
             'email' => 'member@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

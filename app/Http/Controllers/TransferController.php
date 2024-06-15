@@ -51,7 +51,7 @@ class TransferController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        $target = User::where('slug', $request->username)->first();
+        $target = User::where('username', $request->username)->first();
         $request['user_id'] = Auth::user()->id;
         $request['invoice'] = invoice($request->user_id, 'TF', 'transfers');
 

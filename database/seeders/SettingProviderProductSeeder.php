@@ -14,7 +14,6 @@ class SettingProviderProductSeeder extends Seeder
     public function run(): void
     {
         SettingProviderProduct::create([
-            'user_id' => 1,
             'setting_provider_id' => 2,
         ]);
     }

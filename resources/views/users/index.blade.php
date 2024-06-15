@@ -66,8 +66,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-lg-6 mb-3">
-                                    <label for="slug" class="form-label">Username</label>
-                                    <input type="text" id="slug" name="slug" class="form-control" disabled />
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" id="username" name="username" class="form-control" disabled />
                                 </div>
                             </div>
                             <div class="row">
@@ -174,8 +174,8 @@
                     name: 'name'
                 },
                 {
-                    data: 'slug',
-                    name: 'slug'
+                    data: 'username',
+                    name: 'username'
                 },
                 {
                     data: 'role',
@@ -224,11 +224,11 @@
             var selectStatus = $('select#status')
             var selectRole = $('select#role')
 
-            let userSlug = $(this).data('slug');
-            let editUrl = "{!! route('users.show', ':slug') !!}"
-            editUrl = editUrl.replace(':slug', userSlug);
-            url = "{!! route('users.update', ':slug') !!}"
-            url = url.replace(':slug', userSlug);
+            let userUsername = $(this).data('username');
+            let editUrl = "{!! route('users.show', ':username') !!}"
+            editUrl = editUrl.replace(':username', userUsername);
+            url = "{!! route('users.update', ':username') !!}"
+            url = url.replace(':username', userUsername);
             method = "PUT"
 
             $.ajax({
@@ -242,7 +242,7 @@
                     $('#name').val(res.name)
                     $('#phone').val(res.phone)
                     $('#email').val(res.email)
-                    $('#slug').val(res.slug)
+                    $('#username').val(res.username)
                     $('#saldo').val(numberFormatIdr(res.saldo))
 
                     selectStatus.empty();
@@ -277,9 +277,9 @@
 
         // delete User
         $('body').on('click', '#delete-user', function() {
-            var userSlug = $(this).data('slug');
-            let deleteUrl = "{!! route('users.destroy', ':slug') !!}"
-            deleteUrl = deleteUrl.replace(':slug', userSlug);
+            var userUsername = $(this).data('username');
+            let deleteUrl = "{!! route('users.destroy', ':username') !!}"
+            deleteUrl = deleteUrl.replace(':username', userUsername);
 
             Swal.fire({
                 title: 'Are you sure?',

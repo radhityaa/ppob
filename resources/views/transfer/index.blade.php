@@ -214,7 +214,7 @@
                 option += '<option value="">-- Pilih Username --</option>';
 
                 $.each(res.data, function(i, val) {
-                    option += '<option value="' + val.slug + '">' + val.slug + '</option>';
+                    option += '<option value="' + val.username + '">' + val.username + '</option>';
                 });
                 wrapper.append(option);
             })
@@ -246,7 +246,7 @@
                 method: 'GET',
                 success: function(res) {
                     $('#modalDetailTransferTitle').html(res.invoice)
-                    $('#username-detail').html(res.user.slug)
+                    $('#username-detail').html(res.user.username)
                     $('#amount-detail').html(res.amount)
                     $('#description-detail').html(res.description)
                     $('#date').html(res.created_at)

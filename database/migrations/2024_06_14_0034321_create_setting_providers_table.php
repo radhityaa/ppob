@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('setting_providers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->string('name')->nullable();
             $table->string('slug')->unique();
             $table->enum('mode', ['dev', 'prod'])->default('dev');

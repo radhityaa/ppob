@@ -70,28 +70,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        DB::beginTransaction();
+        $user = User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'shop_name' => $data['name'],
+            'address' => $data['address'],
+            'email' => $data['email'],
+            'phone' => MyHelper::formatPhoneNumber($data['phone']),
+            'password' => Hash::make($data['password']),
+        ]);
 
-        try {
-            $user = User::create([
-                'name' => $data['name'],
-                'username' => $data['username'],
-                'shop_name' => $data['name'],
-                'address' => $data['address'],
-                'email' => $data['email'],
-                'phone' => MyHelper::formatPhoneNumber($data['phone']),
-                'password' => Hash::make($data['password']),
-            ]);
+        WhatsappHelper::createDevice($user);
 
-            WhatsappHelper::createDevice($user);
+        $user->assignRole('member');
 
-            $user->assignRole('member');
-
-            DB::commit();
-            return $user;
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            throw $th;
-        }
+        return $user;
     }
 }

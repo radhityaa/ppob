@@ -63,7 +63,7 @@
                     <div class="mb-3 col-12 col-lg-6">
                         <label for="phone" class="form-label">No. HP</label>
                         <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
-                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="089xxxxxxxx"
+                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="62xxxxxxxxxx"
                             required />
 
                         @error('phone')

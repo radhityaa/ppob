@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\MyHelper;
+use App\Helpers\WhatsappHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -66,18 +70,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
-            'shop_name' => $data['name'],
-            'address' => $data['address'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
-        ]);
+        DB::beginTransaction();
 
-        $user->assignRole('member');
+        try {
+            $user = User::create([
+                'name' => $data['name'],
+                'username' => $data['username'],
+                'shop_name' => $data['name'],
+                'address' => $data['address'],
+                'email' => $data['email'],
+                'phone' => MyHelper::formatPhoneNumber($data['phone']),
+                'password' => Hash::make($data['password']),
+            ]);
 
-        return $user;
+            WhatsappHelper::createDevice($user);
+
+            $user->assignRole('member');
+
+            DB::commit();
+            return $user;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 }

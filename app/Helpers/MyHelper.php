@@ -837,4 +837,18 @@ class MyHelper
             'data'      => null,
         ];
     }
+
+    public static function getWaUrl()
+    {
+        return env('APP_WA_URL');
+    }
+
+    public static function formatPhoneNumber($number)
+    {
+        if (substr($number, 0, 1) === '0') {
+            return '62' . substr($number, 1);
+        }
+
+        return $number;
+    }
 }

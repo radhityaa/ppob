@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
             HeroSeeder::class,
             SettingProviderSeeder::class,
             SettingPaymentGatewaySeeder::class,
-            SettingProviderProductSeeder::class
+            SettingProviderProductSeeder::class,
+            WhatsappGatewaySeeder::class,
         ]);
     }
 }

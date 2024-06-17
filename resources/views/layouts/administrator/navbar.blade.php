@@ -184,6 +184,14 @@
             </li>
         @endrole
 
+        {{-- Whatsapp Gateway --}}
+        <li class="menu-item {{ request()->is('whatsapp*') ? 'active' : '' }}">
+            <a href="{{ route('whatsapp.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-brand-whatsapp"></i>
+                <div>Whatsapp Gateway</div>
+            </a>
+        </li>
+
         <!-- Misc -->
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text" data-i18n="Misc">Misc</span>

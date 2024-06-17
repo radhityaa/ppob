@@ -24,6 +24,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\WhatsappGatewayController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -167,6 +168,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('grab', [OrderController::class, 'grab'])->name('grab');
             Route::get('gopay', [OrderController::class, 'gopay'])->name('gopay');
         });
+    });
+
+    Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
+        Route::get('', [WhatsappGatewayController::class, 'index'])->name('index');
+        Route::post('{number}/update-status', [WhatsappGatewayController::class, 'updateStatus'])->name('updateStatus');
+        Route::get('scan/{number}', [WhatsappGatewayController::class, 'scan'])->name('scan');
     });
 });
 

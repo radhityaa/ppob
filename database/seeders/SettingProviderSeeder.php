@@ -34,7 +34,14 @@ class SettingProviderSeeder extends Seeder
                 'webhook_id' => 'gdlEPg',
                 'webhook_url' => 'https://ppob.ayasyatech.com/digiflazz/callback',
                 'webhook_secret' => 'awdklnkl12k3nuibguy1ghkansiuy8iu1h2b3kjbkjawbdywg1iu2h3u12kj3bkjbwaiudh8i12hn3jk21n3kjbwads'
-            ]
+            ],
+            [
+                'name' => 'wagw',
+                'slug' => Str::slug(Str::random()),
+                'mode' => 'prod',
+                'type' => 'whatsapp_gateway',
+                'api_key' => 'mNov8FbOSLUbmLn'
+            ],
         ])->each(fn ($data) => SettingProvider::create($data));
     }
 }

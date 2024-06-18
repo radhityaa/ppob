@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\MyHelper;
 use App\Helpers\TripayHelper;
+use App\Helpers\WhatsappHelper;
 use App\Models\Deposit;
 use App\Models\PaymentMethod;
 use App\Models\User;
@@ -139,6 +140,34 @@ class DepositController extends Controller
                 'expired_at' => (time() + (24 * 60 * 60)), // 24 jam
             ]);
 
+            $data = [
+                'app_name' => env('APP_NAME'),
+                'name' => Auth::user()->name,
+                'username' => Auth::user()->username,
+                'phone' => Auth::user()->phone,
+                'email' => Auth::user()->email,
+                'shop_name' => Auth::user()->shop_name,
+                'address' => Auth::user()->address,
+                'saldo' => 'Rp' . number_format(Auth::user()->saldo, 0, '.', '.'),
+                'invoice' => $result->invoice,
+                'method' => $result->method,
+                'pay_code' => $result->pay_code,
+                'pay_url' => $result->pay_url,
+                'checkout_url' => $result->checkout_url,
+                'nominal' => 'Rp' . number_format($result->nominal, 0, '.', '.'),
+                'total' => 'Rp' . number_format($result->total, 0, '.', '.'),
+                'fee' => 'Rp' . number_format($result->fee, 0, '.', '.'),
+                'amount_received' => 'Rp' . number_format($result->amount_received, 0, '.', '.'),
+                'status' => $result->status,
+                'paid_at' => $result->paid_at?->format('Y-m-d H:i:s'),
+                'expired_at' => $result->expired_at?->format('Y-m-d H:i:s'),
+                'created_at' => $result->created_at?->format('Y-m-d H:i:s'),
+                'url' => route('deposit.show', $result->invoice),
+            ];
+
+            WhatsappHelper::sendMessage('deposit-manual-user', $data, Auth::user()->phone);
+            WhatsappHelper::sendMessage('deposit-manual-admin', $data, env('APP_WA_ADMIN_NUMBER'));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Topup Saldo Berhasil',
@@ -163,7 +192,7 @@ class DepositController extends Controller
         }
         $expired_time = Carbon::createFromTimestamp($response->data->expired_time)->toDateTimeString();
 
-        Deposit::create([
+        $result = Deposit::create([
             'user_id' => Auth::user()->id,
             'invoice' => $response->data->merchant_ref,
             'method' => $response->data->payment_name,
@@ -177,6 +206,33 @@ class DepositController extends Controller
             'status' => $response->data->status,
             'expired_at' => $expired_time
         ]);
+
+        $data = [
+            'app_name' => env('APP_NAME'),
+            'name' => Auth::user()->name,
+            'username' => Auth::user()->username,
+            'phone' => Auth::user()->phone,
+            'email' => Auth::user()->email,
+            'shop_name' => Auth::user()->shop_name,
+            'address' => Auth::user()->address,
+            'saldo' => 'Rp' . number_format(Auth::user()->saldo, 0, '.', '.'),
+            'invoice' => $result->invoice,
+            'method' => $result->method,
+            'pay_code' => $result->pay_code,
+            'pay_url' => $result->pay_url,
+            'checkout_url' => $result->checkout_url,
+            'nominal' => 'Rp' . number_format($result->nominal, 0, '.', '.'),
+            'total' => 'Rp' . number_format($result->total, 0, '.', '.'),
+            'fee' => 'Rp' . number_format($result->fee, 0, '.', '.'),
+            'amount_received' => 'Rp' . number_format($result->amount_received, 0, '.', '.'),
+            'status' => $result->status,
+            'paid_at' => $result->paid_at?->format('Y-m-d H:i:s'),
+            'expired_at' => $result->expired_at?->format('Y-m-d H:i:s'),
+            'created_at' => $result->created_at?->format('Y-m-d H:i:s'),
+            'url' => route('deposit.show', $result->invoice),
+        ];
+
+        WhatsappHelper::sendMessage('deposit-manual-user', $data, Auth::user()->phone);
 
         return response()->json([
             'success' => true,

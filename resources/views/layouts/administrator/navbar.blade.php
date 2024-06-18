@@ -139,6 +139,13 @@
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Settings</span>
             </li>
+            {{-- Message Template --}}
+            <li class="menu-item {{ request()->is('message-template*') ? 'active' : '' }}">
+                <a href="{{ route('message-template.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-bell-ringing"></i>
+                    <div>Message Template</div>
+                </a>
+            </li>
             <li class="menu-item {{ request()->is('settings/env') ? 'active' : '' }}">
                 <a href="{{ route('env.show') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-settings-cog"></i>

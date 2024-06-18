@@ -63,8 +63,7 @@
                     <div class="mb-3 col-12 col-lg-6">
                         <label for="phone" class="form-label">No. HP</label>
                         <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
-                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="62xxxxxxxxxx"
-                            required />
+                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="62xxxxxxxxxx" />
 
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -96,11 +95,23 @@
                         </span>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="shop_name" class="form-label">Nama Toko</label>
+                    <input type="text" class="form-control @error('shop_name') is-invalid @enderror" id="shop_name"
+                        value="{{ old('shop_name') }}" name="shop_name" placeholder="Contoh: Ayasya Cell" required />
+
+                    @error('shop_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
                 <div class="mb-3 form-password-toggle">
                     <label class="form-label" for="password">Password</label>
                     <div class="input-group input-group-merge">
-                        <input type="password" id="password" class="form-control @error('password') is-invalid @enderror"
-                            name="password" autocomplete="new-password"
+                        <input type="password" id="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password"
+                            autocomplete="new-password"
                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                             aria-describedby="password" required />
                         <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>

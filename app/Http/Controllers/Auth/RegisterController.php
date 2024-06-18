@@ -52,12 +52,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['phone'] = MyHelper::formatPhoneNumber($data['phone']);
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'unique:users', 'min:5', 'max:16'],
             'address' => ['required'],
+            'shop_name' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required', 'unique:users', 'min:10', 'max:14'],
+            'phone' => ['required', 'min:10', 'max:14', 'unique:users,phone'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -73,7 +76,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'username' => $data['username'],
-            'shop_name' => $data['name'],
+            'shop_name' => $data['shop_name'],
             'address' => $data['address'],
             'email' => $data['email'],
             'phone' => MyHelper::formatPhoneNumber($data['phone']),

@@ -188,10 +188,24 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row gap-2">
-                            <div class="col-12">
-                                <button class="w-100 btn btn-success"><i class="ti ti-brand-whatsapp me-1"></i>
-                                    Whatsapp</button>
+                            <div class="col-12 mb-3">
+                                @if ($checkWaat->status == 'Connected')
+                                    <button id="btn-wa" class="w-100 btn btn-success"><i
+                                            class="ti ti-brand-whatsapp me-1"></i>
+                                        Whatsapp</button>
+                                    <x-button-loading />
+                                @else
+                                    <button id="btn-wa" class="w-100 btn btn-danger" disabled><i
+                                            class="ti ti-brand-whatsapp me-1"></i>
+                                        Whatsapp</button>
+                                    <p style="color: red; font-size: 14px;" class="lh-sm">Whatsapp Gateway Belum
+                                        Connect, Silahkan
+                                        Connect
+                                        Terlebih Dahulu Di Menu "WhatsApp
+                                        Gateway"</p>
+                                @endif
                             </div>
+                            <hr>
                             <div class="col-12">
                                 <button id="print" class="w-100 btn btn-info"><i class="ti ti-printer me-1"></i>
                                     Print</button>
@@ -228,6 +242,37 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-3">
+        {{-- Modal Margin Wa --}}
+        <div class="modal fade modal-sm" id="modalMarginWa" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form action="{{ route('history.prabayar.wa') }}" method="POST" id="form-wa">
+                            @csrf
+                            <input type="hidden" name="invoice-wa" id="invoice-wa">
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Nomor</label>
+                                <input type="number" name="phone" id="phone" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="margin-wa" class="form-label">Harga Jual</label>
+                                <input type="text" name="margin-wa" id="margin-wa" class="form-control" required>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="send" class="w-100 btn btn-info btn-send"><i
+                                        class="ti ti-send me-1"></i>
+                                    Kirim</button>
+                                <x-button-loading />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('page-js')
@@ -239,6 +284,13 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         })
+
+        function numberFormatIdr(value) {
+            var reverse = value.toString().split('').reverse().join('');
+            var ribuan = reverse.match(/\d{1,3}/g);
+            var formatted = ribuan.join('.').split('').reverse().join('');
+            return 'Rp ' + formatted;
+        }
 
         var table = $('.dataTable').DataTable({
             processing: true,
@@ -348,11 +400,19 @@
         $('body').on('click', '#share', function() {
             $('#modalShare').modal('show')
             var invoice = $(this).data('invoice')
+            var target = $(this).data('target')
 
             $('#print').on('click', function() {
                 $('#invoice').val(invoice)
                 $('#modalShare').modal('hide')
                 $('#modalMargin').modal('show')
+            })
+
+            $('#btn-wa').on('click', function() {
+                $('#modalShare').modal('hide')
+                $('#modalMarginWa').modal('show')
+                $('#invoice-wa').val(invoice)
+                $('#phone').val(target)
             })
         })
 
@@ -364,6 +424,22 @@
         }
 
         $(document).ready(function() {
+            $('#margin-wa').on('input', function() {
+                // Ambil nilai input
+                var inputValue = $(this).val();
+
+                // Hilangkan semua karakter selain angka
+                var numericValue = inputValue.replace(/Rp|\./g, '');
+
+                // Konversi ke integer
+                var integerValue = parseInt(numericValue, 10);
+
+                // Format kembali sebagai Rupiah
+                var formatted = numberFormatIdr(integerValue);
+
+                $(this).val(formatted);
+                $('#margin-wa').val(formatted);
+            })
 
             $('body').on('click', '.copy-text', function() {
                 var snText = $(this).closest('.copy-sn').data('sn')
@@ -394,6 +470,51 @@
             $('#modalMargin').on('hidden.bs.modal', function() {
                 $('#margin').val('')
                 $('.modal-body form')[0].reset();
+            })
+
+            $('#modalMarginWa').on('hidden.bs.modal', function() {
+                $('#margin-wa').val('')
+                $('.modal-body form')[0].reset();
+            })
+
+            $('#form-wa').on('submit', function(e) {
+                e.preventDefault()
+                var inv = $('#invoice-wa').val()
+                var margin = $('#margin-wa').val()
+                var phone = $('#phone').val()
+
+                $('.btn-loading').removeClass('d-none')
+                $('.btn-send').addClass('d-none')
+
+                $.ajax({
+                    url: "{{ route('history.prabayar.wa') }}",
+                    method: "POST",
+                    data: {
+                        invoice: inv,
+                        margin: margin,
+                        phone: phone
+                    },
+                    success: function(res) {
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: res.message,
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'btn btn-primary waves-effect waves-light'
+                            },
+                            buttonsStyling: false
+                        })
+
+                        $('.btn-loading').addClass('d-none')
+                        $('.btn-send').removeClass('d-none')
+                        $('#modalMarginWa').modal('hide')
+                    },
+                    error: function(err) {
+                        $('.btn-loading').addClass('d-none')
+                        $('.btn-send').removeClass('d-none')
+                        $('#modalMarginWa').modal('hide')
+                    }
+                })
             })
         })
 

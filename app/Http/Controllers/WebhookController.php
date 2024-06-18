@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\DigiflazzHelper;
 use App\Helpers\TripayHelper;
+use App\Helpers\WhatsappHelper;
 use App\Models\Deposit;
 use App\Models\Transaction;
 use App\Models\User;
@@ -66,6 +67,33 @@ class WebhookController extends Controller
                     $user->update([
                         'saldo' => $user->saldo + $data->amount_received
                     ]);
+
+                    $result = [
+                        'app_name' => env('APP_NAME'),
+                        'name' => $deposit->user->name,
+                        'username' => $deposit->user->username,
+                        'phone' => $deposit->user->phone,
+                        'email' => $deposit->user->email,
+                        'shop_name' => $deposit->user->shop_name,
+                        'address' => $deposit->user->address,
+                        'saldo' => 'Rp' . number_format($deposit->user->saldo, 0, '.', '.'),
+                        'invoice' => $deposit->invoice,
+                        'method' => $deposit->method,
+                        'pay_code' => $deposit->pay_code,
+                        'pay_url' => $deposit->pay_url,
+                        'checkout_url' => $deposit->checkout_url,
+                        'nominal' => 'Rp' . number_format($deposit->nominal, 0, '.', '.'),
+                        'total' => 'Rp' . number_format($deposit->total, 0, '.', '.'),
+                        'fee' => 'Rp' . number_format($deposit->fee, 0, '.', '.'),
+                        'amount_received' => 'Rp' . number_format($deposit->amount_received, 0, '.', '.'),
+                        'status' => $deposit->status,
+                        'paid_at' => $deposit->paid_at?->format('Y-m-d H:i:s'),
+                        'expired_at' => $deposit->expired_at?->format('Y-m-d H:i:s'),
+                        'created_at' => $deposit->created_at?->format('Y-m-d H:i:s'),
+                        'url' => route('deposit.show', $deposit->invoice),
+                    ];
+
+                    WhatsappHelper::sendMessage('deposit-notification-user', $result, $deposit->user->phone);
 
                     break;
 

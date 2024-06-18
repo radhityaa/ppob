@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\DigiflazzHelper;
+use App\Helpers\WhatsappHelper;
 use App\Http\Resources\ProductResource;
 use App\Models\Prabayar;
 use App\Models\SettingMargin;
 use App\Models\Transaction;
+use App\Models\WhatsappGateway;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -170,7 +172,7 @@ class PrabayarController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button data-invoice="' . $row->invoice . '" id="detail" class="btn btn-info btn-sm me-1"><i class="ti ti-eye"></i></button>';
-                    $actionBtn .= '<button id="share" data-invoice="' . $row->invoice . '" class="btn btn-success btn-sm me-1"><i class="ti ti-share"></i></button>';
+                    $actionBtn .= '<button id="share" data-invoice="' . $row->invoice . '" data-target="' . $row->target . '" class="btn btn-success btn-sm me-1"><i class="ti ti-share"></i></button>';
 
                     return '<div class="d-flex">' . $actionBtn . '</div>';
                 })
@@ -204,8 +206,9 @@ class PrabayarController extends Controller
         $totalSukses = $statusCounts->get('Sukses', 0);
         $totalPending = $statusCounts->get('Pending', 0);
         $totalGagal = $statusCounts->get('Gagal', 0);
+        $checkWaat = WhatsappGateway::where('user_id', Auth::user()->id)->first();
 
-        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total'));
+        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat'));
     }
 
     public function historyDetail($invoice)
@@ -217,10 +220,6 @@ class PrabayarController extends Controller
 
     public function print(Request $request)
     {
-        // $trx = Transaction::where('invoice', $request->invoice)->first();
-        // $margin = $request->margin;
-        // return view('history.print', compact('trx', 'margin'));
-
         $dataOrder = Transaction::where('invoice', $request->invoice)->first();
         $priceSell = formatRupiahToNumber($request->margin);
 
@@ -254,5 +253,48 @@ class PrabayarController extends Controller
             ->addItems($item);
 
         return $invoice->stream();
+    }
+
+    public function wa(Request $request)
+    {
+        $dataOrder = Transaction::where('invoice', $request->invoice)->first();
+        $priceSell = formatRupiahToNumber($request->margin);
+
+        $data = [
+            'app_name' => env('APP_NAME'),
+            'name' => $dataOrder->user->name,
+            'username' => $dataOrder->user->username,
+            'phone' => $dataOrder->user->phone,
+            'email' => $dataOrder->user->email,
+            'shop_name' => $dataOrder->user->shop_name,
+            'address' => $dataOrder->user->address,
+            'saldo' => 'Rp' . number_format($dataOrder->user->saldo, 0, '.', '.'),
+            'invoice' => $dataOrder->invoice,
+            'target' => $dataOrder->target,
+            'product_name' => $dataOrder->product_name,
+            'price' => 'Rp' . number_format($priceSell, 0, '.', '.'),
+            'customer_no' => $dataOrder->customer_no,
+            'customer_name' => $dataOrder->customer_name,
+            'admin' => $dataOrder->admin,
+            'description' => $dataOrder->description,
+            'message' => $dataOrder->message,
+            'sn' => $dataOrder->sn,
+            'selling_price' => $dataOrder->selling_price,
+            'tarif' => $dataOrder->tarif,
+            'daya' => $dataOrder->daya,
+            'billing' => $dataOrder->billing,
+            'detail' => $dataOrder->detail,
+            'status' => $dataOrder->status,
+            'type' => $dataOrder->type,
+            'created_at' => $dataOrder->created_at?->format('Y-m-d H:i:s'),
+            'url' => route('deposit.show', $dataOrder->invoice),
+        ];
+
+        WhatsappHelper::sendMessage('transaction-notification-user', $data, $request->phone);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil mengirim notifikasi ke Whatsapp.',
+        ]);
     }
 }

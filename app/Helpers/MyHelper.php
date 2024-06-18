@@ -845,6 +845,15 @@ class MyHelper
 
     public static function formatPhoneNumber($number)
     {
+        // Menghilangkan spasi
+        $number = str_replace(' ', '', $number);
+
+        // Menghilangkan tanda +
+        if (substr($number, 0, 1) === '+') {
+            $number = substr($number, 1);
+        }
+
+        // Mengganti awalan 0 dengan 62
         if (substr($number, 0, 1) === '0') {
             return '62' . substr($number, 1);
         }

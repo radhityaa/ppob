@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\EnvController;
+use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
@@ -88,6 +89,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::prefix('history')->name('history.')->group(function () {
         Route::get('prabayar', [PrabayarController::class, 'history'])->name('prabayar');
         Route::post('prabayar/print', [PrabayarController::class, 'print'])->name('prabayar.print');
+        Route::post('prabayar/wa', [PrabayarController::class, 'wa'])->name('prabayar.wa');
         Route::get('prabayar/{invoice}', [PrabayarController::class, 'historyDetail'])->name('prabayar.detail');
     });
 
@@ -103,6 +105,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         Route::prefix('recharge')->group(function () {
             Route::resource('title', RechargeTitleController::class);
             Route::resource('item', RechargeItemController::class);
+        });
+
+        Route::prefix('message-template')->name('message-template.')->group(function () {
+            Route::get('', [MessageTemplateController::class, 'index'])->name('index');
+            Route::get('{id}/edit', [MessageTemplateController::class, 'edit'])->name('edit');
+            Route::put('{id}/edit', [MessageTemplateController::class, 'update'])->name('update');
         });
     });
 

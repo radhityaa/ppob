@@ -42,7 +42,8 @@
             "app/Helpers/TripayHelper.php",
             "app/Helpers/DigiflazzHelper.php",
             "app/Helpers/MyHelper.php",
-            "app/Helpers/WhatsappHelper.php"
+            "app/Helpers/WhatsappHelper.php",
+            "app/Helpers/TemplateHelper.php"
         ]
     },
     "autoload-dev": {

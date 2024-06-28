@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrabayarController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RechargeItemController;
 use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\RoleController;
@@ -37,6 +38,12 @@ Route::view('/banned', 'layouts.accountBanned')->name('account.banned');
 Route::view('/suspend', 'layouts.accountSuspend')->name('account.suspend');
 
 Route::middleware(['auth', 'checkuser'])->group(function () {
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('{user}/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::get('{user}/security', [ProfileController::class, 'security'])->name('security');
+    });
+
     // Roles & Permissions
     Route::get('get/roles', [RoleController::class, 'list'])->name('roles.list');
     Route::get('get/recharge-title', [RechargeTitleController::class, 'list'])->name('get.recharge-list');

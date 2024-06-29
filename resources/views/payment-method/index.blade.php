@@ -420,10 +420,26 @@
                 $('.btn-loading').removeClass('d-none')
                 $('.btn-save').addClass('d-none')
 
+                let group = $('#group').val()
+                let code = $('#code').val()
+                let name = $('#name').val()
+                let fee = $('#fee').val()
+                let percent_fee = $('#percent_fee').val()
+                let provider = $('#provider').val()
+                let status = $('#status').val()
+
                 $.ajax({
                     url: url,
                     method: method,
-                    data: $(this).serialize(),
+                    data: {
+                        group: group,
+                        code: code,
+                        name: name,
+                        fee: fee,
+                        percent_fee: percent_fee,
+                        provider: provider,
+                        status: status
+                    },
                     dataType: 'json',
                     success: function(res) {
                         $('#modalPaymentMethod').modal('hide')

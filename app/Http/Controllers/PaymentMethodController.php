@@ -73,7 +73,7 @@ class PaymentMethodController extends Controller
                             ['code' => $channel['code']],
                             [
                                 'name' => $channel['name'],
-                                'slug' => Str::slug($channel['name'], '-', Str::random(6)),
+                                'slug' => Str::slug($channel['name'] . "-" . Str::random(6)),
                                 'group' => $channel['group'],
                                 'code' => $channel['code'],
                                 'fee' => $channel['total_fee']['flat'],
@@ -185,7 +185,7 @@ class PaymentMethodController extends Controller
         $data = PaymentMethod::where('slug', $slug)->first();
         $data->update([
             'name' => $name = $request->name,
-            'slug' => Str::slug($name, '-', Str::random(6)),
+            'slug' => Str::slug($name . "-" . Str::random(6)),
             'group' => $request->group,
             'code' => $request->code,
             'name' => $request->name,

@@ -170,12 +170,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="menu-item {{ request()->is('settings/acl/roles') ? 'active' : '' }}">
+            {{-- <li class="menu-item {{ request()->is('settings/acl/roles') ? 'active' : '' }}">
                 <a href="{{ route('roles.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-user-bolt"></i>
                     <div>Role</div>
                 </a>
-            </li>
+            </li> --}}
             <li class="menu-item {{ request()->is('settings/landingpage/*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-home-cog"></i>

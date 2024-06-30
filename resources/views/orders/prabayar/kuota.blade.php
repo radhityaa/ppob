@@ -216,6 +216,7 @@
                 },
                 success: function(res) {
                     if (res.status) {
+                        typeSelect.empty()
                         typeEl.show()
                         $('#provider').show()
                         $('#provider').removeClass('bg-danger');

@@ -93,7 +93,9 @@ class WebhookController extends Controller
                         'url' => route('deposit.show', $deposit->invoice),
                     ];
 
-                    WhatsappHelper::sendMessage('deposit-notification-user', $result, $deposit->user->phone);
+                    if (WhatsappHelper::getStatus()) {
+                        WhatsappHelper::sendMessage('deposit-notification-user', $result, $deposit->user->phone);
+                    }
 
                     break;
 

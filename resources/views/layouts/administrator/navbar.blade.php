@@ -83,6 +83,26 @@
             </ul>
         </li>
 
+        {{-- Report --}}
+        <li class="menu-item {{ request()->is('report/*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-report"></i>
+                <div>Laporan</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('report/transactions*') ? 'active' : '' }}">
+                    <a href="{{ route('report.transactions') }}" class="menu-link">
+                        <div>Transaksi</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div>Deposit</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         @role('reseller|admin')
             {{-- Transfer Saldo --}}
             <li class="menu-item {{ request()->is('transfer*') ? 'active' : '' }}">
@@ -140,10 +160,10 @@
                 <span class="menu-header-text">Settings</span>
             </li>
             {{-- Message Template --}}
-            <li class="menu-item {{ request()->is('message-template*') ? 'active' : '' }}">
+            <li class="menu-item {{ request()->is('admin/message-template*') ? 'active' : '' }}">
                 <a href="{{ route('message-template.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-bell-ringing"></i>
-                    <div>Message Template</div>
+                    <div>Notification Template</div>
                 </a>
             </li>
             <li class="menu-item {{ request()->is('settings/env') ? 'active' : '' }}">

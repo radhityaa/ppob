@@ -34,7 +34,7 @@
                             </div>
                             <span class="avatar me-sm-4">
                                 <span class="avatar-initial bg-label-secondary rounded"><i
-                                        class="ti ti-brand-cashapp ti-md"></i></span>
+                                        class="ti ti-chart-pie-2 ti-md"></i></span>
                             </span>
                         </div>
                         <hr class="d-none d-sm-block d-lg-none me-4" />

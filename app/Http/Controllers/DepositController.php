@@ -165,8 +165,10 @@ class DepositController extends Controller
                 'url' => route('deposit.show', $result->invoice),
             ];
 
-            WhatsappHelper::sendMessage('deposit-manual-user', $data, Auth::user()->phone);
-            WhatsappHelper::sendMessage('deposit-manual-admin', $data, env('APP_WA_ADMIN_NUMBER'));
+            if (WhatsappHelper::getStatus()) {
+                WhatsappHelper::sendMessage('deposit-manual-user', $data, Auth::user()->phone);
+                WhatsappHelper::sendMessage('deposit-manual-admin', $data, env('APP_WA_ADMIN_NUMBER'));
+            }
 
             return response()->json([
                 'success' => true,
@@ -232,7 +234,9 @@ class DepositController extends Controller
             'url' => route('deposit.show', $result->invoice),
         ];
 
-        WhatsappHelper::sendMessage('deposit-manual-user', $data, Auth::user()->phone);
+        if (WhatsappHelper::getStatus()) {
+            WhatsappHelper::sendMessage('deposit-manual-user', $data, Auth::user()->phone);
+        }
 
         return response()->json([
             'success' => true,

@@ -83,7 +83,9 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        WhatsappHelper::createDevice($user);
+        if (WhatsappHelper::getStatus()) {
+            WhatsappHelper::createDevice($user);
+        }
 
         $user->assignRole('member');
 

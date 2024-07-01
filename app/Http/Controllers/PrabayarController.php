@@ -290,7 +290,9 @@ class PrabayarController extends Controller
             'url' => route('deposit.show', $dataOrder->invoice),
         ];
 
-        WhatsappHelper::sendMessage('transaction-notification-user', $data, $request->phone);
+        if (WhatsappHelper::getStatus()) {
+            WhatsappHelper::sendMessage('transaction-notification-user', $data, $request->phone);
+        }
 
         return response()->json([
             'success' => true,

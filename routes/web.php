@@ -15,6 +15,7 @@ use App\Http\Controllers\PrabayarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RechargeItemController;
 use App\Http\Controllers\RechargeTitleController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Setting\Landingpage\HeroController;
 use App\Http\Controllers\SettingMarginController;
@@ -36,12 +37,16 @@ Auth::routes();
 
 Route::view('/banned', 'layouts.accountBanned')->name('account.banned');
 Route::view('/suspend', 'layouts.accountSuspend')->name('account.suspend');
+Route::view('/comming-soon', 'errors.commingsoon')->name('commingsoon');
 
 Route::middleware(['auth', 'checkuser'])->group(function () {
     // Profile
     Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('{user}/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::get('{user}/account', [ProfileController::class, 'account'])->name('account');
+        Route::get('{user}/shop', [ProfileController::class, 'shop'])->name('shop');
         Route::get('{user}/security', [ProfileController::class, 'security'])->name('security');
+
+        Route::patch('{user}/account', [ProfileController::class, 'update'])->name('account.update');
     });
 
     // Roles & Permissions
@@ -98,6 +103,11 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         Route::post('prabayar/print', [PrabayarController::class, 'print'])->name('prabayar.print');
         Route::post('prabayar/wa', [PrabayarController::class, 'wa'])->name('prabayar.wa');
         Route::get('prabayar/{invoice}', [PrabayarController::class, 'historyDetail'])->name('prabayar.detail');
+    });
+
+    // Report
+    Route::prefix('report')->name('report.')->group(function () {
+        Route::get('transactions', [ReportController::class, 'transactions'])->name('transactions');
     });
 
     // Transaction

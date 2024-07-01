@@ -188,7 +188,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row gap-2">
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 @if ($checkWaat->status == 'Connected')
                                     <button id="btn-wa" class="w-100 btn btn-success"><i
                                             class="ti ti-brand-whatsapp me-1"></i>
@@ -205,7 +205,7 @@
                                         Gateway"</p>
                                 @endif
                             </div>
-                            <hr>
+                            <hr> --}}
                             <div class="col-12">
                                 <button id="print" class="w-100 btn btn-info"><i class="ti ti-printer me-1"></i>
                                     Print</button>

@@ -10,31 +10,43 @@
             <div class="card mb-4">
                 <h5 class="card-header">Ubah Password</h5>
                 <div class="card-body">
-                    <form id="formAccountSettings" method="GET" onsubmit="return false">
+                    <form action="{{ route('profile.account.update', $user->username) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+
                         <div class="row">
                             <div class="mb-3 col-md-6 form-password-toggle">
                                 <label class="form-label" for="currentPassword">Password Lama</label>
                                 <div class="input-group input-group-merge">
-                                    <input class="form-control" type="password" name="currentPassword" id="currentPassword"
+                                    <input class="form-control @error('currentPassword') is-invalid @enderror" required
+                                        type="password" name="currentPassword" id="currentPassword"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    @error('currentPassword')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-md-6 form-password-toggle">
-                                <label class="form-label" for="newPassword">Password Baru</label>
+                                <label class="form-label" for="password">Password Baru</label>
                                 <div class="input-group input-group-merge">
-                                    <input class="form-control" type="password" id="newPassword" name="newPassword"
+                                    <input class="form-control @error('password') is-invalid @enderror" type="password"
+                                        required id="password" name="password"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="mb-3 col-md-6 form-password-toggle">
-                                <label class="form-label" for="confirmPassword">Konfirmasi Password Baru</label>
+                                <label class="form-label" for="password_confirmation">Konfirmasi Password Baru</label>
                                 <div class="input-group input-group-merge">
-                                    <input class="form-control" type="password" name="confirmPassword" id="confirmPassword"
+                                    <input class="form-control" type="password" name="password_confirmation" required
+                                        id="password_confirmation"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
@@ -48,7 +60,7 @@
                                 </ul>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-success me-2">Simpan</button>
+                                <button type="submit" class="btn btn-success me-2">Update</button>
                                 <button type="reset" class="btn btn-label-secondary">Reset</button>
                             </div>
                         </div>

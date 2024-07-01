@@ -125,10 +125,10 @@
                 </div>
 
                 <div class="mb-3 form-password-toggle">
-                    <label class="form-label" for="password-confirm">Konfirmasi Password</label>
+                    <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
                     <div class="input-group input-group-merge">
-                        <input type="password" id="password-confirm"
-                            class="form-control @error('password-confirm') is-invalid @enderror"
+                        <input type="password" id="password_confirmation"
+                            class="form-control @error('password_confirmation') is-invalid @enderror"
                             name="password_confirmation" autocomplete="new-password"
                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                             aria-describedby="password" required />

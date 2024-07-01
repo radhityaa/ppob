@@ -2,65 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyHelper;
+use App\Http\Requests\AccountEditRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function update(AccountEditRequest $request, User $user)
     {
-        //
+        if ($request->currentPassword) {
+            if (Hash::check($request->currentPassword, $user->password)) {
+                $user->update([
+                    'password' =>  Hash::make($request->password),
+                ]);
+            } else {
+                Alert::error('Gagal', 'Password Lama Salah');
+                return back();
+            }
+        }
+
+        $user->update([
+            'name' => $request->name ?? $user->name,
+            'email' => $request->email ?? $user->email,
+            'phone' => MyHelper::formatPhoneNumber($request->phone ?? $user->phone),
+            'shop_name' => $request->shop_name ?? $user->shop_name,
+            'address' => $request->address ?? $user->address,
+        ]);
+
+        Alert::success('Berhasil', 'Akun Berhasil Diubah');
+        return back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function account(User $user)
     {
-        //
+        return view('profile.account', compact('user'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function shop(User $user)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        return view('profile.edit', compact('user'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
+        return view('profile.shop', compact('user'));
     }
 
     public function security(Request $request, User $user)

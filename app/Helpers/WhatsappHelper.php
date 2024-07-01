@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class WhatsappHelper
 {
+    public static function getStatus()
+    {
+        return (bool) false;
+    }
+
     public static function getApiKey()
     {
         $provider = SettingProvider::where('type', 'whatsapp_gateway')->first();

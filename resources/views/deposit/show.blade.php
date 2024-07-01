@@ -199,10 +199,10 @@
                                 </button>
                             @endif
                         @endrole
-                        <button class="btn btn-info d-grid w-100 mb-2">
+                        {{-- <button class="btn btn-info d-grid w-100 mb-2">
                             <span class="d-flex align-items-center justify-content-center text-nowrap"><i
                                     class="ti ti-send ti-xs me-2"></i>Kirim Invoice</span>
-                        </button>
+                        </button> --}}
                         <form action="{{ route('deposit.print') }}" method="POST">
                             @csrf
                             <input type="hidden" name="invoice" id="invoice" value="{{ $deposit->invoice }}">

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('whatsapp_gateways', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('phone');
             $table->enum('status', ['Connected', 'Disconnected'])->default('Disconnected');
             $table->timestamps();

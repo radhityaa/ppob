@@ -67,7 +67,8 @@
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label for="username" class="form-label">Username</label>
-                                    <input type="text" id="username" name="username" class="form-control" disabled />
+                                    <input type="text" id="username" name="username" class="form-control"
+                                        placeholder="Username" />
                                 </div>
                             </div>
                             <div class="row">
@@ -220,6 +221,7 @@
         // Edit User
         $('body').on('click', '#edit-user', function() {
             $('#modalUserTitle').text('Edit User')
+            $('#username').prop('disabled', true)
 
             var selectStatus = $('select#status')
             var selectRole = $('select#role')
@@ -324,6 +326,7 @@
 
         $('#createUser').on('click', function() {
             $('#modalUser').modal('show')
+            $('#username').prop('disabled', false)
             $('#modalUserTitle').text('Tambah User Baru')
             url = "{!! route('users.store') !!}"
             method = "POST"
@@ -332,6 +335,7 @@
         $(document).ready(function() {
             $('.btn-loading').addClass('d-none')
             $('.btn-save').removeClass('d-none')
+            $('#username').prop('disabled', false)
 
             $('#saldo').on('input', function() {
                 // Ambil nilai input
@@ -355,6 +359,7 @@
                 $('.btn-save').removeClass('d-none')
                 $('.modal-body form')[0].reset();
                 $('input[name="_method"]').remove();
+                $('#username').prop('disabled', false)
             })
 
             $('#form-user').on('submit', function(e) {

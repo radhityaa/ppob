@@ -192,8 +192,8 @@
                 name: 'price'
             },
             {
-                data: 'buyer_product_status',
-                name: 'buyer_product_status'
+                data: 'seller_product_status',
+                name: 'seller_product_status'
             }
         ];
 

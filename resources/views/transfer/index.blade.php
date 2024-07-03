@@ -246,7 +246,7 @@
                 method: 'GET',
                 success: function(res) {
                     $('#modalDetailTransferTitle').html(res.invoice)
-                    $('#username-detail').html(res.user.username)
+                    $('#username-detail').html(res.username)
                     $('#amount-detail').html(res.amount)
                     $('#description-detail').html(res.description)
                     $('#date').html(res.created_at)

@@ -33,7 +33,7 @@
                                     </div>
                                     <span class="app-brand-text fw-bold fs-4"> {{ config('app.name') }} </span>
                                 </div>
-                                <p class="mb-2" style="width: 400px;">{{ env('WEBSITE_ADDRESS') }}</p>
+                                <p class="mb-2">{{ env('WEBSITE_ADDRESS') }}</p>
                                 <p class="mb-0">{{ env('WEBSITE_PHONE') }}</p>
                             </div>
                             <div>

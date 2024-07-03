@@ -34,8 +34,8 @@ class PrabayarController extends Controller
                 ->addColumn('cut_off', function ($row) {
                     return $row->start_cut_off . $row->end_cut_off;
                 })
-                ->editColumn('buyer_product_status', function ($row) {
-                    if ($row->buyer_product_status) {
+                ->editColumn('seller_product_status', function ($row) {
+                    if ($row->seller_product_status) {
                         return '<span class="badge bg-success">Normal</span>';
                     } else {
                         return '<span class="badge bg-danger">Gangguan</span>';
@@ -52,7 +52,7 @@ class PrabayarController extends Controller
 
                     return '';
                 })
-                ->rawColumns(['action', 'buyer_product_status'])
+                ->rawColumns(['action', 'seller_product_status'])
                 ->make(true);
         }
 
@@ -242,7 +242,7 @@ class PrabayarController extends Controller
                 ->pricePerUnit($priceSell)
         ];
 
-        $invoice = Invoice::make('Ayasya Shop')->template('transaction')
+        $invoice = Invoice::make($dataOrder->user->shop_name . ' ' . $dataOrder->invoice)->template('transaction')
             ->status($dataOrder->status)
             ->serialNumberFormat($dataOrder->invoice)
             ->seller($seller)

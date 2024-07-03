@@ -271,13 +271,13 @@
                             currency: 'IDR'
                         }).format(service.price)
 
-                        var badgeClass = service.buyer_product_status ? 'bg-label-primary' :
+                        var badgeClass = service.seller_product_status ? 'bg-label-primary' :
                             'bg-label-danger';
-                        var textClass = service.buyer_product_status ? 'text-primary' :
+                        var textClass = service.seller_product_status ? 'text-primary' :
                             'text-danger';
-                        var buttonDisabled = !service.buyer_product_status ? 'disabled' :
+                        var buttonDisabled = !service.seller_product_status ? 'disabled' :
                             '';
-                        var bgColor = service.buyer_product_status ? 'bg-primary' :
+                        var bgColor = service.seller_product_status ? 'bg-primary' :
                             'bg-danger';
 
                         var cardHtml = `
@@ -285,7 +285,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start">
-                                    <span class="badge ${badgeClass}">${service.buyer_product_status ? 'Normal' : 'Gangguan'}</span>
+                                    <span class="badge ${badgeClass}">${service.seller_product_status ? 'Normal' : 'Gangguan'}</span>
                                     <div class="d-flex justify-content-center">
                                         <sup class="h6 fw-medium pricing-currency mt-3 mb-0 me-1 ${textClass}">Rp</sup>
                                         <h1 class="mb-0 ${textClass}">${formatPrice}</h1>
@@ -298,7 +298,7 @@
                                 </ul>
                                 <div class="d-grid w-100">
                                     <button class="btn ${textClass} ${bgColor} btn-sm" ${buttonDisabled} onclick="detailProduct(${service.id})" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                                        <span class="text-white">${service.buyer_product_status ? 'Beli' : 'Gangguan'}</span>
+                                        <span class="text-white">${service.seller_product_status ? 'Beli' : 'Gangguan'}</span>
                                     </button>
                                 </div>
                             </div>

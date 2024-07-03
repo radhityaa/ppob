@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('price');
             $table->string('buyer_sku_code');
             $table->string('buyer_product_status');
-            $table->string('seller_product_status');
+            $table->integer('seller_product_status');
             $table->string('unlimited_stock');
             $table->string('stock');
             $table->string('multi');

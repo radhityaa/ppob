@@ -212,12 +212,12 @@
         @endrole
 
         {{-- Whatsapp Gateway --}}
-        <li class="menu-item {{ request()->is('whatsapp*') ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ request()->is('whatsapp*') ? 'active' : '' }}">
             <a href="{{ route('whatsapp.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-brand-whatsapp"></i>
                 <div>Whatsapp Gateway</div>
             </a>
-        </li>
+        </li> --}}
 
         <!-- Misc -->
         <li class="menu-header small text-uppercase">

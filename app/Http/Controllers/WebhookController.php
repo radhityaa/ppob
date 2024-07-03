@@ -125,15 +125,22 @@ class WebhookController extends Controller
         $signature = 'sha1=' . hash_hmac('sha1', $postData, $secret);
 
         if ($request->header('X-Hub-Signature') === $signature) {
-            $eventData = $request->input('data');
-            Log::info('Webhook Event Data: ', ['data' => $eventData]);
+            try {
+                $eventData = $request->input('data');
+                Log::info('Webhook Event Data: ', ['data' => $eventData]);
 
-            $refId = $eventData['ref_id'];
-            $transaction = Transaction::where('invoice', $refId)->first();
+                $refId = $eventData['ref_id'];
+                $transaction = Transaction::where('invoice', $refId)->first();
 
-            if ($eventData['rc'] !== "00") {
-                Log::error('Digiflazz transaction failed: ' . $refId);
+                $transaction->update([
+                    'message' => $eventData['message'],
+                    'status' => $eventData['status'],
+                    'sn' => $eventData['sn']
+                ]);
 
+                return response('Webhook received successfully', 200);
+            } catch (\Throwable $th) {
+                Log::error($th->getMessage());
                 $user = User::find($transaction->user_id);
                 $user->update([
                     $user->saldo += $transaction->price,
@@ -142,14 +149,6 @@ class WebhookController extends Controller
 
                 return response('Failed to process transaction', 500);
             }
-
-            $transaction->update([
-                'message' => $eventData['message'],
-                'status' => $eventData['status'],
-                'sn' => $eventData['sn']
-            ]);
-
-            return response('Webhook received successfully', 200);
         } else {
             Log::warning('Invalid signature. Webhook ignored');
             return response('Invalid signature', 403);

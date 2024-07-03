@@ -125,30 +125,19 @@ class WebhookController extends Controller
         $signature = 'sha1=' . hash_hmac('sha1', $postData, $secret);
 
         if ($request->header('X-Hub-Signature') === $signature) {
-            try {
-                $eventData = $request->input('data');
-                Log::info('Webhook Event Data: ', ['data' => $eventData]);
+            $eventData = $request->input('data');
+            Log::info('Webhook Event Data: ', ['data' => $eventData]);
 
-                $refId = $eventData['ref_id'];
-                $transaction = Transaction::where('invoice', $refId)->first();
+            $refId = $eventData['ref_id'];
+            $transaction = Transaction::where('invoice', $refId)->first();
 
-                $transaction->update([
-                    'message' => $eventData['message'],
-                    'status' => $eventData['status'],
-                    'sn' => $eventData['sn']
-                ]);
+            $transaction->update([
+                'message' => $eventData['message'],
+                'status' => $eventData['status'],
+                'sn' => $eventData['sn']
+            ]);
 
-                return response('Webhook received successfully', 200);
-            } catch (\Throwable $th) {
-                Log::error($th->getMessage());
-                $user = User::find($transaction->user_id);
-                $user->update([
-                    $user->saldo += $transaction->price,
-                    $user->save()
-                ]);
-
-                return response('Failed to process transaction', 500);
-            }
+            return response('Webhook received successfully', 200);
         } else {
             Log::warning('Invalid signature. Webhook ignored');
             return response('Invalid signature', 403);

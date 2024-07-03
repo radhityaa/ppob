@@ -72,7 +72,7 @@ class TransactionController extends Controller
 
         $result = DigiflazzHelper::transaction('transaction', $data);
 
-        if (isset($result->Data)) {
+        if (isset($result->data)) {
             if (isset($result->data->rc) && $result->data->rc !== "00") {
                 return response()->json([
                     'success' => false,

@@ -250,7 +250,8 @@ class PrabayarController extends Controller
             ->date($dataOrder->created_at)
             ->dateFormat('d/m/Y h:i')
             ->currencyCode('idr')
-            ->addItems($item);
+            ->addItems($item)
+            ->filename($dataOrder->user->shop_name . ' ' . $dataOrder->invoice);
 
         return $invoice->stream();
     }

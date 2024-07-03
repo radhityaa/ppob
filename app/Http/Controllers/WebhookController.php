@@ -131,6 +131,18 @@ class WebhookController extends Controller
             $refId = $eventData['ref_id'];
             $transaction = Transaction::where('invoice', $refId)->first();
 
+            if ($eventData['rc'] !== "00") {
+                Log::error('Digiflazz transaction failed: ' . $refId);
+
+                $user = User::find($transaction->user_id);
+                $user->update([
+                    $user->saldo += $transaction->price,
+                    $user->save()
+                ]);
+
+                return response('Failed to process transaction', 500);
+            }
+
             $transaction->update([
                 'message' => $eventData['message'],
                 'status' => $eventData['status'],

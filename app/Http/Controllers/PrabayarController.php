@@ -86,7 +86,11 @@ class PrabayarController extends Controller
 
             // Jika respons berhasil
             if (is_array($result->data)) {
+                $digiflazzSkuCodes = [];
+
                 foreach ($result->data as $item) {
+                    $digiflazzSkuCodes[] = $item->buyer_sku_code;
+
                     Prabayar::updateOrCreate(
                         ['buyer_sku_code' => $item->buyer_sku_code],
                         [
@@ -109,6 +113,8 @@ class PrabayarController extends Controller
                         ]
                     );
                 }
+
+                Prabayar::whereNotIn('buyer_sku_code', $digiflazzSkuCodes)->delete();
 
                 return response()->json([
                     'success' => true,

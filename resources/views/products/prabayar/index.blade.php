@@ -142,10 +142,16 @@
             </div>
         </div>
     </div>
+
+    <div class="progress" style="display: none;">
+        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+            aria-valuemax="100">0%</div>
+    </div>
 @endsection
 
 @push('page-js')
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
         let url = ''

@@ -66,6 +66,7 @@
                 $('#cut-off').html('');
                 $('#buyer_sku_code').html('');
                 $('.saldo').hide();
+                $('.btn-buy').attr('disabled', false);
 
                 $('.btn-loading').addClass('d-none')
                 $('.btn-buy').removeClass('d-none')

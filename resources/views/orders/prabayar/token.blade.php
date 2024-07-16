@@ -127,6 +127,7 @@
                 $('#owner').html('');
                 $('#kwh').html('');
                 $('.saldo').hide();
+                $('.btn-buy').attr('disabled', false);
 
                 $('.btn-loading').addClass('d-none')
                 $('.btn-buy').removeClass('d-none')

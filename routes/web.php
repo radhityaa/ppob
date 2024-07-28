@@ -90,9 +90,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         // Prabayar
         Route::prefix('prabayar')->group(function () {
             Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
-            Route::get('getServices', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
-            Route::get('getServices/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
-            Route::delete('deleteServices', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
+            Route::get('get-services-digiflazz', [PrabayarController::class, 'getServicesDigiflazz'])->name('prabayar.getServicesDigiflazz');
+            Route::get('get-provider', [PrabayarController::class, 'getProvider'])->name('prabayar.getProvider');
+            Route::get('get-type', [PrabayarController::class, 'getType'])->name('prabayar.getType');
+            Route::get('get-services', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
+            Route::get('get-services/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
+            Route::delete('delete-services', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
             Route::get('{buyer_sku_code}', [PrabayarController::class, 'show'])->name('prabayar.show');
         });
     });

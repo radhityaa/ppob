@@ -67,7 +67,7 @@
         <li class="menu-item {{ request()->is('product/*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-layout-list"></i>
-                <div>Product</div>
+                <div>Daftar Harga</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('product/prabayar') ? 'active' : '' }}">
@@ -84,7 +84,7 @@
         </li>
 
         {{-- Report --}}
-        <li class="menu-item {{ request()->is('report/*') ? 'active open' : '' }}">
+        {{-- <li class="menu-item {{ request()->is('report/*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-report"></i>
                 <div>Laporan</div>
@@ -101,7 +101,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
 
         @role('reseller|admin')
             {{-- Transfer Saldo --}}

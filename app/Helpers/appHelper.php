@@ -2,6 +2,8 @@
 
 use App\Models\Deposit;
 use App\Models\Navigation;
+use App\Models\Prabayar;
+use App\Models\RechargeItem;
 use App\Models\RechargeTitle;
 use App\Models\Role;
 use Illuminate\Support\Carbon;
@@ -18,6 +20,13 @@ if (!function_exists('getRechargeTitles')) {
     function getRechargeTitles()
     {
         return RechargeTitle::get();
+    }
+}
+
+if (!function_exists('getRechargeItems')) {
+    function getRechargeItems()
+    {
+        return RechargeItem::get();
     }
 }
 
@@ -85,5 +94,12 @@ if (!function_exists('invoice')) {
         $invoiceNumber = $lastInvoice ? $lastInvoice->id + 1 : 1;
 
         return sprintf($prefix . '-%06d-%d', $invoiceNumber, $userId);
+    }
+}
+
+if (!function_exists('getServices')) {
+    function getServices()
+    {
+        return Prabayar::select('category')->groupBy('category')->get();
     }
 }

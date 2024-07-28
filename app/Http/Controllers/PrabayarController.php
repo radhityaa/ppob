@@ -21,45 +21,63 @@ class PrabayarController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:admin'])->only(['getServices', 'show']);
+        $this->middleware(['role:admin'])->only(['getServicesDigiflazz', 'show']);
     }
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = Prabayar::get();
+        // if ($request->ajax()) {
+        //     $data = Prabayar::get();
 
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('cut_off', function ($row) {
-                    return $row->start_cut_off . $row->end_cut_off;
-                })
-                ->editColumn('seller_product_status', function ($row) {
-                    if ($row->seller_product_status) {
-                        return '<span class="badge bg-success">Normal</span>';
-                    } else {
-                        return '<span class="badge bg-danger">Gangguan</span>';
-                    }
-                })
-                ->editColumn('price', function ($row) {
-                    return 'Rp ' . number_format($row->price, 0, '', '.');
-                })
-                ->editColumn('action', function ($row) {
-                    if (Auth::user()->role('admin')) {
-                        $actionBtn = '<button id="detailProduct" data-code="' . $row->buyer_sku_code . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
-                        return '<div class="d-flex">' . $actionBtn . '</div>';
-                    }
+        //     return DataTables::of($data)
+        //         ->addIndexColumn()
+        //         ->addColumn('cut_off', function ($row) {
+        //             return $row->start_cut_off . $row->end_cut_off;
+        //         })
+        //         ->editColumn('seller_product_status', function ($row) {
+        //             if ($row->seller_product_status) {
+        //                 return '<span class="badge bg-success">Normal</span>';
+        //             } else {
+        //                 return '<span class="badge bg-danger">Gangguan</span>';
+        //             }
+        //         })
+        //         ->editColumn('price', function ($row) {
+        //             return 'Rp ' . number_format($row->price, 0, '', '.');
+        //         })
+        //         ->editColumn('action', function ($row) {
+        //             if (Auth::user()->role('admin')) {
+        //                 $actionBtn = '<button id="detailProduct" data-code="' . $row->buyer_sku_code . '" class="btn btn-warning btn-sm me-1"><i class="ti ti-eye"></i></button>';
+        //                 return '<div class="d-flex">' . $actionBtn . '</div>';
+        //             }
 
-                    return '';
-                })
-                ->rawColumns(['action', 'seller_product_status'])
-                ->make(true);
-        }
+        //             return '';
+        //         })
+        //         ->rawColumns(['action', 'seller_product_status'])
+        //         ->make(true);
+        // }
 
-        $title = 'Prabayar';
+        $title = 'Daftar Harga Prabayar';
         $role = Auth::user()->hasRole('admin');
 
         return view('products.prabayar.index', compact('title', 'role'));
+    }
+
+    public function getProvider(Request $request)
+    {
+        $data = Prabayar::where('category', $request->service)->select('brand')->groupBy('brand')->get();
+        return response()->json($data);
+    }
+
+    public function getType(Request $request)
+    {
+        $data = Prabayar::where('category', $request->service)->where('brand', $request->provider)->select('type')->groupBy('type')->get();
+        return response()->json($data);
+    }
+
+    public function getServices(Request $request)
+    {
+        $data = Prabayar::where('category', $request->service)->where('brand', $request->provider)->where('type', $request->category)->get();
+        return response()->json($data);
     }
 
     public function show($buyer_sku_code)
@@ -68,7 +86,7 @@ class PrabayarController extends Controller
         return response()->json(new ProductResource($data));
     }
 
-    public function getServices()
+    public function getServicesDigiflazz()
     {
         $settingMargin = SettingMargin::first();
         $margin = $settingMargin->margin;

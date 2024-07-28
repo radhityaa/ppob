@@ -1,41 +1,53 @@
 pipeline {
     agent any
 
-    environment {
-        // Define any environment variables here
-        TARGET_DIR = '/www/wwwroot/ayasyatech.store'
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                dir("${TARGET_DIR}") {
-                    bat "git pull origin main"
-                }
+                // Checkout code from GitHub
+                checkout scm
             }
         }
-
         stage('Install Dependencies') {
             steps {
-                bat "cd ${TARGET_DIR} && composer install"
+                // Install Composer dependencies
+                sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
             }
         }
-
         stage('Clear Cache') {
             steps {
-                bat "cd ${TARGET_DIR} && php artisan cache:clear"
-                bat "cd ${TARGET_DIR} && php artisan config:clear"
-                bat "cd ${TARGET_DIR} && php artisan route:clear"
+                // Clear Laravel cache
+                sh 'php artisan config:cache'
+                sh 'php artisan route:cache'
+                sh 'php artisan view:cache'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Any build steps can go here
+                echo 'Build completed'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy steps can go here
+                echo 'Deployment completed'
             }
         }
     }
 
     post {
+        always {
+            // Clean workspace after build
+            cleanWs()
+        }
         success {
-            echo 'Build succeeded!'
+            // Notify success
+            echo 'Build and deployment successful'
         }
         failure {
-            echo 'Build failed!'
+            // Notify failure
+            echo 'Build or deployment failed'
         }
     }
 }

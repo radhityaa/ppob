@@ -26,6 +26,11 @@
                         disabled>
                 </div>
                 <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" placeholder="description" class="form-control">{{ $data->description }}</textarea>
+                </div>
+
+                <div class="mb-3">
                     <label for="message" class="form-label">Message</label>
                     <textarea name="message" id="message" placeholder="message" class="form-control">{{ $data->message }}</textarea>
                 </div>

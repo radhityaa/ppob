@@ -26,6 +26,7 @@
                         <tr>
                             <th>No</th>
                             <th>Type</th>
+                            <th>Description</th>
                             <th>Created At</th>
                             <th width="100px"></th>
                         </tr>
@@ -55,6 +56,10 @@
                 {
                     data: 'type',
                     name: 'type'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
                 },
                 {
                     data: 'created_at',

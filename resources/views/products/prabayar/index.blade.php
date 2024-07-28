@@ -518,7 +518,6 @@
                     category: category
                 },
                 success: function(res) {
-                    var role = "{{ $role }}"
                     servicesContainer.empty(); // Clear the existing content
 
                     // Assuming 'res' is an array of objects
@@ -549,15 +548,12 @@
                                     </div>
                                 </div>
                                 <ul class="ps-3 g-2">
-                                    <li class="text-truncate-multiline">${service.category} • ${service.type}</li>
                                     <li class="text-truncate-multiline">${service.product_name}</li>
-                                    <li class="text-truncate-multiline mt-3">${service.desc}</li>
+                                    <li class="text-truncate-multiline">Stok: ${service.unlimited_stock ? 'Unlimited' : service.stock}</li>
+                                    <li class="text-truncate-multiline">Multi Transaksi: ${service.multi ? 'Ya' : 'Tidak'}</li>
+                                    <li class="text-truncate-multiline">Cut Off: ${service.start_cut_off} s/d ${service.end_cut_off}</li>
+                                    <li class="text-truncate-multiline">${service.desc}</li>
                                 </ul>
-                                <div class="d-grid w-100">
-                                    <button class="btn text-primary bg-primary btn-sm" onclick="detailProduct(${service.id})" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                                        <span class="text-white">Detail</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -60,7 +60,7 @@
                 <br />
                 Please contact your site administrator.
             </p>
-            <a href="{{ route('home') }}" class="btn btn-primary mb-4">Back to home</a>
+            <a href="/" class="btn btn-primary mb-4">Back to home</a>
             <div class="mt-4">
                 <img src="{{ asset('assets/img/illustrations/page-misc-you-are-not-authorized.png') }}"
                     alt="page-misc-not-authorized" width="170" class="img-fluid" />

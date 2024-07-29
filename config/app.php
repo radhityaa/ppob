@@ -11,9 +11,6 @@ return [
     |
     */
 
-    'license_key' => env('license_key'),
-    'license_server_url' => 'http://127.0.0.1:8001/api/licenses',
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -196,7 +193,7 @@ return [
          * Package Service Providers...
          */
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
-        App\Providers\LicenseServiceProvider::class,
+        Froiden\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
 
         /*
          * Application Service Providers...

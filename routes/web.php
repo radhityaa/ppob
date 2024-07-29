@@ -39,7 +39,7 @@ Route::view('/banned', 'layouts.accountBanned')->name('account.banned');
 Route::view('/suspend', 'layouts.accountSuspend')->name('account.suspend');
 Route::view('/comming-soon', 'errors.commingsoon')->name('commingsoon');
 
-Route::middleware(['auth', 'checkuser', 'license.check'])->group(function () {
+Route::middleware(['auth', 'checkuser'])->group(function () {
     // Profile
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('{user}/account', [ProfileController::class, 'account'])->name('account');

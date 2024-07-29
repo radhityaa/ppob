@@ -14,20 +14,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-
-        $schedule->call(function () {
-            $licenseKey = config('app.license_key');
-            $licenseServer = config('app.license_server_url');
-
-            $response = Http::post($licenseServer, [
-                'license_key' => $licenseKey,
-                'domain' => request()->getHost(),
-            ]);
-
-            if ($response->failed() || $response->json('status') !== 'valid') {
-                abort(403, 'License Invalid');
-            }
-        })->daily();
     }
 
     /**

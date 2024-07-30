@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrabayarController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\RechargeItemController;
 use App\Http\Controllers\RechargeTitleController;
 use App\Http\Controllers\ReportController;

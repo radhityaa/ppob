@@ -171,43 +171,18 @@ class PrabayarController extends Controller
     {
         if ($request->ajax()) {
             if (Auth::user()->hasRole('admin')) {
-                $data = Transaction::where('type', 'prabayar')->latest()->get();
+                $data = Transaction::where('type', 'prabayar')->latest()->paginate(3);
             } else {
-                $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->get();
+                $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->paginate(3);
             }
 
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->editColumn('sn', function ($row) {
-                    return $row->sn ? '<span class="copy-sn" data-sn="' . $row->sn . '">' . $row->sn . ' <span class="copy-text">(copy)</span></span>' : '';
-                })
-                ->editColumn('status', function ($row) {
-                    switch ($row->status) {
-                        case 'Sukses':
-                            return '<span class="badge bg-success">Sukses</span>';
-                            break;
-                        case 'Pending':
-                            return '<span class="badge bg-warning">Pending</span>';
-                            break;
-                        case 'Gagal':
-                            return '<span class="badge bg-danger">Gagal</span>';
-                            break;
-                    }
-                })
-                ->addColumn('action', function ($row) {
-                    $actionBtn = '<button data-invoice="' . $row->invoice . '" id="detail" class="btn btn-info btn-sm me-1"><i class="ti ti-eye"></i></button>';
-                    $actionBtn .= '<button id="share" data-invoice="' . $row->invoice . '" data-target="' . $row->target . '" class="btn btn-success btn-sm me-1"><i class="ti ti-share"></i></button>';
-
-                    return '<div class="d-flex">' . $actionBtn . '</div>';
-                })
-                ->rawColumns(['action', 'status', 'sn'])
-                ->make(true);
+            return response()->json($data);
         }
 
         $title = 'Riwayat Pembelian';
 
         if (Auth::user()->hasRole('admin')) {
-            // Jika admin, ambil semua deposit
+            // Jika admin, ambil semua
             $statusCounts = Transaction::where('type', 'prabayar')
                 ->select('status', DB::raw('count(*) as count'))
                 ->groupBy('status')
@@ -215,6 +190,7 @@ class PrabayarController extends Controller
                 ->pluck('count', 'status');
 
             $total = Transaction::where('type', 'prabayar')->count();
+            $data = Transaction::where('type', 'prabayar')->latest()->get();
         } else {
             // Jika bukan admin, ambil transaction berdasarkan user_id
             $statusCounts = Transaction::where('user_id', Auth::user()->id)
@@ -225,6 +201,7 @@ class PrabayarController extends Controller
                 ->pluck('count', 'status');
 
             $total = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->count();
+            $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->get();
         }
 
         $totalSukses = $statusCounts->get('Sukses', 0);
@@ -232,7 +209,7 @@ class PrabayarController extends Controller
         $totalGagal = $statusCounts->get('Gagal', 0);
         $checkWaat = WhatsappGateway::where('user_id', Auth::user()->id)->first();
 
-        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat'));
+        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat', 'data'));
     }
 
     public function historyDetail($invoice)

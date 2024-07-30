@@ -94,25 +94,24 @@
             <td>{{ $invoice->status }}</td>
         </tr>
         <tr>
-            <td class="label">SN</td>
-            <td class="separator">:</td>
-            <td>{{ $invoice->seller->sn }}</td>
-        </tr>
-        <tr>
             <td class="label">Keterangan</td>
             <td class="separator">:</td>
-            <td>{{ $item->description }}</td>
+            <td style="word-wrap: break-word;">{{ $item->description }}</td>
         </tr>
     </table>
 
+    <div style="text-align: center; padding-top: 14px; padding-bottom: 14px;">
+        <span style="font-weight:bold; font-size: 14px;">** Serial Number **</span>
+        <div style="font-size: 11px; width: 250px; word-wrap: break-word;">
+            {{ $invoice->seller->sn }}
+        </div>
+    </div>
+
     <span>===========================================</span>
+
 
     <div style="text-align: center;">
         <h2 style="font-weight:bold; font-size: 13px;">TERIMA KASIH</h2>
-        <div style="font-size: 11px;">
-            Tersedia Pulsa, Kuota, E-Money, Token PLN, Bayar Listrik, PDAM, Telkom, Internet, Wifi, Voucher Data, Topup
-            Game Dan Pembayaran Lainnya.
-        </div>
     </div>
 
     <script type="text/php">

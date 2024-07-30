@@ -98,34 +98,64 @@
             </div>
         </div>
     </div>
-    <!-- List Table -->
 
-    <div class="card">
-        <div class="d-flex justify-content-end py-2">
-            <button class="btn btn-primary btn-sm" onclick="refresh()">Refresh</button>
-        </div>
-        <div class="card-datatable table-responsive">
-            <table class="dataTable table border-top">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tanggal</th>
-                        <th>Invoice</th>
-                        <th>Target</th>
-                        <th>Produk</th>
-                        <th>Harga</th>
-                        <th>SN</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
+    <div class="my-4">
+        <div class="row g-4">
+            @foreach ($data as $item)
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span
+                                    class="badge {{ $item->status === 'Sukses' ? 'bg-label-success' : ($item->status === 'Pending' ? 'bg-label-warning' : 'bg-label-danger') }}">{{ $item->status }}</span>
+                                <div class="d-flex justify-content-center">
+                                    <sup
+                                        class="h6 fw-medium pricing-currency mt-3 mb-0 me-1 {{ $item->status === 'Sukses' ? 'text-success' : ($item->status === 'Pending' ? 'text-warning' : 'text-danger') }}">Rp</sup>
+                                    <h1
+                                        class="mb-0 {{ $item->status === 'Sukses' ? 'text-success' : ($item->status === 'Pending' ? 'text-warning' : 'text-danger') }}">
+                                        {{ number_format($item->price, 0, '.', '.') }}</h1>
+                                </div>
+                            </div>
+                            <div class="ps-1 g-2">
+                                <span class="d-block text-truncate-multiline">{{ $item->created_at }}</span>
+                                <span class="d-block text-truncate-multiline">Invoice: {{ $item->invoice }}</span>
+                                <span class="d-block text-truncate-multiline fw-semibold mt-3">Produk:
+                                    {{ $item->product_name }}</span>
+                                <span class="d-block text-truncate-multiline">Tujuan: {{ $item->target }}</span>
+                                <span class="d-block text-truncate-multiline">Ket: {{ $item->message }}</span>
+                                <span class="d-block text-truncate-multiline mt-3">Serial Number:</span>
+                                <span class="d-block text-truncate-multiline fw-semibold">{{ $item->sn }}</span>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-4 p-1">
+                                    <button class="w-100 btn bg-primary" id="share" data-invoice="{{ $item->invoice }}"
+                                        data-target="{{ $item->target }}">
+                                        <span class="text-white">Share</span>
+                                    </button>
+                                </div>
+                                <div class="col-4 p-1">
+                                    <button class="w-100 btn bg-warning" id="print" data-invoice="{{ $item->invoice }}"
+                                        data-target="{{ $item->target }}">
+                                        <span class="text-white">Print</span>
+                                    </button>
+                                </div>
+                                {{-- <div class="col-4 p-1">
+                                    <button class="w-100 btn bg-success" id="share" data-invoice="{{ $item->invoice }}"
+                                        data-target="{{ $item->target }}">
+                                        <span class="text-white">Whatsapp</span>
+                                    </button>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 
+    <!-- Modal -->
     <div class="mt-3">
-        <!-- Modal -->
-        <div class="modal fade modal-sm" id="modalDetail" tabindex="-1" aria-hidden="true">
+        <div class="modal fade modal-lg" id="modalDetail" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -181,35 +211,23 @@
         </div>
     </div>
 
+    {{-- Modal Margin Share --}}
     <div class="mt-3">
-        {{-- Modal Share --}}
-        <div class="modal fade modal-sm" id="modalShare" tabindex="-1" aria-hidden="true">
+        <div class="modal fade modal-sm" id="modalMarginShare" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div class="row gap-2">
-                            {{-- <div class="col-12 mb-3">
-                                @if ($checkWaat->status == 'Connected')
-                                    <button id="btn-wa" class="w-100 btn btn-success"><i
-                                            class="ti ti-brand-whatsapp me-1"></i>
-                                        Whatsapp</button>
-                                    <x-button-loading />
-                                @else
-                                    <button id="btn-wa" class="w-100 btn btn-danger" disabled><i
-                                            class="ti ti-brand-whatsapp me-1"></i>
-                                        Whatsapp</button>
-                                    <p style="color: red; font-size: 14px;" class="lh-sm">Whatsapp Gateway Belum
-                                        Connect, Silahkan
-                                        Connect
-                                        Terlebih Dahulu Di Menu "WhatsApp
-                                        Gateway"</p>
-                                @endif
-                            </div>
-                            <hr> --}}
-                            <div class="col-12">
-                                <button id="print" class="w-100 btn btn-info"><i class="ti ti-printer me-1"></i>
-                                    Print</button>
-                            </div>
+                        <input type="hidden" name="invoice" id="invoice">
+                        <div class="mb-3">
+                            <label for="margin" class="form-label">Harga Jual</label>
+                            <input type="text" name="margin" id="margin" class="form-control" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btn-share" class="w-100 btn btn-primary"><i
+                                    class="ti ti-share me-1"></i>
+                                Share</button>
+                            <x-button-loading />
                         </div>
                     </div>
                 </div>
@@ -217,9 +235,9 @@
         </div>
     </div>
 
+    {{-- Modal Margin Print --}}
     <div class="mt-3">
-        {{-- Modal Margin --}}
-        <div class="modal fade modal-sm" id="modalMargin" tabindex="-1" aria-hidden="true">
+        <div class="modal fade modal-sm" id="modalMarginPrint" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -232,40 +250,8 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" id="print" class="w-100 btn btn-info"><i
-                                        class="ti ti-printer me-1"></i>
+                                <button type="submit" class="w-100 btn btn-warning"><i class="ti ti-printer me-1"></i>
                                     Print</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-3">
-        {{-- Modal Margin Wa --}}
-        <div class="modal fade modal-sm" id="modalMarginWa" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form action="{{ route('history.prabayar.wa') }}" method="POST" id="form-wa">
-                            @csrf
-                            <input type="hidden" name="invoice-wa" id="invoice-wa">
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Nomor</label>
-                                <input type="number" name="phone" id="phone" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="margin-wa" class="form-label">Harga Jual</label>
-                                <input type="text" name="margin-wa" id="margin-wa" class="form-control" required>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" id="send" class="w-100 btn btn-info btn-send"><i
-                                        class="ti ti-send me-1"></i>
-                                    Kirim</button>
-                                <x-button-loading />
                             </div>
                         </form>
                     </div>
@@ -292,88 +278,31 @@
             return 'Rp ' + formatted;
         }
 
-        var table = $('.dataTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('history.prabayar') }}",
-            columnDefs: [{
-                // For Responsive
-                className: 'control',
-                orderable: false,
-                searchable: false,
-                responsivePriority: 3,
-                targets: 0,
-                render: function(data, type, full, meta) {
-                    return '';
-                }
-            }],
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'invoice',
-                    name: 'invoice'
-                },
-                {
-                    data: 'target',
-                    name: 'target'
-                },
-                {
-                    data: 'product_name',
-                    name: 'product_name'
-                },
-                {
-                    data: 'price',
-                    name: 'price'
-                },
-                {
-                    data: 'sn',
-                    name: 'sn'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
-            responsive: true,
-        });
-
         function refresh() {
             table.ajax.reload(null, false)
         }
 
-        $('body').on('click', '#detail', function() {
-            $('#modalDetail').modal('show')
+        $('body').on('click', '#share', function() {
+            $('#modalMarginShare').modal('show')
             var invoice = $(this).data('invoice')
+            $('#invoice').val(invoice)
+        })
 
-            $('#modalDetailTitle').html('Loading...')
-            $('#date').html('Loading...')
-            $('#target').html('Loading...')
-            $('#product_name').html('Loading...')
-            $('#sn-text').html('Loading...');
-            $('#copy-sn-detail').data('sn', ''); // Clear previous SN data attribute
-            $('#message').html('Loading...')
-            $('#price').html('Loading...')
-            $('#status').html('Loading...')
-
+        $('body').on('click', '#btn-share', function() {
+            var invoice = $('#invoice').val()
+            var margin = $('#margin').val()
             let url = "{{ route('history.prabayar.detail', ':invoice') }}"
             url = url.replace(':invoice', invoice)
+            $('.btn-loading').removeClass('d-none')
+            $('#btn-share').addClass('d-none')
 
             $.ajax({
                 url: url,
                 method: "GET",
                 success: function(res) {
+                    $('#modalDetail').modal('show')
+                    $('#modalMarginShare').modal('hide')
+
                     $('#modalDetailTitle').html(res.invoice)
                     $('#date').html(res.created_at)
                     $('#target').html(res.target)
@@ -381,7 +310,7 @@
                     $('#sn-text').html(res.sn);
                     $('#copy-sn-detail').data('sn', res.sn); // Set SN data attribute for copy
                     $('#message').html(res.message)
-                    $('#price').html(res.price)
+                    $('#price').html(margin)
                     $('#status').html(res.status)
                 },
                 error: function(err) {
@@ -397,23 +326,10 @@
             })
         })
 
-        $('body').on('click', '#share', function() {
-            $('#modalShare').modal('show')
+        $('body').on('click', '#print', function() {
             var invoice = $(this).data('invoice')
-            var target = $(this).data('target')
-
-            $('#print').on('click', function() {
-                $('#invoice').val(invoice)
-                $('#modalShare').modal('hide')
-                $('#modalMargin').modal('show')
-            })
-
-            $('#btn-wa').on('click', function() {
-                $('#modalShare').modal('hide')
-                $('#modalMarginWa').modal('show')
-                $('#invoice-wa').val(invoice)
-                $('#phone').val(target)
-            })
+            $('#modalMarginPrint').modal('show')
+            $('#invoice').val(invoice)
         })
 
         function numberFormatIdr(value) {
@@ -424,23 +340,6 @@
         }
 
         $(document).ready(function() {
-            $('#margin-wa').on('input', function() {
-                // Ambil nilai input
-                var inputValue = $(this).val();
-
-                // Hilangkan semua karakter selain angka
-                var numericValue = inputValue.replace(/Rp|\./g, '');
-
-                // Konversi ke integer
-                var integerValue = parseInt(numericValue, 10);
-
-                // Format kembali sebagai Rupiah
-                var formatted = numberFormatIdr(integerValue);
-
-                $(this).val(formatted);
-                $('#margin-wa').val(formatted);
-            })
-
             $('body').on('click', '.copy-text', function() {
                 var snText = $(this).closest('.copy-sn').data('sn')
                 navigator.clipboard.writeText(snText).then(function() {
@@ -467,54 +366,16 @@
                 $('#margin').val(formatted);
             })
 
-            $('#modalMargin').on('hidden.bs.modal', function() {
+            $('#modalMarginPrint').on('hidden.bs.modal', function() {
                 $('#margin').val('')
                 $('.modal-body form')[0].reset();
             })
 
-            $('#modalMarginWa').on('hidden.bs.modal', function() {
-                $('#margin-wa').val('')
+            $('#modalMarginShare').on('hidden.bs.modal', function() {
+                $('#margin').val('')
                 $('.modal-body form')[0].reset();
-            })
-
-            $('#form-wa').on('submit', function(e) {
-                e.preventDefault()
-                var inv = $('#invoice-wa').val()
-                var margin = $('#margin-wa').val()
-                var phone = $('#phone').val()
-
-                $('.btn-loading').removeClass('d-none')
-                $('.btn-send').addClass('d-none')
-
-                $.ajax({
-                    url: "{{ route('history.prabayar.wa') }}",
-                    method: "POST",
-                    data: {
-                        invoice: inv,
-                        margin: margin,
-                        phone: phone
-                    },
-                    success: function(res) {
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: res.message,
-                            icon: 'success',
-                            customClass: {
-                                confirmButton: 'btn btn-primary waves-effect waves-light'
-                            },
-                            buttonsStyling: false
-                        })
-
-                        $('.btn-loading').addClass('d-none')
-                        $('.btn-send').removeClass('d-none')
-                        $('#modalMarginWa').modal('hide')
-                    },
-                    error: function(err) {
-                        $('.btn-loading').addClass('d-none')
-                        $('.btn-send').removeClass('d-none')
-                        $('#modalMarginWa').modal('hide')
-                    }
-                })
+                $('.btn-loading').addClass('d-none')
+                $('#btn-share').removeClass('d-none')
             })
         })
 

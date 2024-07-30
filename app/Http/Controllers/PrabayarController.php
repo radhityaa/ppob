@@ -190,7 +190,7 @@ class PrabayarController extends Controller
                 ->pluck('count', 'status');
 
             $total = Transaction::where('type', 'prabayar')->count();
-            $data = Transaction::where('type', 'prabayar')->latest()->get();
+            $data = Transaction::where('type', 'prabayar')->latest()->paginate(6);
         } else {
             // Jika bukan admin, ambil transaction berdasarkan user_id
             $statusCounts = Transaction::where('user_id', Auth::user()->id)
@@ -201,7 +201,7 @@ class PrabayarController extends Controller
                 ->pluck('count', 'status');
 
             $total = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->count();
-            $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->get();
+            $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->paginate(6);
         }
 
         $totalSukses = $statusCounts->get('Sukses', 0);

@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
 
     <style>
         .copy-text {
@@ -99,7 +102,39 @@
         </div>
     </div>
 
-    <div class="my-4">
+    {{-- Filter --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="py-2 col-md-4">
+                    <div class="input-group input-daterange" id="bs-datepicker-daterange">
+                        <input type="text" id="start_date" name="end_date" placeholder="MM/DD/YYYY"
+                            class="form-control" />
+                        <span class="input-group-text">ke</span>
+                        <input type="text" id="end_date" name="end_date" placeholder="MM/DD/YYYY"
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="py-2 col-md-2">
+                    <select id="status" name="status" class="form-select">
+                        <option value="" selected disabled>-- Pilih Status --</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Sukses">Sukses</option>
+                        <option value="Gagal">Gagal</option>
+                    </select>
+                </div>
+                <div class="py-2 col-md-4">
+                    <input type="text" id="invoice" name="invoice" class="form-control" placeholder="TRX-xxxxxxxx">
+                </div>
+                <div class="py-2 col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block w-100">Cari</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Card --}}
+    <div class="my-2">
         <div class="row g-4">
             @foreach ($data as $item)
                 <div class="col-md-6">
@@ -118,24 +153,26 @@
                             </div>
                             <div class="ps-1 g-2">
                                 <span class="d-block text-truncate-multiline">{{ $item->created_at }}</span>
-                                <span class="d-block text-truncate-multiline">Invoice: {{ $item->invoice }}</span>
-                                <span class="d-block text-truncate-multiline fw-semibold mt-3">Produk:
-                                    {{ $item->product_name }}</span>
-                                <span class="d-block text-truncate-multiline">Tujuan: {{ $item->target }}</span>
+                                <span class="d-block text-truncate-multiline">Invoice: <span
+                                        class="fw-bold">{{ $item->invoice }}</span></span>
+                                <span class="d-block text-truncate-multiline mt-3">Produk:
+                                    <span class="fw-bold">{{ $item->product_name }}</span></span>
+                                <span class="d-block text-truncate-multiline">Tujuan: <span
+                                        class="fw-bold">{{ $item->target }}</span></span>
                                 <span class="d-block text-truncate-multiline">Ket: {{ $item->message }}</span>
                                 <span class="d-block text-truncate-multiline mt-3">Serial Number:</span>
-                                <span class="d-block text-truncate-multiline fw-semibold">{{ $item->sn }}</span>
+                                <span class="d-block text-truncate-multiline fw-bold">{{ $item->sn }}</span>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-4 p-1">
-                                    <button class="w-100 btn bg-primary" id="share" data-invoice="{{ $item->invoice }}"
-                                        data-target="{{ $item->target }}">
+                                    <button class="w-100 btn bg-primary" id="share"
+                                        data-invoice="{{ $item->invoice }}" data-target="{{ $item->target }}">
                                         <span class="text-white">Share</span>
                                     </button>
                                 </div>
                                 <div class="col-4 p-1">
-                                    <button class="w-100 btn bg-warning" id="print" data-invoice="{{ $item->invoice }}"
-                                        data-target="{{ $item->target }}">
+                                    <button class="w-100 btn bg-warning" id="print"
+                                        data-invoice="{{ $item->invoice }}" data-target="{{ $item->target }}">
                                         <span class="text-white">Print</span>
                                     </button>
                                 </div>
@@ -150,6 +187,37 @@
                     </div>
                 </div>
             @endforeach
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {{ $data->onFirstPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $data->url(1) }}">
+                            <i class="ti ti-chevrons-left ti-xs"></i>
+                        </a>
+                    </li>
+                    <li class="page-item {{ $data->currentPage() == 1 ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $data->previousPageUrl() }}">
+                            <i class="ti ti-chevron-left ti-xs"></i>
+                        </a>
+                    </li>
+
+                    @for ($i = max(1, $data->currentPage() - 2); $i <= min($data->lastPage(), $data->currentPage() + 2); $i++)
+                        <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+
+                    <li class="page-item {{ $data->currentPage() == $data->lastPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $data->nextPageUrl() }}">
+                            <i class="ti ti-chevron-right ti-xs"></i>
+                        </a>
+                    </li>
+                    <li class="page-item {{ $data->onLastPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $data->url($data->lastPage()) }}">
+                            <i class="ti ti-chevrons-right ti-xs"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 
@@ -174,7 +242,7 @@
                                 </tr>
                                 <tr>
                                     <th class="fw-semibold">Tujuan</th>
-                                    <td id="target"></td>
+                                    <td id="target" class="fw-bold"></td>
                                 </tr>
                                 <tr>
                                     <th class="fw-semibold">Produk</th>
@@ -182,8 +250,9 @@
                                 </tr>
                                 <tr>
                                     <th class="fw-semibold">SN</th>
-                                    <td id="sn"><span id="sn-text"></span> <span class="copy-text-detail"
-                                            data-sn="" id="copy-sn-detail">(copy)</span></td>
+                                    <td id="sn"><span id="sn-text" class="fw-bold"></span> <span
+                                            class="copy-text-detail" data-sn="" id="copy-sn-detail">(copy)</span>
+                                    </td>
                                 </tr>
                                 </tr>
                                 <tr>
@@ -192,7 +261,7 @@
                                 </tr>
                                 <tr>
                                     <th class="fw-semibold">Harga</th>
-                                    <td id="price"></td>
+                                    <td id="price" class="fw-bold"></td>
                                 </tr>
                                 <tr>
                                     <th class="fw-semibold">Status</th>
@@ -263,6 +332,8 @@
 
 @push('page-js')
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 
     <script>
         $.ajaxSetup({
@@ -311,7 +382,15 @@
                     $('#copy-sn-detail').data('sn', res.sn); // Set SN data attribute for copy
                     $('#message').html(res.message)
                     $('#price').html(margin)
-                    $('#status').html(res.status)
+
+                    if (res.status === 'Sukses') {
+                        $('td#status').html('<span class="badge bg-success">Sukses</span>')
+                    } else if (res.status === 'Pending') {
+                        $('td#status').html('<span class="badge bg-warning">Pending</span>')
+                    } else {
+                        $('td#status').html('<span class="badge bg-danger">Gagal</span>')
+                    }
+
                 },
                 error: function(err) {
                     $('#modalDetailTitle').html('Terjadi Kesalahan, Ulangi Lagi')
@@ -329,7 +408,7 @@
         $('body').on('click', '#print', function() {
             var invoice = $(this).data('invoice')
             $('#modalMarginPrint').modal('show')
-            $('#invoice').val(invoice)
+            $('input#invoice').val(invoice)
         })
 
         function numberFormatIdr(value) {
@@ -376,6 +455,10 @@
                 $('.modal-body form')[0].reset();
                 $('.btn-loading').addClass('d-none')
                 $('#btn-share').removeClass('d-none')
+            })
+
+            $('#bs-datepicker-daterange').datepicker({
+                todayHighlight: true,
             })
         })
 

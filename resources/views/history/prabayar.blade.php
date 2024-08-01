@@ -106,29 +106,45 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="row">
-                <div class="py-2 col-md-4">
-                    <div class="input-group input-daterange" id="bs-datepicker-daterange">
-                        <input type="text" id="start_date" name="end_date" placeholder="MM/DD/YYYY"
-                            class="form-control" />
-                        <span class="input-group-text">ke</span>
-                        <input type="text" id="end_date" name="end_date" placeholder="MM/DD/YYYY"
-                            class="form-control" />
+                <form action="{{ route('history.prabayar') }}" method="GET" class="row">
+                    {{-- <div class="py-2 col-md-4">
+                        <div class="form-group">
+                            <label for="start_date">Start Date:</label>
+                            <input type="date" name="start_date" id="start_date" class="form-control"
+                                value="{{ old('start_date', $startDate) }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">End Date:</label>
+                            <input type="date" name="end_date" id="end_date" class="form-control"
+                                value="{{ old('end_date', $endDate) }}">
+                        </div>
+                    </div> --}}
+                    <div class="py-2 col-md-2">
+                        <select id="status" name="status" class="form-select">
+                            <option value="" selected disabled>-- Pilih Status --</option>
+                            <option value="" {{ old('status', $filterStatus) == 'Semua' ? 'selected' : '' }}>
+                                Semua
+                            </option>
+                            <option value="Pending" {{ old('status', $filterStatus) == 'Pending' ? 'selected' : '' }}>
+                                Pending
+                            </option>
+                            <option value="Sukses" {{ old('status', $filterStatus) == 'Sukses' ? 'selected' : '' }}>Sukses
+                            </option>
+                            <option value="Gagal" {{ old('status', $filterStatus) == 'Gagal' ? 'selected' : '' }}>Gagal
+                            </option>
+                        </select>
                     </div>
-                </div>
-                <div class="py-2 col-md-2">
-                    <select id="status" name="status" class="form-select">
-                        <option value="" selected disabled>-- Pilih Status --</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Sukses">Sukses</option>
-                        <option value="Gagal">Gagal</option>
-                    </select>
-                </div>
-                <div class="py-2 col-md-4">
-                    <input type="text" id="invoice" name="invoice" class="form-control" placeholder="TRX-xxxxxxxx">
-                </div>
-                <div class="py-2 col-md-2">
-                    <button type="submit" class="btn btn-primary btn-block w-100">Cari</button>
-                </div>
+                    <div class="py-2 col-md-4">
+                        <input type="text" id="invoice" name="invoice" class="form-control" placeholder="TRX-xxxxxxxx"
+                            value="{{ old('invoice', $filterInvoice) }}">
+                    </div>
+                    <div class="py-2 col-md-2">
+                        <button type="submit" class="btn btn-primary btn-block w-100">Cari</button>
+                    </div>
+                    <div class="py-2 col-md-2">
+                        <a href="{{ route('history.prabayar') }}" class="btn btn-light btn-block w-100">Reset</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -152,7 +168,8 @@
                                 </div>
                             </div>
                             <div class="ps-1 g-2">
-                                <span class="d-block text-truncate-multiline">{{ $item->created_at }}</span>
+                                <span
+                                    class="d-block text-truncate-multiline">{{ $item->created_at->format('d/m/Y H:i:s') }}</span>
                                 <span class="d-block text-truncate-multiline">Invoice: <span
                                         class="fw-bold">{{ $item->invoice }}</span></span>
                                 <span class="d-block text-truncate-multiline mt-3">Produk:
@@ -189,35 +206,67 @@
             @endforeach
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
+                    <!-- Previous Page Link -->
                     <li class="page-item {{ $data->onFirstPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $data->url(1) }}">
-                            <i class="ti ti-chevrons-left ti-xs"></i>
-                        </a>
-                    </li>
-                    <li class="page-item {{ $data->currentPage() == 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $data->previousPageUrl() }}">
+                        <a class="page-link"
+                            href="{{ $data->previousPageUrl()
+                                ? $data->appends([
+                                        'status' => $filterStatus,
+                                        'invoice' => $filterInvoice,
+                                    ])->previousPageUrl()
+                                : '#' }}">
                             <i class="ti ti-chevron-left ti-xs"></i>
                         </a>
                     </li>
 
+                    <!-- First Page Link -->
+                    <li class="page-item {{ $data->onFirstPage() ? 'disabled' : '' }}">
+                        <a class="page-link"
+                            href="{{ $data->appends([
+                                    'status' => $filterStatus,
+                                    'invoice' => $filterInvoice,
+                                ])->url(1) }}">
+                            <i class="ti ti-chevrons-left ti-xs"></i>
+                        </a>
+                    </li>
+
+                    <!-- Pagination Numbers -->
                     @for ($i = max(1, $data->currentPage() - 2); $i <= min($data->lastPage(), $data->currentPage() + 2); $i++)
                         <li class="page-item {{ $data->currentPage() == $i ? 'active' : '' }}">
-                            <a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a>
+                            <a class="page-link"
+                                href="{{ $data->appends([
+                                        'status' => $filterStatus,
+                                        'invoice' => $filterInvoice,
+                                    ])->url($i) }}">{{ $i }}</a>
                         </li>
                     @endfor
 
+                    <!-- Next Page Link -->
                     <li class="page-item {{ $data->currentPage() == $data->lastPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $data->nextPageUrl() }}">
+                        <a class="page-link"
+                            href="{{ $data->nextPageUrl()
+                                ? $data->appends([
+                                        'status' => $filterStatus,
+                                        'invoice' => $filterInvoice,
+                                    ])->nextPageUrl()
+                                : '#' }}">
                             <i class="ti ti-chevron-right ti-xs"></i>
                         </a>
                     </li>
-                    <li class="page-item {{ $data->onLastPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $data->url($data->lastPage()) }}">
+
+                    <!-- Last Page Link -->
+                    <li class="page-item {{ $data->currentPage() == $data->lastPage() ? 'disabled' : '' }}">
+                        <a class="page-link"
+                            href="{{ $data->appends([
+                                    'status' => $filterStatus,
+                                    'invoice' => $filterInvoice,
+                                ])->url($data->lastPage()) }}">
                             <i class="ti ti-chevrons-right ti-xs"></i>
                         </a>
                     </li>
                 </ul>
             </nav>
+
         </div>
     </div>
 
@@ -459,6 +508,8 @@
 
             $('#bs-datepicker-daterange').datepicker({
                 todayHighlight: true,
+                format: 'mm/dd/yyyy',
+                autoclose: true,
             })
         })
 

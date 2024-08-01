@@ -169,48 +169,56 @@ class PrabayarController extends Controller
 
     public function history(Request $request)
     {
-        if ($request->ajax()) {
-            if (Auth::user()->hasRole('admin')) {
-                $data = Transaction::where('type', 'prabayar')->latest()->paginate(3);
-            } else {
-                $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->paginate(3);
-            }
-
-            return response()->json($data);
-        }
+        $filterStatus = $request->status;
+        $filterInvoice = $request->invoice;
 
         $title = 'Riwayat Pembelian';
+        $query = Transaction::where('type', 'prabayar');
 
         if (Auth::user()->hasRole('admin')) {
-            // Jika admin, ambil semua
-            $statusCounts = Transaction::where('type', 'prabayar')
-                ->select('status', DB::raw('count(*) as count'))
+            // Jika admin, ambil semua data
+            $statusCounts = Transaction::select('status', DB::raw('count(*) as count'))
+                ->where('type', 'prabayar')
                 ->groupBy('status')
                 ->get()
                 ->pluck('count', 'status');
 
             $total = Transaction::where('type', 'prabayar')->count();
-            $data = Transaction::where('type', 'prabayar')->latest()->paginate(6);
         } else {
-            // Jika bukan admin, ambil transaction berdasarkan user_id
-            $statusCounts = Transaction::where('user_id', Auth::user()->id)
+            // Jika bukan admin, filter berdasarkan user_id
+            $query = $query->where('user_id', Auth::user()->id);
+
+            $statusCounts = Transaction::select('status', DB::raw('count(*) as count'))
                 ->where('type', 'prabayar')
-                ->select('status', DB::raw('count(*) as count'))
+                ->where('user_id', Auth::user()->id)
                 ->groupBy('status')
                 ->get()
                 ->pluck('count', 'status');
 
-            $total = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->count();
-            $data = Transaction::where('user_id', Auth::user()->id)->where('type', 'prabayar')->latest()->paginate(6);
+            $total = Transaction::where('type', 'prabayar')->where('user_id', Auth::user()->id)->count();
         }
 
+        // Filter berdasarkan status
+        if ($filterStatus) {
+            $query = $query->where('status', $filterStatus);
+        }
+
+        // Filter berdasarkan invoice
+        if ($filterInvoice) {
+            $query = $query->where('invoice', $filterInvoice);
+        }
+
+        // Ambil data yang difilter dan urutkan berdasarkan waktu terbaru
+        $data = $query->latest()->paginate(6);
         $totalSukses = $statusCounts->get('Sukses', 0);
         $totalPending = $statusCounts->get('Pending', 0);
         $totalGagal = $statusCounts->get('Gagal', 0);
         $checkWaat = WhatsappGateway::where('user_id', Auth::user()->id)->first();
 
-        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat', 'data'));
+        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat', 'data', 'filterStatus', 'filterInvoice'));
     }
+
+
 
     public function historyDetail($invoice)
     {

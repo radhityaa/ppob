@@ -364,7 +364,8 @@
                             <input type="hidden" name="invoice" id="invoice">
                             <div class="mb-3">
                                 <label for="margin" class="form-label">Harga Jual</label>
-                                <input type="text" name="margin" id="margin" class="form-control" required>
+                                <input type="text" name="margin" id="margin" class="form-control margin-print"
+                                    required>
                             </div>
 
                             <div class="modal-footer">
@@ -492,6 +493,23 @@
 
                 $(this).val(formatted);
                 $('#margin').val(formatted);
+            })
+
+            $('.margin-print').on('input', function() {
+                // Ambil nilai input
+                var inputValue = $(this).val();
+
+                // Hilangkan semua karakter selain angka
+                var numericValue = inputValue.replace(/Rp|\./g, '');
+
+                // Konversi ke integer
+                var integerValue = parseInt(numericValue, 10);
+
+                // Format kembali sebagai Rupiah
+                var formatted = numberFormatIdr(integerValue);
+
+                $(this).val(formatted);
+                $('.margin-print').val(formatted);
             })
 
             $('#modalMarginPrint').on('hidden.bs.modal', function() {

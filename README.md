@@ -22,6 +22,8 @@ The project also includes a dynamic menu generated from the database.
 
 ## Installation
 
+!! edit file in : vendor/laravel/ui/auth-backend/AuthenticatesUsers.php
+
 1. git clone https://github.com/radhityaa/starter-laravel-10-vuexy.git
 2. cd starter-laravel-10-vuexy
 3. composer install

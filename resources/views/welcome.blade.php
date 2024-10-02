@@ -5,7 +5,7 @@
     <section id="hero-animation">
         <div id="landingHero" class="section-py landing-hero position-relative">
             <img src="{{ asset('assets/img/front-pages/backgrounds/hero-bg.png') }}" alt="hero background"
-                class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100" data-speed="1" />
+                class="position-absolute start-50 translate-middle-x object-fit-contain w-100 h-100 top-0" data-speed="1" />
             <div class="container">
                 <div class="hero-text-box text-center">
                     <h1 class="text-primary hero-title display-6 fw-bold">{{ $hero->title }}
@@ -28,7 +28,7 @@
                                 data-app-light-img="{{ 'front-pages/landing-page/' . $hero->image_hero_dashboard }}"
                                 data-app-dark-img="{{ 'front-pages/landing-page/' . $hero->image_hero_dashboard_dark }}" />
                             <img src="{{ asset('assets/img/front-pages/landing-page/' . $hero->image_hero_element) }}"
-                                alt="hero elements" class="position-absolute hero-elements-img animation-img top-0 start-0"
+                                alt="hero elements" class="position-absolute hero-elements-img animation-img start-0 top-0"
                                 data-app-light-img="{{ 'front-pages/landing-page/' . $hero->image_hero_element }}"
                                 data-app-dark-img="{{ 'front-pages/landing-page/' . $hero->image_hero_element_dark }}" />
                         </div>
@@ -68,17 +68,17 @@
     <!-- CTA: Start -->
     <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
         <img src="{{ asset('assets/img/front-pages/backgrounds/cta-bg-light.png') }}"
-            class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image"
+            class="position-absolute scaleX-n1-rtl h-100 w-100 z-n1 bottom-0 end-0" alt="cta image"
             data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
             data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
         <div class="container">
             <div class="row align-items-center gy-5 gy-lg-0">
-                <div class="col-lg-6 text-center text-lg-start">
+                <div class="col-lg-6 text-lg-start text-center">
                     <h6 class="h2 text-primary fw-bold mb-1">Siap Memulai?</h6>
                     <p class="fw-medium mb-4">Mulai dengan akun Gratis</p>
                     <a href="{{ route('register') }}" class="btn btn-lg btn-primary">Daftar</a>
                 </div>
-                <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
+                <div class="col-lg-6 pt-lg-5 text-lg-end text-center">
                     <img src="{{ asset('assets/img/front-pages/landing-page/cta-dashboard.png') }}" alt="cta dashboard"
                         class="img-fluid" />
                 </div>
@@ -90,29 +90,29 @@
     <!-- Contact Us: Start -->
     <section id="landingContact" class="section-py bg-body landing-contact">
         <div class="container">
-            <div class="text-center mb-3 pb-1">
+            <div class="mb-3 pb-1 text-center">
                 <span class="badge bg-label-primary">Contact US</span>
             </div>
-            <h3 class="text-center mb-1">
+            <h3 class="mb-1 text-center">
                 <span class="position-relative fw-bold z-1">Let's work
                     <img src="../../assets/img/front-pages/icons/section-title-icon.png" alt="laptop charging"
-                        class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                        class="section-title-img position-absolute object-fit-contain z-n1 bottom-0" />
                 </span>
                 together
             </h3>
-            <p class="text-center mb-4 mb-lg-5 pb-md-3">Ada pertanyaan atau komentar? cukup tulis pesan kepada kami</p>
+            <p class="mb-lg-5 pb-md-3 mb-4 text-center">Ada pertanyaan atau komentar? cukup tulis pesan kepada kami!</p>
             <div class="row gy-4">
                 <div class="col-lg-5">
-                    <div class="contact-img-box position-relative border p-2 h-100">
+                    <div class="contact-img-box position-relative h-100 border p-2">
                         <img src="../../assets/img/front-pages/icons/contact-border.png" alt="contact border"
                             class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
                         <img src="../../assets/img/front-pages/landing-page/contact-customer-service.png"
                             alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
-                        <div class="pt-3 px-4 pb-1">
+                        <div class="px-4 pb-1 pt-3">
                             <div class="row gy-3 gx-md-4">
                                 <div class="col-md-6 col-lg-12 col-xl-6">
                                     <div class="d-flex align-items-center">
-                                        <div class="badge bg-label-primary rounded p-2 me-2"><i
+                                        <div class="badge bg-label-primary me-2 rounded p-2"><i
                                                 class="ti ti-mail ti-sm"></i></div>
                                         <div>
                                             <p class="mb-0">Email</p>
@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="col-md-6 col-lg-12 col-xl-6">
                                     <div class="d-flex align-items-center">
-                                        <div class="badge bg-label-success rounded p-2 me-2">
+                                        <div class="badge bg-label-success me-2 rounded p-2">
                                             <i class="ti ti-phone-call ti-sm"></i>
                                         </div>
                                         <div>

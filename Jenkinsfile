@@ -2,10 +2,21 @@ pipeline {
     agent any
 
     stages {
+        stage('Directory') {
+            steps: {
+                sh 'cd ~/var/www/ayasyatech.com/'
+            }
+        }
         stage('Checkout') {
             steps {
                 // Checkout code from GitHub
                 checkout scm
+            }
+        }
+        stage('Pull Request') {
+            steps {
+                sh 'git pull origin main'
+                echo 'Pulling completed'
             }
         }
         stage('Install Dependencies') {
@@ -14,24 +25,21 @@ pipeline {
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
             }
         }
-        stage('Clear Cache') {
-            steps {
-                // Clear Laravel cache
-                sh 'php artisan config:cache'
-                sh 'php artisan route:cache'
-                sh 'php artisan view:cache'
-            }
-        }
         stage('Build') {
             steps {
                 // Any build steps can go here
+                sh """
+                npm install
+                php artisan migrate --force
+                """
                 echo 'Build completed'
             }
         }
-        stage('Deploy') {
+        stage('Clear Cache') {
             steps {
-                // Deploy steps can go here
-                echo 'Deployment completed'
+                // Clear cache
+                sh 'php artisan optimize'
+                sh 'php artisan optimize:clear'
             }
         }
     }

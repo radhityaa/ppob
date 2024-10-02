@@ -26,7 +26,7 @@
             </div>
             <!-- /Logo -->
             <h4 class="mb-1 pt-2">Selamat Datang! 👋</h4>
-            <p class="mb-4">Silahkan login terlebih dahulu.</p>
+            <p class="mb-4">Silahkan login terlebih dahulu!.</p>
 
             <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
                 @csrf
@@ -44,7 +44,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-3 form-password-toggle">
+                <div class="form-password-toggle mb-3">
                     <div class="d-flex justify-content-between">
                         <label class="form-label" for="password">Password</label>
                         <a href="{{ route('password.request') }}">

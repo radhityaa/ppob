@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/radhitya/ppob.git'
+                git branch: 'main', url: 'https://github.com/radhityaa/ppob.git'
             }
         }
         stage('Install Dependencies') {

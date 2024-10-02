@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         stage('Directory') {
-            steps: {
+            steps {
                 sh 'cd ~/var/www/ayasyatech.com/ppob/'
             }
         }

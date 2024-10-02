@@ -1,49 +1,63 @@
 pipeline {
     agent any
 
+    environment {
+        // Define environment variables if needed
+        DEPLOY_DIR = '/var/www/ayasyatech.com/ppob' // Ganti dengan direktori deployment Anda
+    }
+
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
+                // Tarik kode dari repositori git
                 git branch: 'main', url: 'https://github.com/radhityaa/ppob.git'
             }
         }
+
         stage('Install Dependencies') {
             steps {
+                // Install composer dependencies
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
             }
         }
-        stage('Build') {
+
+        stage('Build Assets') {
             steps {
-                sh 'export PATH=$PATH:/usr/local/bin && npm install'
+                // Compile assets menggunakan npm/yarn
+                sh 'npm install'
                 sh 'npm run build'
             }
         }
-        stage('Deploy to Local VPS') {
+
+        stage('Deploy') {
             steps {
-                // Jalankan perintah deploy langsung di VPS
-                sh """
-                cd /var/www/ayasyatech.com/ppob
-                git pull origin main
-                composer install --no-interaction --prefer-dist --optimize-autoloader
-                npm install
-                php artisan migrate --force
-                """
+                // Salin kode ke direktori deployment
+                sh "cp -R * ${DEPLOY_DIR}/"
+                sh "cd ${DEPLOY_DIR} && composer install --no-interaction --prefer-dist --optimize-autoloader"
+            }
+        }
+
+        stage('Migrate Database') {
+            steps {
+                // Jalankan migrasi di direktori deployment
+                sh "cd ${DEPLOY_DIR} && php artisan migrate --force"
+            }
+        }
+
+        stage('Restart Server') {
+            steps {
+                // Restart server (misalnya Nginx atau Apache) setelah deployment
+                sh 'sudo systemctl restart nginx' // Sesuaikan jika menggunakan Apache
             }
         }
     }
 
     post {
-        always {
-            // Clean workspace after build
-            cleanWs()
-        }
         success {
-            // Notify success
-            echo 'Build and deployment successful'
+            echo 'Deployment successful!'
         }
         failure {
-            // Notify failure
-            echo 'Build or deployment failed'
+            echo 'Deployment failed!'
         }
     }
 }

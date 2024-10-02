@@ -1,18 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        // Define any environment variables here
+        TARGET_DIR = '/var/www/ayasyatech.com/ppob'
+    }
+
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout code from GitHub directly to the correct directory
-                dir('/var/www/ayasyatech.com/ppob') {
-                    checkout scm
-                }
-            }
-        }
         stage('Pull Request') {
             steps {
-                dir('/var/www/ayasyatech.com/ppob') {
+                dir("${TARGET_DIR}") {
                     sh 'git pull origin main'
                 }
                 echo 'Pulling completed'
@@ -20,7 +17,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                dir('/var/www/ayasyatech.com/ppob') {
+                dir("${TARGET_DIR}") {
                     // Install Composer dependencies
                     sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
                 }
@@ -28,7 +25,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                dir('/var/www/ayasyatech.com/ppob') {
+                dir("${TARGET_DIR}") {
                     // Any build steps can go here
                     sh """
                     npm install
@@ -40,7 +37,7 @@ pipeline {
         }
         stage('Clear Cache') {
             steps {
-                dir('/var/www/ayasyatech.com/ppob') {
+                dir("${TARGET_DIR}") {
                     // Clear cache
                     sh 'php artisan optimize'
                     sh 'php artisan optimize:clear'

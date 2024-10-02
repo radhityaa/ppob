@@ -1,47 +1,33 @@
 pipeline {
     agent any
 
-    environment {
-        // Define any environment variables here
-        TARGET_DIR = '/var/www/ayasyatech.com/ppob'
-    }
-
     stages {
-        stage('Pull Request') {
+        stage('Clone Repository') {
             steps {
-                dir("${TARGET_DIR}") {
-                    sh 'git pull origin main'
-                }
-                echo 'Pulling completed'
+                git branch: 'main', url: 'https://github.com/radhitya/ppob.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                dir("${TARGET_DIR}") {
-                    // Install Composer dependencies
-                    sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
-                }
+                sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
             }
         }
         stage('Build') {
             steps {
-                dir("${TARGET_DIR}") {
-                    // Any build steps can go here
-                    sh """
-                    npm install
-                    php artisan migrate --force
-                    """
-                    echo 'Build completed'
-                }
+                sh 'npm install'
+                sh 'npm run build'
             }
         }
-        stage('Clear Cache') {
+        stage('Deploy to Local VPS') {
             steps {
-                dir("${TARGET_DIR}") {
-                    // Clear cache
-                    sh 'php artisan optimize'
-                    sh 'php artisan optimize:clear'
-                }
+                // Jalankan perintah deploy langsung di VPS
+                sh """
+                cd /var/www/ayasyatech.com/ppob
+                git pull origin main
+                composer install --no-interaction --prefer-dist --optimize-autoloader
+                npm install
+                php artisan migrate --force
+                """
             }
         }
     }

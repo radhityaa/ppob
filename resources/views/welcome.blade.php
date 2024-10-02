@@ -100,8 +100,7 @@
                 </span>
                 together
             </h3>
-            <p class="mb-lg-5 pb-md-3 mb-4 text-center">Ada pertanyaan atau komentar? cukup tulis pesan kepada kami!!!!!!
-            </p>
+            <p class="mb-lg-5 pb-md-3 mb-4 text-center">Ada pertanyaan atau komentar? cukup tulis pesan kepada kami</p>
             <div class="row gy-4">
                 <div class="col-lg-5">
                     <div class="contact-img-box position-relative h-100 border p-2">

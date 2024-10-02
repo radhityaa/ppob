@@ -2,44 +2,49 @@ pipeline {
     agent any
 
     stages {
-        stage('Directory') {
-            steps {
-                sh 'cd ~/var/www/ayasyatech.com/ppob/'
-            }
-        }
         stage('Checkout') {
             steps {
-                // Checkout code from GitHub
-                checkout scm
+                // Checkout code from GitHub directly to the correct directory
+                dir('/var/www/ayasyatech.com/ppob') {
+                    checkout scm
+                }
             }
         }
         stage('Pull Request') {
             steps {
-                sh 'git pull origin main'
+                dir('/var/www/ayasyatech.com/ppob') {
+                    sh 'git pull origin main'
+                }
                 echo 'Pulling completed'
             }
         }
         stage('Install Dependencies') {
             steps {
-                // Install Composer dependencies
-                sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
+                dir('/var/www/ayasyatech.com/ppob') {
+                    // Install Composer dependencies
+                    sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
+                }
             }
         }
         stage('Build') {
             steps {
-                // Any build steps can go here
-                sh """
-                npm install
-                php artisan migrate --force
-                """
-                echo 'Build completed'
+                dir('/var/www/ayasyatech.com/ppob') {
+                    // Any build steps can go here
+                    sh """
+                    npm install
+                    php artisan migrate --force
+                    """
+                    echo 'Build completed'
+                }
             }
         }
         stage('Clear Cache') {
             steps {
-                // Clear cache
-                sh 'php artisan optimize'
-                sh 'php artisan optimize:clear'
+                dir('/var/www/ayasyatech.com/ppob') {
+                    // Clear cache
+                    sh 'php artisan optimize'
+                    sh 'php artisan optimize:clear'
+                }
             }
         }
     }

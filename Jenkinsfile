@@ -29,17 +29,17 @@ pipeline {
             }
         }
 
+        stage('Clear Cache') {
+            steps {
+                sh "php artisan optimize"
+                sh "php artisan optimize:clear"
+            }
+        }
+
         stage('Migrate Database') {
             steps {
                 // Jalankan migrasi di direktori deployment
                 sh "cd ${DEPLOY_DIR} && php artisan migrate --force"
-            }
-        }
-
-        stage('Restart Server') {
-            steps {
-                // Restart server (misalnya Nginx atau Apache) setelah deployment
-                sh 'sudo systemctl restart nginx' // Sesuaikan jika menggunakan Apache
             }
         }
     }

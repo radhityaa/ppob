@@ -21,14 +21,6 @@ pipeline {
             }
         }
 
-        stage('Build Assets') {
-            steps {
-                // Compile assets menggunakan npm/yarn
-                sh 'npm install'
-                sh 'npm run build'
-            }
-        }
-
         stage('Deploy') {
             steps {
                 // Salin kode ke direktori deployment

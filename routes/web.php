@@ -8,6 +8,7 @@ use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\EnvController;
 use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
@@ -54,6 +55,11 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::get('get/roles', [RoleController::class, 'list'])->name('roles.list');
     Route::get('get/recharge-title', [RechargeTitleController::class, 'list'])->name('get.recharge-list');
     Route::get('users-list', [UserController::class, 'list'])->name('users.list');
+
+    // News
+    Route::prefix('news')->name('news.')->group(function () {
+        Route::post('update-news-user', [NewsController::class, 'updateNewsUser'])->name('update.user');
+    });
 
     // Dashboard
     Route::get('/dashboard', DashboardController::class)->name('home');

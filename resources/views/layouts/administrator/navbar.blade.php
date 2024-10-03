@@ -136,6 +136,24 @@
                     </li>
                 </ul>
             </li>
+            <li class="menu-item {{ request()->is('admin/information*') ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-news"></i>
+                    <div>Kelola Informasi</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ request()->is('admin/information*') ? 'active' : '' }}">
+                        <a href="{{ route('information.index') }}" class="menu-link">
+                            <div>Informasi</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/recharge/item') ? 'active' : '' }}">
+                        <a href="{{ route('item.index') }}" class="menu-link">
+                            <div>Kategori</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="menu-item {{ request()->is('settings/margin') ? 'active' : '' }}">
                 <a href="{{ route('admin.setting.margin.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-settings-dollar"></i>

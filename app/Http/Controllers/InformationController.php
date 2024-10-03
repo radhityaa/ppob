@@ -99,7 +99,9 @@ class InformationController extends Controller
 
         Information::create($data);
 
-        return redirect()->route('information.index')->with(['success' => 'Informasi berhasil ditambahkan.']);
+        return redirect()->route('information.index')->with('success', [
+            'message' => 'Informasi berhasil ditambahkan.'
+        ]);
     }
 
     public function edit($slug, Request $request)
@@ -124,7 +126,9 @@ class InformationController extends Controller
         $information = Information::where('slug', $slug)->first();
 
         if (!$information) {
-            return redirect()->route('information.index')->with(['error' => 'Informasi tidak ditemukan.']);
+            return redirect()->route('information.index')->with('error', [
+                'message' => 'Informasi tidak ditemukan.'
+            ]);
         }
 
         $data = $request->all();
@@ -133,7 +137,9 @@ class InformationController extends Controller
 
         $information->update($data);
 
-        return redirect()->route('information.index')->with(['success' => 'Informasi berhasil diubah.']);
+        return redirect()->route('information.index')->with('success', [
+            'message' => 'Informasi berhasil diubah.'
+        ]);
     }
 
     public function listInformation()

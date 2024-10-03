@@ -6,9 +6,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DownloadInvoiceController;
 use App\Http\Controllers\EnvController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\NavigationController;
-use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
@@ -56,9 +56,9 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::get('get/recharge-title', [RechargeTitleController::class, 'list'])->name('get.recharge-list');
     Route::get('users-list', [UserController::class, 'list'])->name('users.list');
 
-    // News
-    Route::prefix('news')->name('news.')->group(function () {
-        Route::post('update-news-user', [NewsController::class, 'updateNewsUser'])->name('update.user');
+    // Information
+    Route::prefix('information')->name('information.')->group(function () {
+        Route::post('update-information-user', [InformationController::class, 'updateInformationUser'])->name('update.user');
     });
 
     // Dashboard
@@ -127,6 +127,18 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     Route::prefix('admin')->group(function () {
         // Users
         Route::resource('users', UserController::class);
+
+        // Information
+        Route::prefix('information')->name('information.')->group(function () {
+            Route::get('', [InformationController::class, 'index'])->name('index');
+            Route::get('create', [InformationController::class, 'create'])->name('create');
+            Route::post('create', [InformationController::class, 'store'])->name('store');
+            Route::get('{slug}/show', [InformationController::class, 'show'])->name('show');
+            Route::get('{slug}/edit', [InformationController::class, 'edit'])->name('edit');
+            Route::put('{slug}/edit', [InformationController::class, 'update'])->name('update');
+            Route::get('get-information', [InformationController::class, 'listInformation'])->name('list');
+            Route::delete('{slug}', [InformationController::class, 'destroy'])->name('destroy');
+        });
 
         // Recharge
         Route::prefix('recharge')->group(function () {

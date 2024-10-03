@@ -34,7 +34,6 @@ class TransferController extends Controller
                     return '<div class="d-flex">' . $actionBtn . '</div>';
                 })
                 ->rawColumns(['status', 'action'])
-                ->rawColumns([])
                 ->make(true);
         }
 

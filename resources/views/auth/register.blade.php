@@ -34,7 +34,7 @@
                 @csrf
 
                 <div class="row">
-                    <div class="mb-3 col-12 col-lg-6">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="name" class="form-label">Nama Lengkap</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                             value="{{ old('name') }}" name="name" autocomplete="name" placeholder="Nama Lengkap"
@@ -46,7 +46,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="mb-3 col-12 col-lg-6">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="username"
                             value="{{ old('username') }}" name="username" autocomplete="username" placeholder="Username"
@@ -60,10 +60,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="mb-3 col-12 col-lg-6">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="phone" class="form-label">No. HP</label>
                         <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
-                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="62xxxxxxxxxx" />
+                            value="{{ old('phone') }}" name="phone" autocomplete="off" placeholder="62xxxxxxxxxx"
+                            required />
 
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -71,7 +72,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="mb-3 col-12 col-lg-6">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
                             value="{{ old('email') }}" name="email" autocomplete="email" placeholder="example@mail.com"
@@ -106,7 +107,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="mb-3 form-password-toggle">
+                <div class="form-password-toggle mb-3">
                     <label class="form-label" for="password">Password</label>
                     <div class="input-group input-group-merge">
                         <input type="password" id="password"
@@ -124,7 +125,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3 form-password-toggle">
+                <div class="form-password-toggle mb-3">
                     <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
                     <div class="input-group input-group-merge">
                         <input type="password" id="password_confirmation"

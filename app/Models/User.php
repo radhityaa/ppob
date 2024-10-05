@@ -29,7 +29,8 @@ class User extends Authenticatable
         'status',
         'saldo',
         'password',
-        'shop_name'
+        'shop_name',
+        'information_dismissed_at'
     ];
 
     /**
@@ -49,7 +50,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'news_dismissed_at' => 'datetime',
+        'information_dismissed_at' => 'datetime',
     ];
 
     protected $with = ['roles'];

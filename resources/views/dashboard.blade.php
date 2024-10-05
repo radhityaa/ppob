@@ -207,7 +207,7 @@
                                 <span style="font-size: 10px; m-0">By ${val.user.name}</span>
 
                             <div>
-                                <span style="font-size: 13px;">${val.created_at}</span>
+                                <span style="font-size: 11px;">${val.created_at}</span>
                             </div>
                                 <span class="badge bg-secondary rounded-pill" style="font-size: 10px;">${val.category.name}</span>
 
@@ -229,7 +229,7 @@
                                 <span style="font-size: 10px; m-0">By ${val.user.name}</span>
 
                             <div>
-                                <span style="font-size: 13px;">${val.created_at}</span>
+                                <span style="font-size: 11px;">${val.created_at}</span>
                             </div>
                                 <span class="badge bg-secondary rounded-pill" style="font-size: 10px;">${val.category.name}</span>
 

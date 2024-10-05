@@ -162,7 +162,7 @@
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
                             Tutup
                         </button>
-                        <button type="button" class="btn btn-primary" id="rememberLater">Ingatkan Nanti</button>
+                        <button type="button" class="btn btn-primary" id="rememberLater">Tutup Hari Ini</button>
                     </div>
                 </div>
             </div>

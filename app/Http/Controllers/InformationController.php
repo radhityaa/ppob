@@ -104,10 +104,9 @@ class InformationController extends Controller
         ]);
     }
 
-    public function edit($slug, Request $request)
+    public function edit(Information $information, Request $request)
     {
         $title = 'Edit Informasi';
-        $information = Information::where('slug', $slug)->first();
 
         if (!$information) {
             return redirect()->route('information.index')->with('error', [
@@ -121,10 +120,8 @@ class InformationController extends Controller
         return view('informations.edit', compact('title', 'information', 'categories'));
     }
 
-    public function update($slug, InformationRequest $request)
+    public function update(Information $information, InformationRequest $request)
     {
-        $information = Information::where('slug', $slug)->first();
-
         if (!$information) {
             return redirect()->route('information.index')->with('error', [
                 'message' => 'Informasi tidak ditemukan.'
@@ -154,10 +151,8 @@ class InformationController extends Controller
         return response()->json(InformationResource::collection($information));
     }
 
-    public function destroy($slug)
+    public function destroy(Information $information)
     {
-        $information = Information::where('slug', $slug)->first();
-
         if (!$information) {
             return response()->json(['message' => 'Informasi tidak ditemukan.']);
         }

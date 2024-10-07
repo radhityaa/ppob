@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryInformationController;
 use App\Http\Controllers\CekBillController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
@@ -133,11 +134,20 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('', [InformationController::class, 'index'])->name('index');
             Route::get('create', [InformationController::class, 'create'])->name('create');
             Route::post('create', [InformationController::class, 'store'])->name('store');
-            Route::get('{slug}/show', [InformationController::class, 'show'])->name('show');
-            Route::get('{slug}/edit', [InformationController::class, 'edit'])->name('edit');
-            Route::put('{slug}/edit', [InformationController::class, 'update'])->name('update');
+            Route::get('{information}/show', [InformationController::class, 'show'])->name('show');
+            Route::get('{information}/edit', [InformationController::class, 'edit'])->name('edit');
+            Route::put('{information}/edit', [InformationController::class, 'update'])->name('update');
             Route::get('get-information', [InformationController::class, 'listInformation'])->name('list');
-            Route::delete('{slug}', [InformationController::class, 'destroy'])->name('destroy');
+            Route::delete('{information}', [InformationController::class, 'destroy'])->name('destroy');
+
+            // Category
+            Route::prefix('category')->name('category.')->group(function () {
+                Route::get('', [CategoryInformationController::class, 'index'])->name('index');
+                Route::post('', [CategoryInformationController::class, 'store'])->name('store');
+                Route::get('{categoryInformation}', [CategoryInformationController::class, 'edit'])->name('edit');
+                Route::put('{categoryInformation}', [CategoryInformationController::class, 'update'])->name('update');
+                Route::delete('{categoryInformation}', [CategoryInformationController::class, 'destroy'])->name('destroy');
+            });
         });
 
         // Recharge

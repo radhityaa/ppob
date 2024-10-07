@@ -152,31 +152,29 @@
         });
 
         $(document).ready(function() {
-            $(document).ready(function() {
-                @if (session('error'))
-                    Swal.fire({
-                        title: 'Gagal!',
-                        text: ' {{ session('error.message') }}',
-                        icon: 'error',
-                        customClass: {
-                            confirmButton: 'btn btn-primary waves-effect waves-light'
-                        },
-                        buttonsStyling: false
-                    });
-                @endif
+            @if (session('error'))
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: ' {{ session('error.message') }}',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'btn btn-primary waves-effect waves-light'
+                    },
+                    buttonsStyling: false
+                });
+            @endif
 
-                @if (session('success'))
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: ' {{ session('success.message') }}',
-                        icon: 'success',
-                        customClass: {
-                            confirmButton: 'btn btn-primary waves-effect waves-light'
-                        },
-                        buttonsStyling: false
-                    });
-                @endif
-            })
+            @if (session('success'))
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: ' {{ session('success.message') }}',
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'btn btn-primary waves-effect waves-light'
+                    },
+                    buttonsStyling: false
+                });
+            @endif
         })
     </script>
 @endpush

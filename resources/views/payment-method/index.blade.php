@@ -30,7 +30,7 @@
 
     <div class="card">
         <div class="card-datatable table-responsive">
-            <table class="dataTable table border-top">
+            <table class="dataTable border-top table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -459,8 +459,11 @@
                         })
                     },
                     error: function(err) {
+                        $('#modalPaymentMethod').modal('hide')
+
                         $('.btn-loading').addClass('d-none')
                         $('.btn-save').removeClass('d-none')
+
                         Swal.fire({
                             title: 'Error!',
                             text: err.responseJSON.message,

@@ -12,6 +12,11 @@ class Information extends Model
     protected $fillable = ['user_id', 'category_information_id', 'title', 'type', 'description', 'slug'];
     protected $with = ['user', 'categoryInformation'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -56,6 +56,7 @@
                         value="{{ old('description', $information->description) }}">
                 </div>
                 <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
+                <a href="{{ route('information.index') }}" class="btn btn-secondary waves-effect waves-light">Kembali</a>
             </form>
         </div>
     </div>

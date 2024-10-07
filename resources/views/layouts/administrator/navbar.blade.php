@@ -142,13 +142,13 @@
                     <div>Kelola Informasi</div>
                 </a>
                 <ul class="menu-sub">
-                    <li class="menu-item {{ request()->is('admin/information*') ? 'active' : '' }}">
+                    <li class="menu-item {{ request()->is('admin/information') ? 'active' : '' }}">
                         <a href="{{ route('information.index') }}" class="menu-link">
                             <div>Informasi</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('admin/recharge/item') ? 'active' : '' }}">
-                        <a href="{{ route('item.index') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('admin/information/category') ? 'active' : '' }}">
+                        <a href="{{ route('information.category.index') }}" class="menu-link">
                             <div>Kategori</div>
                         </a>
                     </li>

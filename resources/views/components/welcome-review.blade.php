@@ -9,15 +9,15 @@
                 <h3 class="mb-1">
                     <span class="position-relative fw-bold z-1">Apa kata mereka
                         <img src="../../assets/img/front-pages/icons/section-title-icon.png" alt="laptop charging"
-                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                            class="section-title-img position-absolute object-fit-contain z-n1 bottom-0" />
                     </span>
                 </h3>
-                <p class="mb-3 mb-md-5">
+                <p class="mb-md-5 mb-3">
                     See what our customers have to<br class="d-none d-xl-block" />
                     say about their experience.
                 </p>
                 <div class="landing-reviews-btns">
-                    <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
+                    <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl me-3"
                         type="button">
                         <i class="ti ti-chevron-left ti-sm"></i>
                     </button>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-7 col-xl-9">
-                <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
+                <div class="swiper-reviews-carousel pb-md-2 pb-md-3 mb-5 overflow-hidden">
                     <div class="swiper" id="swiper-reviews">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
@@ -51,8 +51,8 @@
                                             <i class="ti ti-star-filled ti-sm"></i>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar me-2 avatar-sm">
-                                                <img src="../../assets/img/avatars/1.png" alt="Avatar"
+                                            <div class="avatar avatar-sm me-2">
+                                                <img src="{{ asset('assets/img/avatars/1.png') }}" alt="Avatar"
                                                     class="rounded-circle" />
                                             </div>
                                             <div>
@@ -67,7 +67,7 @@
                                 <div class="card h-100">
                                     <div class="card-body text-body d-flex flex-column justify-content-between h-100">
                                         <div class="mb-3">
-                                            <img src="../../assets/img/front-pages/branding/logo-2.png"
+                                            <img src="{{ asset('assets/img/front-pages/branding/logo-2.png') }}"
                                                 alt="client logo" class="client-logo img-fluid" />
                                         </div>
                                         <p>
@@ -83,8 +83,8 @@
                                             <i class="ti ti-star-filled ti-sm"></i>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar me-2 avatar-sm">
-                                                <img src="../../assets/img/avatars/2.png" alt="Avatar"
+                                            <div class="avatar avatar-sm me-2">
+                                                <img src="{{ asset('assets/img/avatars/2.png') }}" alt="Avatar"
                                                     class="rounded-circle" />
                                             </div>
                                             <div>
@@ -115,7 +115,7 @@
                                             <i class="ti ti-star-filled ti-sm"></i>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar me-2 avatar-sm">
+                                            <div class="avatar avatar-sm me-2">
                                                 <img src="../../assets/img/avatars/3.png" alt="Avatar"
                                                     class="rounded-circle" />
                                             </div>
@@ -147,7 +147,7 @@
                                             <i class="ti ti-star ti-sm"></i>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar me-2 avatar-sm">
+                                            <div class="avatar avatar-sm me-2">
                                                 <img src="../../assets/img/avatars/4.png" alt="Avatar"
                                                     class="rounded-circle" />
                                             </div>
@@ -179,7 +179,7 @@
                                             <i class="ti ti-star-filled ti-sm"></i>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar me-2 avatar-sm">
+                                            <div class="avatar avatar-sm me-2">
                                                 <img src="../../assets/img/avatars/5.png" alt="Avatar"
                                                     class="rounded-circle" />
                                             </div>
@@ -211,8 +211,8 @@
                                             <i class="ti ti-star ti-sm"></i>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar me-2 avatar-sm">
-                                                <img src="../../assets/img/avatars/1.png" alt="Avatar"
+                                            <div class="avatar avatar-sm me-2">
+                                                <img src="{{ asset('assets/img/avatars/1.png') }}" alt="Avatar"
                                                     class="rounded-circle" />
                                             </div>
                                             <div>
@@ -235,31 +235,31 @@
     <hr class="m-0" />
     <!-- Logo slider: Start -->
     <div class="container">
-        <div class="swiper-logo-carousel py-4 my-lg-2">
+        <div class="swiper-logo-carousel my-lg-2 py-4">
             <div class="swiper" id="swiper-clients-logos">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="../../assets/img/front-pages/branding/logo_1-light.png" alt="client logo"
+                        <img src="{{ asset('assets/img/front-pages/branding/logo_1-light.png') }}" alt="client logo"
                             class="client-logo" data-app-light-img="front-pages/branding/logo_1-light.png"
                             data-app-dark-img="front-pages/branding/logo_1-dark.png" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../assets/img/front-pages/branding/logo_2-light.png" alt="client logo"
+                        <img src="{{ asset('assets/img/front-pages/branding/logo_2-light.png') }}" alt="client logo"
                             class="client-logo" data-app-light-img="front-pages/branding/logo_2-light.png"
                             data-app-dark-img="front-pages/branding/logo_2-dark.png" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../assets/img/front-pages/branding/logo_3-light.png" alt="client logo"
+                        <img src="{{ asset('assets/img/front-pages/branding/logo_3-light.png') }}" alt="client logo"
                             class="client-logo" data-app-light-img="front-pages/branding/logo_3-light.png"
                             data-app-dark-img="front-pages/branding/logo_3-dark.png" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../assets/img/front-pages/branding/logo_4-light.png" alt="client logo"
+                        <img src="{{ asset('assets/img/front-pages/branding/logo_4-light.png') }}" alt="client logo"
                             class="client-logo" data-app-light-img="front-pages/branding/logo_4-light.png"
                             data-app-dark-img="front-pages/branding/logo_4-dark.png" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../assets/img/front-pages/branding/logo_5-light.png" alt="client logo"
+                        <img src="{{ asset('assets/img/front-pages/branding/logo_5-light.png') }}" alt="client logo"
                             class="client-logo" data-app-light-img="front-pages/branding/logo_5-light.png"
                             data-app-dark-img="front-pages/branding/logo_5-dark.png" />
                     </div>

@@ -138,6 +138,7 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('{information}/edit', [InformationController::class, 'edit'])->name('edit');
             Route::put('{information}/edit', [InformationController::class, 'update'])->name('update');
             Route::get('get-information', [InformationController::class, 'listInformation'])->name('list');
+            Route::get('get-information/{categoryInformation}', [InformationController::class, 'listInformationByCategory'])->name('listByCategory');
             Route::delete('{information}', [InformationController::class, 'destroy'])->name('destroy');
 
             // Category

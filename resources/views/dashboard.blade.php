@@ -137,8 +137,16 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Informasi</h5>
-                        <div id="boardInformation">
+                        <div class="card-title">
+                            <div class="d-flex justify-content-between">
+                                <div><span style="font-size: 15px;">Informasi</span></div>
+                                <div>
+                                    <a href="#" style="font-size: 15px; text-decoration: underline">Lihat Semua</a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="boardInformation" class="mt-3">
                         </div>
                     </div>
                 </div>
@@ -159,10 +167,11 @@
                     <div class="modal-body" id="informationContainer">
                     </div>
                     <div class="modal-footer">
+                        <a href="#" class="btn btn-dark">Lihat Semua</a>
+                        <button type="button" class="btn btn-primary" id="rememberLater">Tutup Hari Ini</button>
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
                             Tutup
                         </button>
-                        <button type="button" class="btn btn-primary" id="rememberLater">Tutup Hari Ini</button>
                     </div>
                 </div>
             </div>
@@ -198,10 +207,13 @@
         function getInformation() {
             $.get('{{ route('information.list') }}', function(res) {
                 $.each(res, function(key, val) {
+                    let urlView = "{!! route('information.show', ':slug') !!}"
+                    urlView = urlView.replace(':slug', val.slug)
+
                     $('#informationContainer').append(`
                         <div>
                             <div class="d-flex align-items-center justify-content-between">
-                                <h6 class="m-0">${val.title}</h6>
+                                <a href="${urlView}" class="fs-5">${val.title}</a>
                                 <span class="badge text-uppercase ${val.type === 'Informasi' ? 'bg-info' : (val.type === 'Peringatan' ? 'bg-warning' : 'bg-danger')}">${val.type}</span>
                             </div>
                                 <span style="font-size: 10px; m-0">By ${val.user.name}</span>
@@ -212,10 +224,6 @@
                                 <span class="badge bg-secondary rounded-pill" style="font-size: 10px;">${val.category.name}</span>
 
                             <p class="truncate-3-lines">${DOMPurify.sanitize(val.description)}</p>
-
-                            <div>
-                                <a href="${val.url}">Baca Selengkapnya...</a>
-                            </div>
                         </div>
                         <hr>
                     `)
@@ -223,7 +231,7 @@
                     $('#boardInformation').append(`
                         <div>
                             <div class="d-flex align-items-center justify-content-between">
-                                <h6 class="m-0">${val.title}</h6>
+                                <a href="${val.url}" class="fs-5">${val.title}</a>
                                 <span class="badge text-uppercase ${val.type === 'Informasi' ? 'bg-info' : (val.type === 'Peringatan' ? 'bg-warning' : 'bg-danger')}">${val.type}</span>
                             </div>
                                 <span style="font-size: 10px; m-0">By ${val.user.name}</span>
@@ -234,10 +242,6 @@
                                 <span class="badge bg-secondary rounded-pill" style="font-size: 10px;">${val.category.name}</span>
 
                             <p class="truncate-2-lines">${DOMPurify.sanitize(val.description)}</p>
-
-                            <div>
-                                <a href="${val.url}">Baca Selengkapnya...</a>
-                            </div>
                         </div>
                         <hr>
                     `)

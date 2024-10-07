@@ -17,6 +17,7 @@ class InformationResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => $this->user,
+            'slug' => $this->slug,
             'category' => $this->categoryInformation,
             'title' => $this->title,
             'type' => $this->type,

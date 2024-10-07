@@ -67,7 +67,7 @@ class InformationController extends Controller
 
     public function show($slug)
     {
-        $information = Information::where('slug', $slug)->first();
+        $information = new InformationResource(Information::where('slug', $slug)->first());
 
         if (!$information) {
             return redirect()->route('home')->with('error', [
@@ -146,6 +146,21 @@ class InformationController extends Controller
 
         $information = Information::whereBetween(DB::raw('DATE(created_at)'), [$oneMonthAgo, $today])
             ->latest()
+            ->limit(5)
+            ->get();
+
+        return response()->json(InformationResource::collection($information));
+    }
+
+    public function listInformationByCategory(CategoryInformation $categoryInformation)
+    {
+        $oneMonthAgo = now()->subMonth()->toDateString();  // Mengambil hanya tanggal
+        $today = now()->toDateString();  // Mengambil hanya tanggal
+
+        $information = Information::where('category_information_id', $categoryInformation->id)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$oneMonthAgo, $today])
+            ->latest()
+            ->limit(5)
             ->get();
 
         return response()->json(InformationResource::collection($information));

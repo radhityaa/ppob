@@ -113,6 +113,14 @@
             </li>
         @endrole
 
+        {{-- Information --}}
+        <li class="menu-item {{ request()->is('information*') ? 'active' : '' }}">
+            <a href="{{ route('information.all') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-news"></i>
+                <div>Pusat Informasi</div>
+            </a>
+        </li>
+
         @role('admin')
             {{-- Admin Menu --}}
             <li class="menu-header small text-uppercase">

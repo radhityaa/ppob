@@ -56,6 +56,33 @@ class InformationController extends Controller
         return view('informations.index', compact('title'));
     }
 
+    public function all(Request $request)
+    {
+        $title = 'Pusat Informasi';
+
+        // Ambil semua kategori untuk filter
+        $categories = CategoryInformation::latest()->get();
+
+        // Ambil query builder
+        $query = Information::query()->latest();
+
+        // Fitur filter berdasarkan kategori
+        if ($request->filled('category')) {
+            $query->where('category_information_id', $request->category);
+        }
+
+        // Fitur filter berdasarkan tipe
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // Ambil data dengan pagination
+        $data = $query->paginate(6);
+        $information = InformationResource::collection($data);
+
+        return view('informations.all', compact('title', 'information', 'categories'));
+    }
+
     public function updateInformationUser(Request $request)
     {
         $user = User::where('id', $request->userId)->first();

@@ -231,7 +231,7 @@
                     $('#boardInformation').append(`
                         <div>
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="${val.url}" class="fs-5">${val.title}</a>
+                                <a href="${urlView}" class="fs-5">${val.title}</a>
                                 <span class="badge text-uppercase ${val.type === 'Informasi' ? 'bg-info' : (val.type === 'Peringatan' ? 'bg-warning' : 'bg-danger')}">${val.type}</span>
                             </div>
                                 <span style="font-size: 10px; m-0">By ${val.user.name}</span>

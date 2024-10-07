@@ -59,7 +59,9 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
 
     // Information
     Route::prefix('information')->name('information.')->group(function () {
+        Route::get('', [InformationController::class, 'all'])->name('all');
         Route::post('update-information-user', [InformationController::class, 'updateInformationUser'])->name('update.user');
+        Route::get('{information}/show', [InformationController::class, 'show'])->name('show');
     });
 
     // Dashboard
@@ -134,7 +136,6 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('', [InformationController::class, 'index'])->name('index');
             Route::get('create', [InformationController::class, 'create'])->name('create');
             Route::post('create', [InformationController::class, 'store'])->name('store');
-            Route::get('{information}/show', [InformationController::class, 'show'])->name('show');
             Route::get('{information}/edit', [InformationController::class, 'edit'])->name('edit');
             Route::put('{information}/edit', [InformationController::class, 'update'])->name('update');
             Route::get('get-information', [InformationController::class, 'listInformation'])->name('list');

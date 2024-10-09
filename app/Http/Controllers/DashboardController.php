@@ -27,6 +27,7 @@ class DashboardController extends Controller
 
         // Tampilkan modal jika news_dismissed_at null atau jika terakhir kali menutup modal bukan hari ini
         $showInformationModal = !$user->news_dismissed_at || $user->news_dismissed_at->lessThan($today);
+        // dd($showInformationModal);
 
         return view('dashboard', compact('listServices', 'transactionsToday', 'transactionsMonth', 'usedBalanceToday', 'usedBalanceMonth', 'showInformationModal'));
     }

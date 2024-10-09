@@ -157,7 +157,7 @@
 
     <!-- Modal Information -->
     <div class="mt-3">
-        <div class="modal modal-lg fade" id="modalInformation" tabindex="-1" aria-hidden="true">
+        <div class="modal modal-lg fade modal-open" id="modalInformation" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -167,8 +167,7 @@
                     <div class="modal-body" id="informationContainer">
                     </div>
                     <div class="modal-footer">
-                        <a href="#" class="btn btn-dark">Lihat Semua</a>
-                        <button type="button" class="btn btn-primary" id="rememberLater">Tutup Hari Ini</button>
+                        <a href="{{ route('information.all') }}" class="btn btn-primary">Lihat Semua</a>
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
                             Tutup
                         </button>
@@ -249,19 +248,22 @@
             })
         }
 
-        function checkInformation() {
-            if ({{ $showInformationModal }}) {
-                $('#modalInformation').modal('show')
-                getInformation();
-            }
-        }
+        // function checkInformation() {
+        //     if ({{ $showInformationModal }}) {
+        //         $('#modalInformation').modal('show')
+        //         getInformation();
+        //     } else {
+        //         $('#modalInformation').modal('hide')
+        //     }
+        // }
 
         $('document').ready(function() {
             $('body').on('click', '#rememberLater', function() {
                 updateStatusInformation()
             })
 
-            checkInformation()
+            $('#modalInformation').modal('show')
+            getInformation();
         })
     </script>
 @endpush

@@ -88,6 +88,7 @@ class UserService
         $user = User::create([
             'name' => $data['name'],
             'username' => $data['username'],
+            'shop_name' => $data['shop_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'saldo' => formatRupiahToNumber($data['saldo']),

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->string('shop_name');
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->enum('status', ['aktif', 'ban', 'suspend'])->default('aktif')->nullable();
             $table->double('saldo')->default(0)->nullable();
             $table->timestamp('email_verified_at')->nullable();

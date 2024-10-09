@@ -25,7 +25,7 @@
 
     <div class="card">
         <div class="card-datatable table-responsive pt-0">
-            <table class="datatables-basic table dataTable">
+            <table class="datatables-basic dataTable table">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -368,6 +368,7 @@
                 $('.btn-save').addClass('d-none')
 
                 let name = $('#name').val()
+                let username = $('#username').val()
                 let phone = $('#phone').val()
                 let email = $('#email').val()
                 let saldo = $('#saldo').val()
@@ -380,6 +381,8 @@
                     method: getMethod(),
                     data: {
                         name: name,
+                        username: username,
+                        shop_name: name,
                         phone: phone,
                         email: email,
                         saldo: saldo,

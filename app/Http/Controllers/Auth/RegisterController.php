@@ -56,12 +56,19 @@ class RegisterController extends Controller
 
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'unique:users', 'min:5', 'max:16'],
+            'username' => ['required', 'string', 'min:3', 'max:20', 'regex:/^[a-zA-Z]+$/', 'unique:users,username'],
             'address' => ['required'],
             'shop_name' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'min:10', 'max:14', 'unique:users,phone'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            // Pesan error kustom
+            'username.required' => 'Username is required!',
+            'username.min' => 'Username must be at least 3 characters!',
+            'username.max' => 'Username can be up to 20 characters!',
+            'username.unique' => 'Username is already taken!',
+            'username.regex' => 'Username can only contain letters (A-Z or a-z) without spaces or numbers!',
         ]);
     }
 

@@ -53,6 +53,7 @@ class TransferController extends Controller
         $target = User::where('username', $request->username)->first();
         $request['user_id'] = Auth::user()->id;
         $request['invoice'] = invoice($request->user_id, 'TF', 'transfers');
+        $request['description'] = $request->description;
 
         if (Auth::user()->saldo < $request->amount) {
             return response()->json([
@@ -64,15 +65,22 @@ class TransferController extends Controller
         try {
             DB::beginTransaction();
 
-            Auth::user()->update([
-                'saldo' => DB::raw('saldo - ' . $request->amount)
-            ]);
+            $user = User::find(Auth::user()->id);
+            $latestBalance = $user->saldo;
+
+            $user->update(['saldo' => $user->saldo - $request->amount]);
+
+            createMutation($user->id, 'Debet', 'Transfer Saldo Ke ' . $target->name . '.', $request->amount, $latestBalance, $user->saldo, $request->invoice);
 
             $transfer = Transfer::create($request->all());
+
+            $latestBalanceTarget = $target->saldo;
 
             $target->update([
                 'saldo' => $target->saldo + $transfer->amount
             ]);
+
+            createMutation($target->id, 'Kredit', 'Di Transfer Oleh ' . $user->name . '.', $transfer->amount, $latestBalanceTarget, $target->saldo, $request->invoice);
 
             DB::commit();
 

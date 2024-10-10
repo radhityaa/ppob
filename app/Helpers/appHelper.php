@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Deposit;
+use App\Models\Mutation;
 use App\Models\Navigation;
 use App\Models\Prabayar;
 use App\Models\RechargeItem;
@@ -101,5 +102,22 @@ if (!function_exists('getServices')) {
     function getServices()
     {
         return Prabayar::select('category')->groupBy('category')->get();
+    }
+}
+
+if (!function_exists('createMutation')) {
+    function createMutation($user_id, $type, $description, $amount, $latestBalance, $currentBalance, $invoice)
+    {
+        return Mutation::create([
+            'user_id' => $user_id,
+            'type' => $type,
+            'description' => $description,
+            'amount' => $amount,
+            'latest_balance' => $latestBalance,
+            'current_balance' => $currentBalance,
+            'invoice' => $invoice,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

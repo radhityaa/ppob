@@ -6,6 +6,7 @@ use App\Helpers\MyHelper;
 use App\Helpers\TripayHelper;
 use App\Helpers\WhatsappHelper;
 use App\Models\Deposit;
+use App\Models\Mutation;
 use App\Models\PaymentMethod;
 use App\Models\User;
 use Carbon\Carbon;
@@ -266,7 +267,12 @@ class DepositController extends Controller
     {
         $deposit->update(['status' => 'paid', 'paid_at' => now()]);
         $user = User::where('id', $deposit->user_id)->first();
-        $user->update(['saldo' => DB::raw('saldo + ' . $deposit->nominal)]);
+
+        $latestBalance = $user->saldo;
+
+        $user->update(['saldo' => $user->saldo + $deposit->nominal]);
+
+        createMutation($deposit->user_id, 'Kredit', 'Deposit Melalui Manual', $deposit->nominal, $latestBalance, $user->saldo, $deposit->invoice);
 
         return response()->json([
             'success' => true,

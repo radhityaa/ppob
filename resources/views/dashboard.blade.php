@@ -141,7 +141,8 @@
                             <div class="d-flex justify-content-between">
                                 <div><span style="font-size: 15px;">Informasi</span></div>
                                 <div>
-                                    <a href="#" style="font-size: 15px; text-decoration: underline">Lihat Semua</a>
+                                    <a href="{{ route('information.all') }}"
+                                        style="font-size: 15px; text-decoration: underline">Lihat Semua</a>
                                 </div>
                             </div>
                         </div>

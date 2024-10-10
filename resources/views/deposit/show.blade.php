@@ -13,7 +13,7 @@
                         <div
                             class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column m-sm-3 m-0">
                             <div class="mb-xl-0 mb-4">
-                                <div class="d-flex svg-illustration mb-4 gap-2 align-items-center">
+                                <div class="d-flex svg-illustration align-items-center mb-4 gap-2">
                                     <div class="app-brand-logo demo">
                                         <svg width="32" height="22" viewBox="0 0 32 22" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="table-responsive border-top">
-                        <table class="table m-0">
+                        <table class="m-0 table">
                             <thead>
                                 <tr>
                                     <th>Item</th>
@@ -170,7 +170,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="text-end px-4 fw-bold" style="text-transform: capitalize">{{ $terbilang }} Rupiah</div>
+                    <div class="fw-bold px-4 text-end" style="text-transform: capitalize">{{ $terbilang }} Rupiah</div>
 
                     <div class="card-body mx-3">
                         <div class="row">

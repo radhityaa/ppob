@@ -238,3 +238,4 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
 
 Route::post('tripay/callback', [WebhookController::class, 'callbackTripay'])->name('tripay.callback');
 Route::post('digiflazz/callback', [WebhookController::class, 'callbackDigiflazz'])->name('digiflazz.callback');
+Route::post('paydisini/callback', [WebhookController::class, 'callbackPaydisini'])->name('paydisini.callback');

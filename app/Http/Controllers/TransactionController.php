@@ -38,6 +38,7 @@ class TransactionController extends Controller
         $invoice = invoice(Auth::user()->id, 'TRX', 'transactions');
         $sign = DigiflazzHelper::getSign($invoice);
         $user = User::find(Auth::user()->id);
+        $currentBalance = $user->saldo;
 
         if ($user->saldo < $product->price) {
             return response()->json([
@@ -50,7 +51,7 @@ class TransactionController extends Controller
             $data = [
                 'username' => $username,
                 'buyer_sku_code' => 'xld10',
-                'customer_no' => '087800001230',
+                'customer_no' => '087800001233',
                 'ref_id' => $invoice,
                 'sign' => $sign,
                 'testing' => true,
@@ -72,14 +73,14 @@ class TransactionController extends Controller
 
         $result = DigiflazzHelper::transaction('transaction', $data);
 
-        if (isset($result->data)) {
-            if (isset($result->data->rc) && $result->data->rc !== "00") {
-                return response()->json([
-                    'success' => false,
-                    'message' => $result->data->message ?? "Terjadi kesalahan saat melakukan transaksi.",
-                ], 400);
-            }
-        }
+        // if (isset($result->data)) {
+        //     if (isset($result->data->rc) && $result->data->rc !== "00") {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => $result->data->message ?? "Terjadi kesalahan saat melakukan transaksi.",
+        //         ], 400);
+        //     }
+        // }
 
         Transaction::create([
             'user_id' => Auth::user()->id,
@@ -96,6 +97,8 @@ class TransactionController extends Controller
         $user->update([
             'saldo' => $user->saldo - $product->price
         ]);
+
+        createMutation($user->id, 'Debet', 'Pembelian ' . $product->product_name . '.', $product->price, $user->saldo, $currentBalance, $invoice);
 
         return response()->json([
             'success' => true,

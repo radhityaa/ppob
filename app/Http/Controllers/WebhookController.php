@@ -6,12 +6,14 @@ use App\Helpers\DigiflazzHelper;
 use App\Helpers\TripayHelper;
 use App\Helpers\WhatsappHelper;
 use App\Models\Deposit;
+use App\Models\SettingProvider;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
+use Ramsey\Uuid\Uuid;
 
 class WebhookController extends Controller
 {
@@ -64,9 +66,13 @@ class WebhookController extends Controller
                         'paid_at' => Carbon::createFromTimestamp($data->paid_at)->toDateTimeString()
                     ]);
                     $user = User::where('id', $deposit->user_id)->first();
+                    $latestBalance = $user->saldo;
                     $user->update([
                         'saldo' => $user->saldo + $data->amount_received
                     ]);
+
+                    createMutation($user->id, 'Kredit', 'Deposit Melalui ' . $data->payment_method . '.', $data->amount_received, $latestBalance, $user->saldo, $data->merchant_ref);
+                    createMutation($user->id, 'Debet', 'Fee Deposit ' . $data->payment_method . '.', $data->total_fee, $latestBalance, $user->saldo, $data->merchant_ref);
 
                     $result = [
                         'app_name' => env('APP_NAME'),
@@ -130,6 +136,19 @@ class WebhookController extends Controller
 
             $refId = $eventData['ref_id'];
             $transaction = Transaction::where('invoice', $refId)->first();
+            $user = User::find($transaction->user_id);
+            $currentBalance = $user->saldo;
+
+            // Check Status
+            $status = $eventData['status'];
+
+            if ($status === 'Gagal') {
+                $user->update([
+                    'saldo' => $user->saldo + $transaction->price
+                ]);
+
+                createMutation($user->id, 'Kredit', 'Refund Saldo', $transaction->price, $user->saldo, $currentBalance, $transaction->invoice);
+            }
 
             $transaction->update([
                 'message' => $eventData['message'],
@@ -142,5 +161,30 @@ class WebhookController extends Controller
             Log::warning('Invalid signature. Webhook ignored');
             return response('Invalid signature', 403);
         }
+    }
+
+    public function callbackPaydisini(Request $request)
+    {
+        $setting = SettingProvider::where('name', 'paydisini')->first();
+
+        if ($request->input('key') == $setting->api_key) {
+            $payment_id = '1234';
+            $status = $request->input('status');
+            $signature = $request->input('signature');
+            $sign = md5($setting->api_key . $payment_id . 'CallbackStatus');
+
+            if ($signature != $sign) {
+                $result = ['success' => false];
+            } else if ($status == 'Success') {
+                createMutation(1, 'Kredit', 'Tester', 100000, 100000, 410000, 'TST1234');
+                $result = ['success' => true];
+            } else {
+                $result = ['success' => false, 'message' => 'sign salah'];
+            }
+        } else {
+            $result = ['success' => false, 'message' => 'ip not allowed'];
+        }
+
+        return response()->json($result);
     }
 }

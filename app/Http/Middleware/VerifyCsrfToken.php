@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'tripay/callback',
         'digiflazz/callback',
+        'paydisini/callback',
     ];
 }

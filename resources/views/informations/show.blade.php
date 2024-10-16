@@ -44,7 +44,8 @@
                                 <div><span style="font-size: 15px;">Informasi {{ $information->categoryInformation->name }}
                                         Lainnya</span></div>
                                 <div>
-                                    <a href="#" style="font-size: 15px; text-decoration: underline">Lihat Semua</a>
+                                    <a href="{{ route('information.all') }}"
+                                        style="font-size: 15px; text-decoration: underline">Lihat Semua</a>
                                 </div>
                             </div>
                         </div>

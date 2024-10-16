@@ -18,7 +18,7 @@ class InformationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:admin']);
+        $this->middleware(['role:admin'])->except(['all', 'show', 'listInformation', 'listInformationByCategory']);
     }
 
     public function index(Request $request)

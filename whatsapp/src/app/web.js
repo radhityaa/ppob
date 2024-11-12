@@ -6,7 +6,9 @@ import cors from "cors"
 export const web = express()
 web.use(express.json())
 web.use(cors({
-    origin: "*",
+    origin: ['https://ayasyatech.com'],
+    credentials: true,
+    methods: ['POST'],
 }))
 
 web.use(router)

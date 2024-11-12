@@ -8,7 +8,9 @@ const PORT = 4000
 
 const io = new Server(5000, {
     cors: {
-        origin: "*",
+        origin: ["https://ayasyatech.com"],
+        methods: ["GET", "POST"],
+        credentials: true,
     }
 })
 

@@ -8,7 +8,7 @@ const PORT = 4000
 
 const io = new Server(5000, {
     cors: {
-        origin: "*"
+        origin: "*",
     }
 })
 

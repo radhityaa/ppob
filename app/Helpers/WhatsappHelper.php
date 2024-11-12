@@ -22,34 +22,8 @@ class WhatsappHelper
         }
     }
 
-    public static function getApiKey()
-    {
-        $provider = SettingProvider::where('type', 'whatsapp_gateway')->first();
-        return $provider->api_key;
-    }
-
-    public static function createDevice($user)
-    {
-        $apiKey = self::getApiKey();
-        $number = $user->phone;
-
-        Http::withHeaders([
-            'accept' => 'application/json'
-        ])->post(env('WA_URL') . '/create-device', [
-            'phone' => $number,
-            'api_key' => $apiKey
-        ]);
-
-        return WhatsappGateway::create([
-            'user_id' => $user->id,
-            'phone' => $number,
-            'status' => 'Disconnected',
-        ]);
-    }
-
     public static function sendMessage(String $templateName, array $data, $target)
     {
-        $apiKey = self::getApiKey();
         $sender = WhatsappGateway::first();
         $template = MessageTemplate::where('type', $templateName)->first();
         $target = MyHelper::formatPhoneNumber($target);

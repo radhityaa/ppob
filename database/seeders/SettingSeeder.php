@@ -13,12 +13,21 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        Settings::create([
-            'name' => 'Informasi Deposit',
-            'slug' => 'settings-information-deposit',
-            'description' => 'Setting Informasi deposit',
-            'val1' => '<ol><li>Masukkan jumlah deposit.</li><li>Pilih jenis pembayaran yang Anda inginkan, tersedia 4 opsi.</li><li>Pilih metode pembayaran yang Anda inginkan.</li><li>Klik&nbsp;<strong>deposit</strong>&nbsp;untuk permintaan deposit</li></ol>',
-            'val2' => '<ul><li>Virtual Account Otomatis Open 24 Jam.</li><li>QRIS Otomatis Open 00:00 - 23:00 WIB.</li><li>BCA Otomatis Open 06:00 - 21:00 WIB.</li><li>BRI, BNI Manual Open 09:00 - 22:00 WIB</li></ul>',
-        ]);
+        collect([
+            [
+                'name' => 'Informasi Deposit',
+                'slug' => 'settings-information-deposit',
+                'description' => 'Setting Informasi deposit',
+                'val1' => '<ol><li>Masukkan jumlah deposit.</li><li>Pilih jenis pembayaran yang Anda inginkan, tersedia 4 opsi.</li><li>Pilih metode pembayaran yang Anda inginkan.</li><li>Klik&nbsp;<strong>deposit</strong>&nbsp;untuk permintaan deposit</li></ol>',
+                'val2' => '<ul><li>Virtual Account Otomatis Open 24 Jam.</li><li>QRIS Otomatis Open 00:00 - 23:00 WIB.</li><li>BCA Otomatis Open 06:00 - 21:00 WIB.</li><li>BRI, BNI Manual Open 09:00 - 22:00 WIB</li></ul>',
+            ],
+            [
+                'name' => 'Settings Notification',
+                'slug' => 'settings-notification',
+                'description' => 'Setting Notification',
+                'val1' => 'false',
+                'val2' => 'false',
+            ]
+        ])->each(fn($q) => Settings::create($q));
     }
 }

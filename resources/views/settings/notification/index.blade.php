@@ -168,7 +168,7 @@
 
         const socketIoUrl = '{{ config('app.wa_socket') }}'
         socket = io(`${socketIoUrl}`, {
-            transport: ['websocket'],
+            transport: ['websocket', 'polling', 'flashsocket'],
             forceNew: true,
             reconnection: true,
         })

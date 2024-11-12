@@ -167,11 +167,7 @@
         })
 
         const socketIoUrl = '{{ config('app.wa_socket') }}'
-        socket = io(`${socketIoUrl}`, {
-            transport: ['websocket', 'polling', 'flashsocket'],
-            forceNew: true,
-            reconnection: true,
-        })
+        socket = io(`${socketIoUrl}`)
 
         socket.on('connected', function(res) {
             console.log(res.message)

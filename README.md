@@ -46,10 +46,7 @@ chown -R www-data:www-data /var/www/<domain>/storage
 chown -R www-data:www-data /var/www/<domain>/public/assets
 ```
 ```
-sudo chmod -R 775 /var/www/<domain>/storage
-```
-```
-sudo chmod -R 775 /var/www/<domain>/bootstrap/cache
+sudo chown -R www:data-www:data /var/www/<domain>/bootstrap/cache
 ```
 
 # Setting you nginx

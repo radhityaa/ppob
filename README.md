@@ -31,6 +31,9 @@ setting your database connection
 ```
 php artisan migrate:fresh --seed
 ```
+
+- Export message_templates.sql to database
+
 ```
 php artisan key:generate
 ```

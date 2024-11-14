@@ -126,7 +126,7 @@ systemctl restart nginx
 # Running server whatsapp gateway for notification
 - Using pm2 in vps ubuntu
 
-``
+```
 cd /whatsapp
 ```
 ```

@@ -132,10 +132,6 @@ cd /whatsapp
 ```
 npm install
 ```
-or
-```
-yarn
-```
 ```
 pm2 start src/main.js
 ```

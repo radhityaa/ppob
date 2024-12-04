@@ -1,3 +1,5 @@
+## vendor.zip jangan lupa di extract dulu kalau pasang nya di cpanel,kalau gk di excrat nanti bakal ada error
+
 ## Installations
 
 ```

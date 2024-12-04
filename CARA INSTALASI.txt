@@ -1,0 +1,9 @@
+cara installasi
+
+1. Buat nama dan password database lalu upload di phpmyadmin
+
+2. Setting nama dan password ddatabase di file .env letaknya,  miliyan/.env
+
+3. Ubah url nya jadi nama domain kamu
+
+Setting Payment gateway dan provider ada di file .env semua

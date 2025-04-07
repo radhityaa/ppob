@@ -52,19 +52,24 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($this->attemptLogin($request)) {
-            // Generate OTP
-            $user = $this->guard()->user();
+            if (WhatsappHelper::getStatus()) {
+                // Generate OTP
+                $user = $this->guard()->user();
 
-            // Simpan OTP ke sesi
-            session(['otp_user_id' => $user->id]);
+                // Simpan OTP ke sesi
+                session(['otp_user_id' => $user->id]);
 
-            // Kirim OTP ke WhatsApp
-            OtpHelper::sendOtp($user);
+                // Kirim OTP ke WhatsApp
+                OtpHelper::sendOtp($user);
 
-            // Logout sementara, lalu arahkan ke halaman OTP
-            $this->guard()->logout();
+                // Logout sementara, lalu arahkan ke halaman OTP
+                $this->guard()->logout();
 
-            return redirect()->route('otp.verify.show');
+                return redirect()->route('otp.verify.show');
+            }
+
+            // Jika login sukses, arahkan ke halaman dashboard
+            return redirect()->route('login');
         }
 
         // Jika login gagal, kembali ke halaman login dengan error

@@ -341,31 +341,32 @@
                             <input type="text" name="margin" id="margin" class="form-control" required>
                         </div>
 
-                        @php
-                            use App\Helpers\WhatsappHelper;
-                        @endphp
-
-                        @if (WhatsappHelper::getStatus())
+                        @if ($waStatus)
                             <div class="mb-3">
                                 <label for="receiver" class="form-label">Nomor Pelangan</label>
                                 <input type="number" name="receiver" id="receiver" class="form-control"
                                     placeholder="08123456789" required>
                             </div>
-                        @endif
 
-                        <div class="d-flex align-items-center gap-2">
-                            <button type="button" id="btn-share-wa" class="w-100 btn btn-sm btn-success"><i
-                                    class="ti ti-brand-whatsapp me-1"></i>
-                                Whatsapp</button>
-                            <x-button-loading />
-                            {{-- <button type="button" id="btn-share-telegram" class="w-100 btn btn-sm btn-primary"><i
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" id="btn-share-wa" class="w-100 btn btn-sm btn-success"><i
+                                        class="ti ti-brand-whatsapp me-1"></i>
+                                    Whatsapp</button>
+                            @else
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" id="btn-share-wa" class="w-100 btn btn-sm btn-success"><i
+                                            class="ti ti-eye me-1"></i>
+                                        Detail</button>
+                        @endif
+                        <x-button-loading />
+                        {{-- <button type="button" id="btn-share-telegram" class="w-100 btn btn-sm btn-primary"><i
                                     class="ti ti-brand-telegram me-1"></i>
                                 Telegram</button> --}}
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     {{-- Modal Margin Print --}}
@@ -430,18 +431,21 @@
             var invoice = $('#invoice').val()
             var margin = $('#margin').val()
             var receiver = $('#receiver').val()
+            var waStatus = "{{ $waStatus }}"
 
-            // Validasi format receiver/target
-            var regex = /^(08|62)\d+$/;
-            if (!regex.test(receiver)) {
-                Swal.fire({
-                    title: 'Nomor Pelangan Salah',
-                    text: 'Masukkan nomor yang valid di awali 08 atau 62',
-                    icon: 'error',
-                    confirmButtonText: 'Oke',
-                    showConfirmButton: true
-                })
-                return;
+            if (waStatus === "1") {
+                // Validasi format receiver/target
+                var regex = /^(08|62)\d+$/;
+                if (!regex.test(receiver)) {
+                    Swal.fire({
+                        title: 'Nomor Pelangan Salah',
+                        text: 'Masukkan nomor yang valid di awali 08 atau 62',
+                        icon: 'error',
+                        confirmButtonText: 'Oke',
+                        showConfirmButton: true
+                    })
+                    return;
+                }
             }
 
             if (!margin) {
@@ -477,18 +481,20 @@
                             receiver: receiver
                         },
                         success: function(res) {
-                            Swal.fire({
-                                title: 'Berhasil',
-                                text: 'Invoice telah dikirim ke nomor pelanggan',
-                                icon: 'success',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                customClass: {
-                                    confirmButton: 'd-none'
-                                },
-                                buttonsStyling: false,
-                            })
+                            if (waStatus === "1") {
+                                Swal.fire({
+                                    title: 'Berhasil',
+                                    text: 'Invoice telah dikirim ke nomor pelanggan',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    customClass: {
+                                        confirmButton: 'd-none'
+                                    },
+                                    buttonsStyling: false,
+                                })
+                            }
                         }
                     })
 

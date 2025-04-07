@@ -16,7 +16,9 @@ use App\Http\Controllers\MessageTemplateController;
 use App\Http\Controllers\MutationController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderPascaController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PascabayarController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrabayarController;
@@ -38,6 +40,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WhatsappGatewayController;
@@ -55,10 +58,10 @@ Route::view('/comming-soon', 'errors.commingsoon')->name('commingsoon');
 
 Route::middleware('guest')->group(function () {
     Route::prefix('otp')->name('otp.')->group(function () {
-        Route::get('otp/verification', [OtpController::class, 'showOtpForm'])->name('verify.show')->middleware('checkOtp');
-        Route::post('otp/send', [OtpController::class, 'sendOtp'])->name('send');
-        Route::post('otp/verify', [OtpController::class, 'verifyOtp'])->name('verify');
-        Route::post('otp/resend', [OtpController::class, 'resendOtp'])->name('resend');
+        Route::get('verification', [OtpController::class, 'showOtpForm'])->name('verify.show')->middleware('checkOtp');
+        Route::post('send', [OtpController::class, 'sendOtp'])->name('send');
+        Route::post('verify', [OtpController::class, 'verifyOtp'])->name('verify');
+        Route::post('resend', [OtpController::class, 'resendOtp'])->name('resend');
     });
 
     Route::get('reset-password', [ForgotController::class, 'index'])->name('reset.index');
@@ -137,15 +140,23 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     // Services
     Route::prefix('product')->group(function () {
         // Prabayar
-        Route::prefix('prabayar')->group(function () {
-            Route::get('', [PrabayarController::class, 'index'])->name('prabayar.index');
-            Route::get('get-services-digiflazz', [PrabayarController::class, 'getServicesDigiflazz'])->name('prabayar.getServicesDigiflazz');
-            Route::get('get-provider', [PrabayarController::class, 'getProvider'])->name('prabayar.getProvider');
-            Route::get('get-type', [PrabayarController::class, 'getType'])->name('prabayar.getType');
-            Route::get('get-services', [PrabayarController::class, 'getServices'])->name('prabayar.getServices');
-            Route::get('get-services/{id}', [PrabayarController::class, 'detailServices'])->name('prabayar.detailServices');
-            Route::delete('delete-services', [PrabayarController::class, 'deleteAllServices'])->name('prabayar.deleteServices');
-            Route::get('{buyer_sku_code}', [PrabayarController::class, 'show'])->name('prabayar.show');
+        Route::prefix('prabayar')->name('prabayar.')->group(function () {
+            Route::get('', [PrabayarController::class, 'index'])->name('index');
+            Route::get('get-services-digiflazz', [PrabayarController::class, 'getServicesDigiflazz'])->name('getServicesDigiflazz');
+            Route::get('get-provider', [PrabayarController::class, 'getProvider'])->name('getProvider');
+            Route::get('get-type', [PrabayarController::class, 'getType'])->name('getType');
+            Route::get('get-services', [PrabayarController::class, 'getServices'])->name('getServices');
+            Route::get('get-services/{id}', [PrabayarController::class, 'detailServices'])->name('detailServices');
+            Route::delete('delete-services', [PrabayarController::class, 'deleteAllServices'])->name('deleteServices');
+            Route::get('{buyer_sku_code}', [PrabayarController::class, 'show'])->name('show');
+        });
+
+        // Pascabayar
+        Route::prefix('pascabayar')->name('pascabayar.')->group(function () {
+            Route::get('', [PascabayarController::class, 'index'])->name('index');
+            Route::get('get-services-digiflazz', [PascabayarController::class, 'getServicesDigiflazz'])->name('getServicesDigiflazz');
+            Route::get('get-product', [PascabayarController::class, 'getProduct'])->name('getProduct');
+            Route::delete('delete-services', [PascabayarController::class, 'deleteAllServices'])->name('deleteServices');
         });
     });
 
@@ -155,12 +166,19 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
         Route::post('', [RegisterAgenController::class, 'store'])->name('store');
     });
 
+    // Voucher
+    Route::prefix('voucher')->name('voucher.')->group(function () {
+        // Route::get('', [VoucherController::class, 'index'])->name('index');
+    });
+
     // History Transaction
     Route::prefix('history')->name('history.')->group(function () {
         Route::get('prabayar', [PrabayarController::class, 'history'])->name('prabayar');
         Route::post('prabayar/print', [PrabayarController::class, 'print'])->name('prabayar.print');
         Route::post('prabayar/send-invoice-whatsapp', [PrabayarController::class, 'sendInvoicePrabayar'])->name('prabayar.send.invoice');
         Route::get('prabayar/{invoice}', [PrabayarController::class, 'historyDetail'])->name('prabayar.detail');
+
+        Route::get('pascabayar', [PascabayarController::class, 'history'])->name('pascabayar');
     });
 
     // Report
@@ -169,7 +187,10 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
     });
 
     // Transaction
-    Route::resource('transaction', TransactionController::class);
+    Route::post('', [TransactionController::class, 'store'])->name('trx.store');
+    Route::prefix('transaction')->group(function () {
+        Route::post('', [TransactionController::class, 'pascabayar'])->name('trx.pascabayar');
+    });
 
     // Admin Route
     Route::prefix('admin')->group(function () {
@@ -293,6 +314,12 @@ Route::middleware(['auth', 'checkuser'])->group(function () {
             Route::get('grab', [OrderController::class, 'grab'])->name('grab');
             Route::get('gopay', [OrderController::class, 'gopay'])->name('gopay');
         });
+    });
+
+    // Orders Pascabayar
+    Route::prefix('pascabayar')->name('pascabayar.')->group(function () {
+        // PLN
+        Route::get('pln', [OrderPascaController::class, 'pln'])->name('pln');
     });
 });
 

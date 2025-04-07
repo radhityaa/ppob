@@ -83,9 +83,9 @@
                         <div>Prabayar</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div>Pascabayar (Commingsoon)</div>
+                <li class="menu-item {{ request()->is('product/pascabayar') ? 'active open' : '' }}">
+                    <a href="{{ route('pascabayar.index') }}" class="menu-link">
+                        <div>Pascabayar</div>
                     </a>
                 </li>
             </ul>
@@ -131,6 +131,14 @@
                     <div>Transfer Saldo</div>
                 </a>
             </li>
+
+            {{-- Voucher --}}
+            {{-- <li class="menu-item {{ request()->is('voucher*') ? 'active' : '' }}">
+                <a href="{{ route('voucher.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-receipt"></i>
+                    <div>Voucher Management</div>
+                </a>
+            </li> --}}
 
             {{-- Register Agen --}}
             <li class="menu-item {{ request()->is('agen*') ? 'active' : '' }}">

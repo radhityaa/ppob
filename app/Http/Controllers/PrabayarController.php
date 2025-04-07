@@ -240,8 +240,9 @@ class PrabayarController extends Controller
         $totalPending = $statusCounts->get('Pending', 0);
         $totalGagal = $statusCounts->get('Gagal', 0);
         $checkWaat = WhatsappGateway::where('user_id', Auth::user()->id)->first();
+        $waStatus = WhatsappHelper::getStatus();
 
-        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat', 'data', 'filterStatus', 'filterInvoice'));
+        return view('history.prabayar', compact('title', 'totalSukses', 'totalPending', 'totalGagal', 'total', 'checkWaat', 'data', 'filterStatus', 'filterInvoice', 'waStatus'));
     }
 
     public function sendInvoice(Request $request)

@@ -125,7 +125,7 @@
                                     <a href="{{ route($rechargeItem->route) }}"
                                         class="d-block flex-grow-1 d-flex flex-column align-items-center justify-content-between py-4 text-center">
                                         <img src="{{ asset('assets/img/services/' . $rechargeItem->src) }}"
-                                            class="img-fluid w-50 w-lg-20 mb-2">
+                                            class="img-fluid w-50 mb-2">
                                         <p class="card-title mb-0 dark:text-white">{{ $rechargeItem->label }}</p>
                                     </a>
                                 </div>

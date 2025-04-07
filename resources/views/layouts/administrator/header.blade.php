@@ -9,14 +9,14 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav align-items-center ms-auto flex-row">
             <!-- Notification -->
-            <x-notification />
+            {{-- <x-notification /> --}}
             <!--/ Notification -->
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle h-auto" />
+                        <img src="{{ asset('assets/img/logo.png') }}" alt class="rounded-circle h-auto" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -25,7 +25,7 @@
                             <div class="d-flex">
                                 <div class="me-3 flex-shrink-0">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                        <img src="{{ asset('assets/img/logo.png') }}" alt
                                             class="rounded-circle h-auto" />
                                     </div>
                                 </div>

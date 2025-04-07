@@ -161,7 +161,7 @@
                     var buyerSkuCode = $('#buyer_sku_code').html();
 
                     $.ajax({
-                        url: "{{ route('transaction.store') }}",
+                        url: "{{ route('trx.store') }}",
                         method: "POST",
                         data: {
                             target,

@@ -3,6 +3,7 @@
 use App\Models\Deposit;
 use App\Models\Mutation;
 use App\Models\Navigation;
+use App\Models\Pascabayar;
 use App\Models\Prabayar;
 use App\Models\RechargeItem;
 use App\Models\RechargeTitle;
@@ -102,6 +103,13 @@ if (!function_exists('getServices')) {
     function getServices()
     {
         return Prabayar::select('category')->groupBy('category')->get();
+    }
+}
+
+if (!function_exists('getSPascaervices')) {
+    function getPascaBrand()
+    {
+        return Pascabayar::select('brand')->groupBy('brand')->get();
     }
 }
 

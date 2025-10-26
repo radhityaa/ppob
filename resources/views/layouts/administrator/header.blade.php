@@ -12,6 +12,20 @@
             {{-- <x-notification /> --}}
             <!--/ Notification -->
 
+            {{-- Sisa Saldo --}}
+            <li class="nav-item d-flex align-items-center me-3">
+                <div class="d-flex align-items-center rounded p-2">
+                    <i class="ti ti-wallet ti-sm text-primary me-2"></i>
+                    <span class="fw-semibold text-dark" style="font-size: 1rem;">
+                        Saldo:&nbsp;
+                        <span class="badge bg-success rounded-pill ms-1" style="font-size: 0.95em;">
+                            Rp {{ number_format(Auth::user()->saldo, 0, ',', '.') }}
+                        </span>
+                    </span>
+                </div>
+            </li>
+            <!--/ Sisa Saldo -->
+
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

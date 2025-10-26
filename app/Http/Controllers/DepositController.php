@@ -140,6 +140,7 @@ class DepositController extends Controller
                 'total' => $request->nominal + $paymentMethod->fee,
                 'amount_received' => $request->nominal,
                 'status' => 'unpaid',
+                'type' => 'manual',
                 'expired_at' => (time() + (24 * 60 * 60)), // 24 jam
             ]);
 
@@ -309,7 +310,7 @@ class DepositController extends Controller
         $paymentMethod = PaymentMethod::where('code', $deposit->method)->first();
         $depositType = $paymentMethod?->group;
 
-        return view('deposit.show', compact('deposit', 'title', 'terbilang', 'depositType'));
+        return view('deposit.show', compact('deposit', 'title', 'terbilang', 'depositType', 'paymentMethod'));
     }
 
     public function print(Request $request)

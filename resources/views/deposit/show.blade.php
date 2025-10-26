@@ -189,7 +189,7 @@
 
             <!-- Invoice Actions -->
             <div class="col-xl-3 col-md-4 col-12 invoice-actions">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-body">
                         @role('admin')
                             @if ($deposit->status === 'unpaid')
@@ -224,6 +224,37 @@
                         </a>
                     </div>
                 </div>
+
+                @if ($deposit->type === 'manual' && $deposit->status === 'unpaid')
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Informasi Deposit Manual</h5>
+                        </div>
+                        <div class="card-body">
+                            <span class="d-block mb-2">Silakan transfer ke rekening berikut:</span>
+                            <span class="d-block mb-2">Bank: <strong>{{ $paymentMethod->name }}</strong></span>
+                            <span class="d-block mb-2">No. Rekening:
+                                <strong id="bank-account-number">{{ $paymentMethod->bank_account_number }}</strong>
+                                <span style="color: green; font-weight: 200; cursor: pointer;"
+                                    id="copy-account-number">(Copy)</span>
+                            </span>
+                            <span class="d-block mb-2">Atas Nama:
+                                <strong>{{ $paymentMethod->bank_account_name }}</strong></span>
+                            <span class="d-block mb-2">Total: <strong>Rp</strong>
+                                <strong>{{ number_format($deposit->total, 0, '.', '.') }}</strong></span>
+                            <hr>
+                            <div>
+                                <span class="d-block mb-2">Jika sudah transfer, silahkan konfirmasi pembayaran. Dan krim
+                                    bukti transfer ke nomor whatsapp admin.</span>
+                            </div>
+                            <a href="https://wa.me/{{ env('WA_ADMIN_NUMBER') }}?text=Saya%20telah%20melakukan%20transfer%20sebesar%20Rp%20{{ number_format($deposit->total, 0, '.', '.') }}%20ke%20rekening%20{{ $paymentMethod->name }}%20{{ $paymentMethod->bank_account_number }}%20atas%20nama%20{{ $paymentMethod->bank_account_name }}%20dan%20ingin%20memverifikasi%20pembayaran."
+                                target="_blank" class="btn btn-success d-grid w-100 mb-2" id="konfirmasi-manual">
+                                <span class="d-flex align-items-center justify-content-center text-nowrap"><i
+                                        class="ti ti-check ti-xs me-2"></i>Konfirmasi Pembayaran</span>
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
             <!-- /Invoice Actions -->
         </div>
@@ -273,6 +304,24 @@
 
                 // Opsional: Tampilkan pesan konfirmasi atau ubah tampilan tombol
                 alert('Code Berhasil Dicopy!');
+            });
+
+            $('#copy-account-number').on('click', function() {
+                // Dapatkan elemen yang berisi nomor rekening yang akan disalin
+                var accountNumber = $('#bank-account-number').text();
+
+                // Buat elemen textarea sementara untuk menyalin teks
+                var $tempInput = $('<textarea>');
+                $tempInput.val(accountNumber).appendTo('body').select();
+
+                // Salin teks ke clipboard
+                document.execCommand('copy');
+
+                // Hapus elemen textarea sementara
+                $tempInput.remove();
+
+                // Tampilkan pesan konfirmasi
+                alert('Nomor Rekening Berhasil Dicopy!');
             });
         });
 

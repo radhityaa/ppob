@@ -50,7 +50,10 @@ class TripayHelper
     public static function getChannels()
     {
         $mode = self::getMode();
-        $response = Http::withToken(self::getApiKey())->get($mode . '/merchant/payment-channel');
+        // Mengatasi error cURL error 60 dengan menonaktifkan verifikasi SSL
+        $response = Http::withToken(self::getApiKey())
+            ->withOptions(['verify' => false])
+            ->get($mode . '/merchant/payment-channel');
         return json_decode($response->body(), true);
     }
 

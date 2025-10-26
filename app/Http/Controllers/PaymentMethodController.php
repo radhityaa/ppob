@@ -128,6 +128,8 @@ class PaymentMethodController extends Controller
                 'name' => $request->name,
                 'fee' => $request->fee,
                 'percent_fee' => $request->percent_fee,
+                'bank_account_number' => $request->bank_account_number,
+                'bank_account_name' => $request->bank_account_name,
                 'status' => $request->status,
                 'provider' => 'manual'
             ]);
@@ -191,6 +193,8 @@ class PaymentMethodController extends Controller
             'name' => $request->name,
             'fee' => $request->fee,
             'percent_fee' => $request->percent_fee,
+            'bank_account_number' => $request->bank_account_number,
+            'bank_account_name' => $request->bank_account_name,
             'status' => $request->status,
             'provider' => $request->provider
         ]);

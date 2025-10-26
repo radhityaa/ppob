@@ -68,6 +68,11 @@
                         <div>Pascabayar (Commingsoon)</div>
                     </a>
                 </li>
+                <li class="menu-item {{ request()->is('history/premium-account*') ? 'active' : '' }}">
+                    <a href="{{ route('history.premium-account') }}" class="menu-link">
+                        <div>Akun Premium</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
@@ -88,34 +93,43 @@
                         <div>Pascabayar</div>
                     </a>
                 </li>
+                <li class="menu-item {{ request()->is('product/premium-account') ? 'active' : '' }}">
+                    <a href="{{ route('premium-account.index') }}" class="menu-link">
+                        <div>Akun Premium</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
-        {{-- Report --}}
-        {{-- <li class="menu-item {{ request()->is('report/*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-report"></i>
-                <div>Laporan</div>
+        {{-- Level Upgrade --}}
+        <li class="menu-item {{ request()->is('level-upgrade*') ? 'active' : '' }}">
+            <a href="{{ route('level-upgrade.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-trending-up"></i>
+                <div>Upgrade Level</div>
             </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->is('report/transactions*') ? 'active' : '' }}">
-                    <a href="{{ route('report.transactions') }}" class="menu-link">
-                        <div>Transaksi</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div>Deposit</div>
-                    </a>
-                </li>
-            </ul>
-        </li> --}}
+        </li>
 
         {{-- Information --}}
         <li class="menu-item {{ request()->is('information*') ? 'active' : '' }}">
             <a href="{{ route('information.all') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-news"></i>
                 <div>Pusat Informasi</div>
+            </a>
+        </li>
+
+        {{-- Ticket Support --}}
+        <li class="menu-item {{ request()->is('ticket*') ? 'active' : '' }}">
+            <a href="{{ route('ticket.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-ticket"></i>
+                <div>Tiket Support</div>
+            </a>
+        </li>
+
+        {{-- Report --}}
+        <li class="menu-item {{ request()->is('report*') ? 'active' : '' }}">
+            <a href="{{ route('report.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+                <div>Laporan Saya</div>
             </a>
         </li>
 
@@ -171,8 +185,24 @@
 
         @role('admin')
             {{-- Admin Menu --}}
+
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Admin Management</span>
+            </li>
+            {{-- Admin Dashboard --}}
+            <li class="menu-item {{ request()->is('admin/dashboard*') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-dashboard"></i>
+                    <div>Admin Dashboard</div>
+                </a>
+            </li>
+
+            {{-- Admin Report --}}
+            <li class="menu-item {{ request()->is('admin/report*') ? 'active' : '' }}">
+                <a href="{{ route('admin.report.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+                    <div>Report Admin</div>
+                </a>
             </li>
             <li class="menu-item {{ request()->is('admin/recharge/*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">

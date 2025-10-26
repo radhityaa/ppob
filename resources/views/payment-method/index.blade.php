@@ -80,6 +80,18 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="bank_account_number" class="form-label">Bank Account Number</label>
+                                <input type="text" id="bank_account_number" name="bank_account_number"
+                                    class="form-control" placeholder="Ex: 1234567890" />
+                            </div>
+                            <div class="col mb-3">
+                                <label for="bank_account_name" class="form-label">Bank Account Name</label>
+                                <input type="text" id="bank_account_name" name="bank_account_name" class="form-control"
+                                    placeholder="Ex: John Doe" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="fee" class="form-label">Fee</label>
                                 <input type="number" id="fee" name="fee" class="form-control" placeholder="Ex: 0"
                                     required />
@@ -93,14 +105,14 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="provider" class="form-label">Provider</label>
-                                <input type="text" id="provider" name="provider" class="form-control" value="manual"
-                                    disabled />
+                                <input type="text" id="provider" name="provider" class="form-control"
+                                    value="manual" disabled />
                             </div>
                             <div class="col mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select name="status" id="status" class="form-control" required>
                                     <option value="">Pilih Status</option>
-                                    <option value="1">Aktif</option>
+                                    <option value="1" selected>Aktif</option>
                                     <option value="0">Non-Aktif</option>
                                 </select>
                             </div>
@@ -233,6 +245,8 @@
                     $('#fee').val(res.fee)
                     $('#percent_fee').val(res.percent_fee)
                     $('#provider').val(res.provider)
+                    $('#bank_account_number').val(res.bank_account_number)
+                    $('#bank_account_name').val(res.bank_account_name)
 
                     selectStatus.empty()
                     selectStatus.append('<option value="" disabled>Pilih Status</option>');
@@ -423,6 +437,8 @@
                 let group = $('#group').val()
                 let code = $('#code').val()
                 let name = $('#name').val()
+                let bank_account_number = $('#bank_account_number').val()
+                let bank_account_name = $('#bank_account_name').val()
                 let fee = $('#fee').val()
                 let percent_fee = $('#percent_fee').val()
                 let provider = $('#provider').val()
@@ -435,6 +451,8 @@
                         group: group,
                         code: code,
                         name: name,
+                        bank_account_number: bank_account_number,
+                        bank_account_name: bank_account_name,
                         fee: fee,
                         percent_fee: percent_fee,
                         provider: provider,

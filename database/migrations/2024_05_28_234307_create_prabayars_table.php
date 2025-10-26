@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('type');
             $table->string('seller_name');
             $table->double('price');
+            $table->double('price_member');
+            $table->double('price_agen');
+            $table->double('price_reseller');
             $table->string('buyer_sku_code');
             $table->string('buyer_product_status');
             $table->integer('seller_product_status');

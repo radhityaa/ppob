@@ -12,11 +12,31 @@ class SettingsController extends Controller
     public function index()
     {
         $title = 'Setting App';
-        $marginMember = SettingMargin::where('slug', 'member')->select('margin')->first();
-        $marginReseller = SettingMargin::where('slug', 'reseller')->select('margin')->first();
-        $marginAgen = SettingMargin::where('slug', 'Agen')->select('margin')->first();
+        $slugs = [
+            'marginMember'         => 'member',
+            'marginReseller'       => 'reseller',
+            'marginAgen'           => 'agen',
+            'marginPremiumMember'  => 'vip-premium-member',
+            'marginPremiumReseller' => 'vip-premium-reseller',
+            'marginPremiumAgen'    => 'vip-premium-agen',
+            'marginSosmedMember'   => 'vip-sosmed-member',
+            'marginSosmedReseller' => 'vip-sosmed-reseller',
+            'marginSosmedAgen'     => 'vip-sosmed-agen',
+        ];
 
-        return view('settings.margin.index', compact('title', 'marginMember', 'marginReseller', 'marginAgen'));
+        $margins = SettingMargin::whereIn('slug', array_values($slugs))
+            ->select('slug', 'margin')
+            ->get()
+            ->keyBy('slug')
+            ->toArray();
+
+        // Assign each variable expected by the view for backwards compatibility
+        $data = compact('title');
+        foreach ($slugs as $varName => $slug) {
+            $data[$varName] = isset($margins[$slug]) ? (object)['margin' => $margins[$slug]['margin']] : (object)['margin' => 0];
+        }
+
+        return view('settings.margin.index', $data);
     }
 
     public function informationDeposit()

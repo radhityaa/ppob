@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Http;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +12,24 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Sync Digiflazz products every 5 minutes
+        $schedule->command('digiflazz:sync-products')
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->appendOutputTo(storage_path('logs/digiflazz-sync.log'));
+
+        // Sync Vipayment game feature every 5 minutes
+        $schedule->command('vipayment:sync-game-feature')
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->appendOutputTo(storage_path('logs/vipayment-game-feature-sync.log'));
+
+        // Sync Vipayment social media every 5 minutes
+        $schedule->command('vipayment:sync-social-media')
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->appendOutputTo(storage_path('logs/vipayment-social-media-sync.log'));
     }
 
     /**

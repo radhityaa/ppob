@@ -47,7 +47,8 @@
             "app/Helpers/MyHelper.php",
             "app/Helpers/WhatsappHelper.php",
             "app/Helpers/TemplateHelper.php",
-            "app/Helpers/OtpHelper.php"
+            "app/Helpers/OtpHelper.php",
+            "app/Helpers/VipaymentHelper.php"
         ]
     },
     "autoload-dev": {

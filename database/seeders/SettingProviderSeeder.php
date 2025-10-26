@@ -34,6 +34,15 @@ class SettingProviderSeeder extends Seeder
                 'webhook_id' => 'gdlEPg',
                 'webhook_secret' => '5833b52b8375a2fe'
             ],
+            [
+                'name' => 'vipayment',
+                'slug' => Str::slug(Str::random()),
+                'mode' => 'dev',
+                'type' => 'product',
+                'api_key' => '17d738b8c59c3399ab88a8debd56540c',
+                'code' => 'H2Wej1mb',
+                'username' => 'eb086367a15ca81efb36236ae9ec9a99'
+            ]
         ])->each(fn($data) => SettingProvider::create($data));
     }
 }
